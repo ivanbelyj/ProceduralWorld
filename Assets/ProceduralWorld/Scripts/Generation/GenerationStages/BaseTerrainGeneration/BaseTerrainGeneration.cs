@@ -6,6 +6,9 @@ public class BaseTerrainGeneration : IGenerationStage
 {
     public ChunkData ProcessChunk(ChunkData chunkData)
     {
-        throw new System.NotImplementedException();
+        // chunkData.TerrainData.heightmapTexture
+
+        // throw new System.NotImplementedException();
+        return chunkData;
     }
 }

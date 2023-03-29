@@ -32,7 +32,12 @@ public class WorldGenerator
         if (generationStages.Count == 0)
             throw new System.InvalidOperationException(
                 "Generation stages must be set before chunk generation");
-        ChunkData lastProcessed = generationStages[0].ProcessChunk(null);
+        
+        ChunkData initialChunkData = new ChunkData() {
+            ChunkPosition = chunkPos
+        };
+
+        ChunkData lastProcessed = generationStages[0].ProcessChunk(initialChunkData);
         foreach (var stage in generationStages) {
             lastProcessed = stage.ProcessChunk(lastProcessed);
         }

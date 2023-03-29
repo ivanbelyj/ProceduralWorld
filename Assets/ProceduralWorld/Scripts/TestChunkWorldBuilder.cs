@@ -11,6 +11,7 @@ public class TestChunkWorldBuilder : MonoBehaviour
     private WorldGenerator worldGenerator;
 
     // Создает игровые объекты чанков на сцене
+    [SerializeField]
     private WorldBuilder worldBuilder;
 
     // Это поле сериализуется, а значит, может задаваться в окне inspector
@@ -20,9 +21,9 @@ public class TestChunkWorldBuilder : MonoBehaviour
     private void Awake()
     {
         worldGenerator = new WorldGenerator();
-        worldBuilder = new WorldBuilder();
 
         worldGenerator.Initialize(worldData);
+        worldBuilder.Initialize(worldData);
         
         // Создание мира 3 x 3
         for (int x = -3; x <= 3; x++) {
