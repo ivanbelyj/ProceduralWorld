@@ -3,23 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Исходные данные, на основе которых генерируется мир
+/// Данные о бесконечном процедурно генерируемом мире
 /// </summary>
 [System.Serializable]
 public class WorldData
 {
     [SerializeField] private int seed;
     /// <summary>
-    /// По ключу генерации (seed) можно однозначно восстановить бесконечный мир
+    /// Каждому ключу генерации сопоставляется уникальный мир,
+    /// который можно по нему однозначно восстановить
     /// </summary>
     public int Seed { get => seed; private set => seed = value; }
 
-    [SerializeField] private float chunkWidth = 1000f;
-    public float ChunkWidth { get => chunkWidth; private set => chunkWidth = value; }
-    [SerializeField] private float chunkLength = 1000f;
-    public float ChunkLength { get => chunkLength; private set => chunkLength = value; }
-    [SerializeField] private float chunkHeight = 600f;
-    public float ChunkHeight { get => chunkHeight; private set => chunkHeight = value; }
+    [SerializeField] private NoiseData noiseData;
+    /// <summary>
+    /// Параметры шума, лежащего в основе ландшафта
+    /// </summary>
+    public NoiseData NoiseData => noiseData;
+
+    [SerializeField] private int chunkSize = 1000;
+    public int ChunkSize { get => chunkSize; private set => chunkSize = value; }
+    [SerializeField] private int chunkHeight = 600;
+    public int ChunkHeight { get => chunkHeight; private set => chunkHeight = value; }
+
+    [SerializeField] private float scale = 100f;
+    public float Scale { get => scale; private set => scale = value; }
 
     public WorldData(int seed) {
         this.seed = seed;

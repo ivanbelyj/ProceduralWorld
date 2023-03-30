@@ -17,6 +17,10 @@ public class TestChunkWorldBuilder : MonoBehaviour
     // Это поле сериализуется, а значит, может задаваться в окне inspector
     [SerializeField]
     private WorldData worldData;
+
+    // [SerializeField] private TerrainData initialTerrainData;
+
+    [SerializeField] private int chunksRadius = 0;
     
     private void Awake()
     {
@@ -25,9 +29,10 @@ public class TestChunkWorldBuilder : MonoBehaviour
         worldGenerator.Initialize(worldData);
         worldBuilder.Initialize(worldData);
         
-        // Создание мира 3 x 3
-        for (int x = -3; x <= 3; x++) {
-            for (int y = -3; y <= 3; y++) {
+        // Создание мира n x n
+        int n = chunksRadius - 1;
+        for (int x = -n; x <= n; x++) {
+            for (int y = -n; y <= n; y++) {
                 GenerateAndCreateChunkGO(new ChunkPosition(x, y));
             }
         }

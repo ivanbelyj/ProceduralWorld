@@ -14,5 +14,5 @@ using UnityEngine;
 /// </summary>
 public interface IGenerationStage
 {
-    ChunkData ProcessChunk(ChunkData chunkData);
+    ChunkData ProcessChunk(WorldData worldData, ChunkData chunkData);
 }

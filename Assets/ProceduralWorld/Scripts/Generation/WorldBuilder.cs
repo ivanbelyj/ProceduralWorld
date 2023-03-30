@@ -16,15 +16,12 @@ public class WorldBuilder : MonoBehaviour
     /// На основе ChunkData создает игровой объект чанка на сцене и возвращает его
     /// </summary>
     public GameObject CreateChunkGO(ChunkData chunkData) {
-        GameObject terrainGO = Instantiate(terrainPrefab);
-        Debug.Log("Создание чанка на позиции " + chunkData.ChunkPosition);
-        terrainGO.transform.position = new Vector3(worldData.ChunkWidth * chunkData.ChunkPosition.X, 0,
-            worldData.ChunkLength * chunkData.ChunkPosition.Y);
-        
-        Terrain terrain = terrainGO.GetComponent<Terrain>();
-        if (terrain == null)
-            Debug.LogError("Terrain prefab has no Terrain component attached");
-        return null;
+        GameObject terrainGO = Terrain.CreateTerrainGameObject(chunkData.TerrainData);
+        Debug.Log("Создание чанка на позиции "
+            + chunkData.ChunkPosition.X + " " + chunkData.ChunkPosition.Y);
+        terrainGO.transform.position = new Vector3(worldData.ChunkSize * chunkData.ChunkPosition.X, 0,
+            worldData.ChunkSize * chunkData.ChunkPosition.Y);
+        return terrainGO;
     }
 
     public void Initialize(WorldData worldData) {

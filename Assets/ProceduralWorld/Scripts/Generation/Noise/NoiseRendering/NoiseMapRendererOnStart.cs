@@ -9,14 +9,16 @@ using UnityEngine;
 public class NoiseMapRendererOnStart : MonoBehaviour
 {
     [SerializeField]
-    private NoiseMap noiseMap;
-    [SerializeField] private NoiseMapRenderer.MapType type = NoiseMapRenderer.MapType.Noise;
+    private NoiseData noiseMap;
+    // [SerializeField] private NoiseMapRenderer.MapType type = NoiseMapRenderer.MapType.Noise;
     private NoiseMapRenderer noiseMapRenderer;
 
     private void Start() {
         noiseMapRenderer = GetComponent<NoiseMapRenderer>();
 
-        float[] noiseMapArr = this.noiseMap.ToNoiseMapArray();
-        noiseMapRenderer.RenderMap(noiseMap.Width, noiseMap.Height, noiseMapArr, type);
+        throw new System.NotImplementedException();
+
+        // float[] noiseMapArr = this.noiseMap.ToNoiseMapArray();
+        // noiseMapRenderer.RenderMap(noiseMap.Width, noiseMap.Height, noiseMapArr, type);
     }
 }

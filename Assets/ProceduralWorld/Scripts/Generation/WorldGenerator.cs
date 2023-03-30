@@ -7,11 +7,17 @@ using UnityEngine;
 /// </summary>
 public class WorldGenerator
 {
+    private WorldData worldData;
     private List<IGenerationStage> generationStages;
+    // private TerrainData initialTerrainData;
+
     /// <summary>
     /// Устанавливает исходные данные о мире перед тем, как генерировать чанки
     /// </summary>
     public void Initialize(WorldData wordData) {
+        this.worldData = wordData;
+        // this.initialTerrainData = initialTerrainData;
+
         Random.InitState(wordData.Seed);
 
         generationStages = new List<IGenerationStage>();
@@ -34,13 +40,22 @@ public class WorldGenerator
                 "Generation stages must be set before chunk generation");
         
         ChunkData initialChunkData = new ChunkData() {
-            ChunkPosition = chunkPos
+            ChunkPosition = chunkPos,
+            TerrainData = CreateInitialTerrainData()
         };
 
-        ChunkData lastProcessed = generationStages[0].ProcessChunk(initialChunkData);
+        ChunkData lastProcessed = generationStages[0].ProcessChunk(worldData,
+            initialChunkData);
         foreach (var stage in generationStages) {
-            lastProcessed = stage.ProcessChunk(lastProcessed);
+            lastProcessed = stage.ProcessChunk(worldData, lastProcessed);
         }
         return lastProcessed;
+    }
+
+    /// <summary>
+    /// Создание изначальных данных ландшафта, которые далее будут переданы на обработку
+    /// </summary>
+    private TerrainData CreateInitialTerrainData() {
+        return new TerrainData();
     }
 }
