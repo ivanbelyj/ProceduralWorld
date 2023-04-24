@@ -463,14 +463,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldBuilder: {fileID: 2086771710}
   worldData:
-    seed: 1
+    seed: 8
     noiseData:
       octaves: 8
       persistence: 0.5
       lacunarity: 2
     chunkSize: 128
     chunkHeight: 60
-    scale: 100
+    scale: 0.01
   chunksRadius: 2
 --- !u!114 &2086771710
 MonoBehaviour:
