@@ -39,9 +39,10 @@ public class WorldGenerator
             throw new System.InvalidOperationException(
                 "Generation stages must be set before chunk generation");
         
+        var terrainData = CreateInitialTerrainData();
         ChunkData initialChunkData = new ChunkData() {
             ChunkPosition = chunkPos,
-            TerrainData = CreateInitialTerrainData()
+            TerrainData = terrainData
         };
 
         ChunkData lastProcessed = generationStages[0].ProcessChunk(worldData,

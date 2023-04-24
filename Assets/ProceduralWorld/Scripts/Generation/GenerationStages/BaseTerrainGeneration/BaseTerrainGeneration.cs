@@ -13,8 +13,8 @@ public class BaseTerrainGeneration : IGenerationStage
 
         // Создание карты шума в виде массива
         var noise = worldData.NoiseData;
-        var noiseOffset = new Vector2(chunkData.ChunkPosition.X * mapSize,
-            chunkData.ChunkPosition.Y * mapSize);
+        var noiseOffset = new Vector2(chunkData.ChunkPosition.X * worldData.ChunkSize,
+            chunkData.ChunkPosition.Y * worldData.ChunkSize);
 
         float[] noiseMap = NoiseMapUtils.GenerateNoiseMap(mapSize,
             mapSize, worldData.Seed, worldData.Scale,
