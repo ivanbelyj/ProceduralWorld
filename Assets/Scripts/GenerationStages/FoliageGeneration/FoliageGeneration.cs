@@ -20,13 +20,44 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
             prefab = go
         }).ToArray();
 
-        var trees = CreateTreeInstances(terrainData);
+        var trees = CreateTreeInstancesHalton(terrainData);
         terrainData.SetTreeInstances(trees.ToArray(), true);
         
         return chunkData;
     }
 
-    private List<TreeInstance> CreateTreeInstances(TerrainData terrainData) {
+    private List<TreeInstance> CreateTreeInstancesHalton(TerrainData terrainData) {
+        List<TreeInstance> res = new List<TreeInstance>();
+
+        var haltonX = new HaltonSequence(2);
+        var haltonZ = new HaltonSequence(3);
+
+        for (int i = 0; i < 7; i++)
+        {
+            float x = (float)haltonX.Next();
+            float z = (float)haltonZ.Next();
+            Vector3 position = new Vector3(x, 0, z);
+            res.Add(CreateTreeInstance(position));
+        }
+        return res;
+    }
+
+    /// <param name="position">Локальная позиция дерева на Terrain, в диапазоне [0, 1]</param>
+    private TreeInstance CreateTreeInstance(Vector3 position) {
+        TreeInstance tree = new TreeInstance();
+
+        tree.position = position;
+
+        tree.prototypeIndex = 0;
+        tree.widthScale = 1f;
+        tree.heightScale = 1f;
+        tree.color = Color.white;
+        tree.lightmapColor = Color.white;
+
+        return tree;
+    }
+
+    private List<TreeInstance> CreateTreeInstancesRandom(TerrainData terrainData) {
         var res = new List<TreeInstance>();
         
         for (float x = 0; x < terrainData.heightmapResolution; x++)
@@ -36,17 +67,8 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
                 int r = UnityEngine.Random.Range(0, 500);
                 if (r == 0)
                 {
-                    TreeInstance tree = new TreeInstance();
-
-                    // Позиция локальная и находится в диапазоне [0, 1]
-                    tree.position = new Vector3(x / terrainData.heightmapResolution,
-                        0, z / terrainData.heightmapResolution);
-
-                    tree.prototypeIndex = 0;
-                    tree.widthScale = 1f;
-                    tree.heightScale = 1f;
-                    tree.color = Color.white;
-                    tree.lightmapColor = Color.white;
+                    var tree = CreateTreeInstance(new Vector3(x / terrainData.heightmapResolution,
+                        0, z / terrainData.heightmapResolution));
                     res.Add(tree);
                 }
             }
