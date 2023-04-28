@@ -9,23 +9,27 @@ public struct ChunkPosition
 {
 
     public int X { get; private set; }
-    public int Y { get; private set; }
-    public ChunkPosition(int x, int y) {
+    public int Z { get; private set; }
+    public ChunkPosition(int x, int z) {
         X = x;
-        Y = y;
+        Z = z;
     }
     public override int GetHashCode()
     {
-        return (X, Y).GetHashCode();
+        return (X, Z).GetHashCode();
     }
 
-    public ChunkPosition Top => new ChunkPosition(X, Y + 1);
-    public ChunkPosition Right => new ChunkPosition(X + 1, Y);
-    public ChunkPosition Bottom => new ChunkPosition(X, Y - 1);
-    public ChunkPosition Left => new ChunkPosition(X - 1, Y);
+    public Vector2 ToVector2() {
+        return new Vector2(X, Z);
+    }
+
+    public ChunkPosition Top => new ChunkPosition(X, Z + 1);
+    public ChunkPosition Right => new ChunkPosition(X + 1, Z);
+    public ChunkPosition Bottom => new ChunkPosition(X, Z - 1);
+    public ChunkPosition Left => new ChunkPosition(X - 1, Z);
 
     public override string ToString()
     {
-        return $"{X}, {Y}";
+        return $"{X}, {Z}";
     }
 }

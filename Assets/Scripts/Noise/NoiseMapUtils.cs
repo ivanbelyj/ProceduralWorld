@@ -8,11 +8,13 @@ public static class NoiseMapUtils
     /// <summary>
     /// Генерирует карту шума с заданными параметрами
     /// </summary>
-    public static float[] GenerateNoiseMap(int width, int height, int seed, float scale,
-        int octaves, float persistence, float lacunarity, Vector2 offset)
+    public static float[,] GenerateNoiseMap(
+        NoiseData noiseData, int seed,
+        int width, int height, Vector2 offset)
     {
+        int octaves = noiseData.Octaves;
         // Массив данных о вершинах
-        float[] noiseMap = new float[width * height];
+        float[,] noiseMap = new float[height, width];
 
         // Порождающий элемент
         System.Random rand = new System.Random(seed);
@@ -55,8 +57,15 @@ public static class NoiseMapUtils
                     float yResult = (y - halfHeight) * frequency + octavesOffset[i].y * frequency;
 
                     // Получение высоты из ГСПЧ
-                    float generatedValue = SimplexNoise.GetNoise(xResult, yResult, scale);
-                    // float generatedValue = PerlinNoise.GetNoise(seed, xResult, yResult, scale);
+                    float generatedValue = 0;
+                    switch (noiseData.NoiseType) {
+                        case NoiseType.Perlin:
+                            generatedValue = PerlinNoise.GetNoise(seed, xResult, yResult, noiseData.Scale);
+                        break;
+                        case NoiseType.Simplex:
+                            generatedValue = SimplexNoise.GetNoise(xResult, yResult, noiseData.Scale);
+                        break;
+                    }
 
                     // Наложение октав
                     noiseHeight += generatedValue * amplitude;
@@ -64,14 +73,14 @@ public static class NoiseMapUtils
                     noiseHeight -= superpositionCompensation;
 
                     // Расчёт амплитуды, частоты и компенсации для следующей октавы
-                    amplitude *= persistence;
-                    frequency *= lacunarity;
+                    amplitude *= noiseData.Persistence;
+                    frequency *= noiseData.Lacunarity;
                     superpositionCompensation = amplitude / 2;
                 }
 
                 // Сохраняем точку для карты высот
                 // Из-за наложения октав есть вероятность выхода за границы диапазона [0,1]
-                noiseMap[y * width + x] = Mathf.Clamp01(noiseHeight);
+                noiseMap[y, x] = Mathf.Clamp01(noiseHeight);
             }
         }
 
@@ -91,4 +100,31 @@ public static class NoiseMapUtils
     //     }
     //     return noise;
     // }
+
+    public static float[,] ToMatrix(float[] noiseMap, int mapSize) {
+        
+        float[,] res = new float[mapSize, mapSize];
+        // for (int i = 0; i < noiseMap.Length; i++) {
+        //     heights[i / mapSize, i % mapSize] = noiseMap[i];
+        // }
+        for (int y = 0; y < mapSize; y++) {
+            for (int x = 0; x < mapSize; x++) {
+                res[y, x] = noiseMap[y * mapSize + x];
+            }
+        }
+        return res;
+    }
+
+    public static float[] Flatten(float[,] matrix) {
+        int height = matrix.GetLength(0);
+        int width = matrix.GetLength(1);
+        float[] res = new float[height * width];
+        
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                res[y * width + x] = matrix[y, x];
+            }
+        }
+        return res;
+    }
 }

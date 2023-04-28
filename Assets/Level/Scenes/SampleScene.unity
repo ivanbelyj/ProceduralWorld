@@ -273,9 +273,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseMap:
+    noiseType: 0
     octaves: 4
     persistence: 0.5
     lacunarity: 2
+    scale: 0
 --- !u!114 &274112591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1186,7 +1188,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2086771708}
+  - component: {fileID: 2086771713}
   - component: {fileID: 2086771711}
+  - component: {fileID: 2086771714}
   - component: {fileID: 2086771710}
   - component: {fileID: 2086771712}
   - component: {fileID: 2086771709}
@@ -1228,13 +1232,8 @@ MonoBehaviour:
   worldBuilder: {fileID: 2086771710}
   worldData:
     seed: 33
-    noiseData:
-      octaves: 8
-      persistence: 0.5
-      lacunarity: 2
     chunkSize: 64
     chunkHeight: 128
-    scale: 0.001
   chunksRadius: 3
 --- !u!114 &2086771710
 MonoBehaviour:
@@ -1249,6 +1248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainPainterController: {fileID: 500848142}
+  mapPrefab: {fileID: 1169464040882109418, guid: 4dd83e91a86af364f965344c9bc6055e, type: 3}
 --- !u!114 &2086771711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1278,7 +1278,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12baf4a539e831e4c937af82ebcde5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTerrainGeneration: {fileID: 2086771713}
   foliageGeneration: {fileID: 2086771711}
+--- !u!114 &2086771713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086771707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec9c586c017ab9458793515d6adf1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noiseData:
+    noiseType: 1
+    octaves: 8
+    persistence: 0.5
+    lacunarity: 2
+    scale: 0.001
+--- !u!114 &2086771714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086771707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf86ce6ee0dbbd84b9019740144e02fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moistureNoise:
+    noiseType: 0
+    octaves: 0
+    persistence: 0
+    lacunarity: 0
+    scale: 0
+  temperatureNoise:
+    noiseType: 0
+    octaves: 0
+    persistence: 0
+    lacunarity: 0
+    scale: 0
 --- !u!114 &2129107195
 MonoBehaviour:
   m_ObjectHideFlags: 0

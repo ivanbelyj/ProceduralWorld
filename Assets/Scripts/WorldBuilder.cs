@@ -15,9 +15,18 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField]
     private TerrainPainterController terrainPainterController;
 
+    [SerializeField]
+    private GameObject mapPrefab;
+
+    private GameObject chunksParent;
+    private GameObject noiseMapsParent;
+
     public void Initialize(WorldData worldData) {
         this.worldData = worldData;
         createdTerrains = new Dictionary<ChunkPosition, Terrain>();
+
+        chunksParent = new GameObject("Chunks");
+        noiseMapsParent = new GameObject("NoiseMaps");
     }
 
     /// <summary>
@@ -25,25 +34,44 @@ public class WorldBuilder : MonoBehaviour
     /// </summary>
     public GameObject CreateChunkGO(ChunkData chunkData) {
         GameObject terrainGO = Terrain.CreateTerrainGameObject(chunkData.TerrainData);
+        terrainGO.transform.SetParent(chunksParent.transform);
         terrainGO.transform.position = new Vector3(worldData.ChunkSize * chunkData.ChunkPosition.X, 0,
-            worldData.ChunkSize * chunkData.ChunkPosition.Y);
+            worldData.ChunkSize * chunkData.ChunkPosition.Z);
 
         var terrain = terrainGO.GetComponent<Terrain>();
         createdTerrains[chunkData.ChunkPosition] = terrain;
-        Debug.Log("Создание чанка на позиции "
-            + chunkData.ChunkPosition.X + " " + chunkData.ChunkPosition.Y);
         
         terrain.treeBillboardDistance = 1000;
         UpdateNeighbors(chunkData.ChunkPosition);
         PaintTerrain(terrain);
+        CreateSpriteMap(chunkData);
 
         return terrainGO;
+    }
+
+    private void CreateSpriteMap(ChunkData chunkData) {
+        Color[] colorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(
+            chunkData.TerrainData.GetHeights(0, 0, worldData.HeightsSize, worldData.HeightsSize));
+        Texture2D noiseTexture = NoiseMapToTextureUtils.ColorMapToTexture(
+            worldData.HeightsSize, worldData.HeightsSize, colorMap);
+
+        int mapSize = worldData.HeightsSize;
+        
+        // Магическое число... почему-то работает
+        Vector3 pos = chunkData.ChunkPosition.ToVector2() * 0.65f;
+        GameObject spriteGO = Instantiate(mapPrefab, pos, Quaternion.identity);
+        spriteGO.transform.SetParent(noiseMapsParent.transform);
+
+        var noiseRenderer = spriteGO.GetComponent<NoiseMapRenderer>();
+        
+        noiseRenderer.RenderMap(mapSize, mapSize,
+            chunkData.TerrainData.GetHeights(0, 0, mapSize, mapSize),
+            NoiseMapRenderer.MapType.Noise);
     }
 
     private void PaintTerrain(Terrain terrain) {
         terrainPainterController.AssignActiveTerrains();
         terrainPainterController.Repaint(terrain);
-        // terrainPainterController.RepaintAll();
     }
 
     /// <summary>

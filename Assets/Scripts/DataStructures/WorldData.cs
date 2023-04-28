@@ -15,19 +15,17 @@ public class WorldData
     /// </summary>
     public int Seed { get => seed; private set => seed = value; }
 
-    [SerializeField] private NoiseData noiseData;
-    /// <summary>
-    /// Параметры шума, лежащего в основе ландшафта
-    /// </summary>
-    public NoiseData NoiseData => noiseData;
-
     [SerializeField] private int chunkSize = 1000;
     public int ChunkSize { get => chunkSize; private set => chunkSize = value; }
+
+    /// <summary>
+    /// Размерность карты высот и зависимых от нее параметров (разрешение).
+    /// Превосходит размер чанка на единицу, т.к. карта высот накладывается
+    /// не на "квадраты", из которых состоят чанки, а на вершины сетки
+    /// </summary>
+    public int HeightsSize => ChunkSize + 1;
     [SerializeField] private int chunkHeight = 600;
     public int ChunkHeight { get => chunkHeight; private set => chunkHeight = value; }
-
-    [SerializeField] private float scale = 100f;
-    public float Scale { get => scale; private set => scale = value; }
 
     public WorldData(int seed) {
         this.seed = seed;

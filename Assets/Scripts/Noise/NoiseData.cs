@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Данные, позволяющие генерировать бесконечную карту шума
+/// Данные для генерации шума
 /// </summary>
 [System.Serializable]
 public struct NoiseData
@@ -15,6 +15,9 @@ public struct NoiseData
     // [SerializeField] private Vector2 offset;
     // public Vector2 Offset => offset;
 
+    [SerializeField] private NoiseType noiseType;
+    public NoiseType NoiseType => noiseType;
+
     [SerializeField] private int octaves;
     public int Octaves => octaves;
     [SerializeField] private float persistence;
@@ -22,8 +25,8 @@ public struct NoiseData
     [SerializeField] private float lacunarity;
     public float Lacunarity => lacunarity;
 
-    // [SerializeField] private int seed;
-    // public int Seed => seed;
+    [SerializeField] private float scale;
+    public float Scale { get => scale; private set => scale = value; }
 
     // public float[] ToNoiseMapArray() {
     //     return NoiseMapUtils.GenerateNoiseMap(width, height, seed, scale, octaves,

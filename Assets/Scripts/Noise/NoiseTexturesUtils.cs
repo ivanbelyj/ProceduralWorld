@@ -24,12 +24,16 @@ public static class NoiseMapToTextureUtils
     /// <summary>
     /// Преобразует массив с данными о шуме в массив чёрно-белых цветов, для передачи в текстуру
     /// </summary>
-    public static Color[] NoiseMapToColorMap(float[] noiseMap)
+    public static Color[] NoiseMapToColorMap(float[,] noiseMap)
     {
         Color[] colorMap = new Color[noiseMap.Length];
-        for (int i = 0; i < noiseMap.Length; i++)
+        int height = noiseMap.GetLength(0);
+        int width = noiseMap.GetLength(1);
+        for (int y = 0; y < height; y++)
         {
-            colorMap[i] = Color.Lerp(Color.black, Color.white, noiseMap[i]);
+            for (int x = 0; x < width; x++) {
+                colorMap[y * width + x] = Color.Lerp(Color.black, Color.white, noiseMap[y, x]);
+            }
         }
         return colorMap;
     }
@@ -37,20 +41,24 @@ public static class NoiseMapToTextureUtils
     /// <summary>
     /// Преобразует массив с данными о шуме в массив цветов, зависящих от высоты, для передачи в текстуру
     /// </summary>
-    public static Color[] NoiseMapToColorMapByTerrainLevels(float[] noiseMap,
+    public static Color[] NoiseMapToColorMapByTerrainLevels(float[,] noiseMap,
         IList<TerrainLevel> terrainLevels)
     {
         Color[] colorMap = new Color[noiseMap.Length];
-        for (int i = 0; i < noiseMap.Length; i++)
+        int width = noiseMap.GetLength(0);
+        int height = noiseMap.GetLength(1);
+        for (int y = 0; y < width; y++)
         {
-            colorMap[i] = terrainLevels[terrainLevels.Count - 1].color;
-            foreach (var level in terrainLevels)
-            {
-                // Если шум попадает в более низкий диапазон, то используем его
-                if (noiseMap[i] < level.height)
+            for (int x = 0; x < height; x++) {
+                colorMap[y * width + x] = terrainLevels[terrainLevels.Count - 1].color;
+                foreach (var level in terrainLevels)
                 {
-                    colorMap[i] = level.color;
-                    break;
+                    // Если шум попадает в более низкий диапазон, то используем его
+                    if (noiseMap[y, x] < level.height)
+                    {
+                        colorMap[y * width + x] = level.color;
+                        break;
+                    }
                 }
             }
         }

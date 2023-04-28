@@ -21,7 +21,7 @@ public class NoiseMapRenderer : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void RenderMap(int width, int height, float[] noiseMap, MapType type)
+    public void RenderMap(int width, int height, float[,] noiseMap, MapType type)
     {
         if (type == MapType.Noise)
         {
