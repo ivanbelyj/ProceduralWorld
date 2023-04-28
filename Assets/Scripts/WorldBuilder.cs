@@ -18,6 +18,9 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField]
     private GameObject mapPrefab;
 
+    [SerializeField]
+    private BiomesScheme biomesScheme;
+
     private GameObject chunksParent;
     private GameObject noiseMapsParent;
 
@@ -44,29 +47,48 @@ public class WorldBuilder : MonoBehaviour
         terrain.treeBillboardDistance = 1000;
         UpdateNeighbors(chunkData.ChunkPosition);
         PaintTerrain(terrain);
-        CreateSpriteMap(chunkData);
+
+        Color[] heightsColorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(chunkData.TerrainData
+            .GetHeights(0, 0, worldData.HeightsSize, worldData.HeightsSize));
+        CreateSpriteMap(chunkData, heightsColorMap);
+
+        Color[] biomesColorMap = BiomesMapToColorMap(chunkData.BiomeIds);
+        CreateSpriteMap(chunkData, biomesColorMap, 5);
 
         return terrainGO;
     }
 
-    private void CreateSpriteMap(ChunkData chunkData) {
-        Color[] colorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(
-            chunkData.TerrainData.GetHeights(0, 0, worldData.HeightsSize, worldData.HeightsSize));
+    private Color[] BiomesMapToColorMap(uint[,] biomesMap) {
+        int width = biomesMap.GetLength(1);
+        int height = biomesMap.GetLength(0);
+        Color[] res = new Color[width * height];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                res[y * width + x] = biomesScheme.GetBiomeById(biomesMap[y, x]).GroupColor;
+            }
+        }
+        return res;
+    }
+
+    private void CreateSpriteMap(ChunkData chunkData, Color[] colorMap, float zOffset = 0) {
+        // Color[] colorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(
+        //     chunkData.TerrainData.GetHeights(0, 0, worldData.HeightsSize, worldData.HeightsSize));
         Texture2D noiseTexture = NoiseMapToTextureUtils.ColorMapToTexture(
             worldData.HeightsSize, worldData.HeightsSize, colorMap);
 
         int mapSize = worldData.HeightsSize;
         
+        ChunkPosition cPos = chunkData.ChunkPosition;
         // Магическое число... почему-то работает
-        Vector3 pos = chunkData.ChunkPosition.ToVector2() * 0.65f;
+        Vector3 pos = 0.65f * new Vector3(cPos.X, cPos.Z, zOffset);
+        
         GameObject spriteGO = Instantiate(mapPrefab, pos, Quaternion.identity);
         spriteGO.transform.SetParent(noiseMapsParent.transform);
 
         var noiseRenderer = spriteGO.GetComponent<NoiseMapRenderer>();
         
         noiseRenderer.RenderMap(mapSize, mapSize,
-            chunkData.TerrainData.GetHeights(0, 0, mapSize, mapSize),
-            NoiseMapRenderer.MapType.Noise);
+            colorMap);
     }
 
     private void PaintTerrain(Terrain terrain) {
@@ -95,7 +117,6 @@ public class WorldBuilder : MonoBehaviour
         if (setForNeighbors) {
             foreach (var neighbor in new [] { cPos.Top, cPos.Right, cPos.Bottom, cPos.Left }
                 .Where(pos => createdTerrains.ContainsKey(pos)) ) {
-                Debug.Log("\tОбновление соседей для соседа. " + neighbor);
                 UpdateNeighbors(neighbor, setForNeighbors: false);
             }
         }

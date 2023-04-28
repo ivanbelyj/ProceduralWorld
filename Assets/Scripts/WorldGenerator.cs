@@ -15,6 +15,9 @@ public class WorldGenerator : MonoBehaviour
     private BaseTerrainGeneration baseTerrainGeneration;
 
     [SerializeField]
+    private BiomesGeneration biomesGeneration;
+
+    [SerializeField]
     private FoliageGeneration foliageGeneration;
 
     /// <summary>
@@ -31,10 +34,11 @@ public class WorldGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Добавление объектов, осуществляющих генерацию (порядок имеет значение)
+    /// Добавление объектов, осуществляющих генерацию
     /// </summary>
     private void AddGenerationStages() {
         generationStages.Add(baseTerrainGeneration);
+        generationStages.Add(biomesGeneration);
         generationStages.Add(foliageGeneration);
 
         foreach(var stage in generationStages) {

@@ -19,10 +19,6 @@ public struct ChunkPosition
         return (X, Z).GetHashCode();
     }
 
-    public Vector2 ToVector2() {
-        return new Vector2(X, Z);
-    }
-
     public ChunkPosition Top => new ChunkPosition(X, Z + 1);
     public ChunkPosition Right => new ChunkPosition(X + 1, Z);
     public ChunkPosition Bottom => new ChunkPosition(X, Z - 1);

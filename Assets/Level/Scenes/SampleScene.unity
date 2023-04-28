@@ -460,8 +460,8 @@ MonoBehaviour:
   autoRepaint: 0
   terrainListeners: []
   bounds:
-    m_Center: {x: 500, y: 300, z: 500}
-    m_Extent: {x: 500, y: 300, z: 500}
+    m_Center: {x: NaN, y: NaN, z: NaN}
+    m_Extent: {x: NaN, y: NaN, z: NaN}
   filterShader: {fileID: 4800000, guid: 0f44df78e3d64d9cb2616cac3d84cb77, type: 3}
 --- !u!4 &500848144
 Transform:
@@ -1189,8 +1189,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2086771708}
   - component: {fileID: 2086771713}
-  - component: {fileID: 2086771711}
+  - component: {fileID: 2086771715}
   - component: {fileID: 2086771714}
+  - component: {fileID: 2086771711}
   - component: {fileID: 2086771710}
   - component: {fileID: 2086771712}
   - component: {fileID: 2086771709}
@@ -1249,6 +1250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainPainterController: {fileID: 500848142}
   mapPrefab: {fileID: 1169464040882109418, guid: 4dd83e91a86af364f965344c9bc6055e, type: 3}
+  biomesScheme: {fileID: 2086771715}
 --- !u!114 &2086771711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1279,6 +1281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseTerrainGeneration: {fileID: 2086771713}
+  biomesGeneration: {fileID: 2086771714}
   foliageGeneration: {fileID: 2086771711}
 --- !u!114 &2086771713
 MonoBehaviour:
@@ -1310,18 +1313,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf86ce6ee0dbbd84b9019740144e02fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  biomesScheme: {fileID: 2086771715}
   moistureNoise:
-    noiseType: 0
-    octaves: 0
-    persistence: 0
-    lacunarity: 0
-    scale: 0
+    noiseType: 1
+    octaves: 2
+    persistence: 0.5
+    lacunarity: 2
+    scale: 0.005
   temperatureNoise:
-    noiseType: 0
-    octaves: 0
-    persistence: 0
-    lacunarity: 0
-    scale: 0
+    noiseType: 1
+    octaves: 1
+    persistence: 0.5
+    lacunarity: 2
+    scale: 0.005
+--- !u!114 &2086771715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086771707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8430d64b5d9d343869a84b5c547fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  biomeSchemeImage: {fileID: 2800000, guid: 7619d7eb1a74a644d83a4db136800ea4, type: 3}
+  biomes:
+  - {fileID: 11400000, guid: 3a957154e4449994bad524e1afd71ec9, type: 2}
+  - {fileID: 11400000, guid: 3027cf5f13ce21f49b15de479b897663, type: 2}
+  - {fileID: 11400000, guid: de51514ee94c3cd4c9a3c55e6027724e, type: 2}
+  - {fileID: 11400000, guid: 4ff78ee3602e25444a08b4c2f5530820, type: 2}
 --- !u!114 &2129107195
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -34,6 +34,11 @@ public class NoiseMapRenderer : MonoBehaviour
         }
     }
 
+    public void RenderMap(int width, int height, Color[] colorMap)
+    {
+        ApplyColorMap(width, height, colorMap);
+    }
+
     /// <summary>
     /// Применение текстуры и спрайта для отображения
     /// </summary>
