@@ -16,14 +16,14 @@ public class BiomesScheme : MonoBehaviour
     private Dictionary<Color, BiomesGroup> biomeGroupByColor;  // Соответствия цветов и биомов
     private Dictionary<uint, Biome> biomeById;
 
-    private Color[] biomeMapColors;  // Массив цветов изображения с матрицей биомов
+    private Color32[] biomeMapColors;  // Массив цветов изображения с матрицей биомов
     private int widthTemperature;  // Ширина матрицы биомов
     private int heightMoisture;  // Высота матрицы биомов
 
     public void Initialize()
     {
         // Загрузка цветов изображения-схемы биомов
-        biomeMapColors = biomeSchemeImage.GetPixels();
+        biomeMapColors = biomeSchemeImage.GetPixels32();
         widthTemperature = biomeSchemeImage.width;
         heightMoisture = biomeSchemeImage.height;
 
@@ -50,7 +50,7 @@ public class BiomesScheme : MonoBehaviour
         int y = Mathf.FloorToInt(temperature * (heightMoisture - 1));
 
         // Определение цвета в позиции x, y в матрице биомов
-        Color color = biomeMapColors[y * widthTemperature + x];
+        Color32 color = biomeMapColors[y * widthTemperature + x];
 
         // Определение типа биома на основе цвета
         if (biomeGroupByColor.ContainsKey(color))

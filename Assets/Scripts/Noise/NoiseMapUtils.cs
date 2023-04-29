@@ -52,7 +52,7 @@ public static class NoiseMapUtils
                 // Обработка наложения октав
                 for (int i = 0; i < octaves; i++)
                 {
-                    // Рассчитываем координаты для получения значения из Шума Перлина
+                    // Рассчитываем координаты для получения значения из шума
                     float xResult = (x - halfWidth) * frequency + octavesOffset[i].x * frequency;
                     float yResult = (y - halfHeight) * frequency + octavesOffset[i].y * frequency;
 

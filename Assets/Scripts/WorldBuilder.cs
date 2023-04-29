@@ -82,8 +82,9 @@ public class WorldBuilder : MonoBehaviour
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Biome biome = biomesScheme.GetBiomeById(biomesMap[y, x]);
-                res[y * width + x] = Color.Lerp(Color.black, biome.GroupColor,
-                    variety[y, x]);
+                // res[y * width + x] = Color.Lerp(Color.black, biome.GroupColor,
+                //     variety[y, x]);
+                res[y * width + x] = biome.GroupColor;
             }
         }
         return res;

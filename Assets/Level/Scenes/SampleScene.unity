@@ -471,7 +471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500848141}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -730,14 +730,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15, y: 75, z: -91}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 20.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1015633300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1232,11 +1232,11 @@ MonoBehaviour:
   worldGenerator: {fileID: 2086771712}
   worldBuilder: {fileID: 2086771710}
   worldGenerationData:
-    seed: 3
+    seed: 12
     chunkSize: 64
     chunkHeight: 64
-    worldScale: 10
-  chunksRadius: 3
+    worldScale: 32
+  chunksRadius: 1
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1299,10 +1299,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseData:
     noiseType: 1
-    octaves: 8
+    octaves: 16
     persistence: 0.5
     lacunarity: 2
-    scale: 0.001
+    scale: 0.0002
 --- !u!114 &2086771714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1321,25 +1321,25 @@ MonoBehaviour:
     octaves: 2
     persistence: 0.5
     lacunarity: 2
-    scale: 0.01
+    scale: 0.001
   temperatureNoise:
     noiseType: 1
     octaves: 1
     persistence: 0.5
     lacunarity: 2
-    scale: 0.01
+    scale: 0.0001
   radiationNoise:
-    noiseType: 1
-    octaves: 2
+    noiseType: 0
+    octaves: 1
     persistence: 0.5
     lacunarity: 2
-    scale: 0.01
+    scale: 10
   varietyNoise:
     noiseType: 1
-    octaves: 2
+    octaves: 3
     persistence: 0.5
     lacunarity: 2
-    scale: 0.01
+    scale: 0.0008
 --- !u!114 &2086771715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1352,12 +1352,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8430d64b5d9d343869a84b5c547fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  biomeSchemeImage: {fileID: 2800000, guid: 7619d7eb1a74a644d83a4db136800ea4, type: 3}
+  biomeSchemeImage: {fileID: 2800000, guid: 6a57b879ef37e984e9ebae2865ebd10a, type: 3}
   biomes:
-  - {fileID: 11400000, guid: 3a957154e4449994bad524e1afd71ec9, type: 2}
-  - {fileID: 11400000, guid: 3027cf5f13ce21f49b15de479b897663, type: 2}
-  - {fileID: 11400000, guid: de51514ee94c3cd4c9a3c55e6027724e, type: 2}
-  - {fileID: 11400000, guid: 4ff78ee3602e25444a08b4c2f5530820, type: 2}
+  - {fileID: 11400000, guid: a73c4b80cb6370e4692bd993bbb78e40, type: 2}
+  - {fileID: 11400000, guid: c2b1cda494a1e704e9f2b5478e6fb902, type: 2}
+  - {fileID: 11400000, guid: 2b64360faa931fd48962e9a51f3a33e4, type: 2}
+  - {fileID: 11400000, guid: 7a72b52d47da33d4d9a6aba86a8605b7, type: 2}
+  - {fileID: 11400000, guid: a73a479afc7fd024e9a5568c2523e65f, type: 2}
+  - {fileID: 11400000, guid: 7fb3f6b9d3647834d936e7c5421bfe05, type: 2}
+  - {fileID: 11400000, guid: 21928c3e5cb9562459dd2de29e0e8b19, type: 2}
+  - {fileID: 11400000, guid: a72cccc2d135547449ad988860b133b7, type: 2}
+  - {fileID: 11400000, guid: 4fa109d295369524a84a04685c963ae6, type: 2}
+  - {fileID: 11400000, guid: f4bd6f728c0838e41881676a36496da7, type: 2}
+  - {fileID: 11400000, guid: 430973b784d82ea41a67babf5ec949f9, type: 2}
+  - {fileID: 11400000, guid: c219d2eb58212aa4793ad175b48d0a37, type: 2}
+  - {fileID: 11400000, guid: 7c99c24dde63de64e9f19bc17921ff4e, type: 2}
+  - {fileID: 11400000, guid: 1a1173a6c415d844180d0ee2ddbd2d60, type: 2}
+  - {fileID: 11400000, guid: 3d436ed227339334aa0b7dac384b601a, type: 2}
+  - {fileID: 11400000, guid: 3db4719d58713c94684d922a18a1f0c9, type: 2}
+  - {fileID: 11400000, guid: cf5287aea537c41458ff28afbfc90438, type: 2}
+  - {fileID: 11400000, guid: 691e73ee61ae4ee4bb07c5cff1f608ac, type: 2}
 --- !u!114 &2129107195
 MonoBehaviour:
   m_ObjectHideFlags: 0
