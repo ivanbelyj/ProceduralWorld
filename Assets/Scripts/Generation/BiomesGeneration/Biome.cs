@@ -19,4 +19,39 @@ public class Biome : ScriptableObject
     /// к которой относится данный биом
     /// </summary>
     public Color GroupColor { get => groupColor; set => groupColor = value; }
+
+    [SerializeField]
+    private float radiationMin = 0f;
+    public float RadiationMin { get => radiationMin; set => radiationMin = value; }
+
+    [SerializeField]
+    private float radiationMax = 1f;
+    public float RadiationMax { get => radiationMax; set => radiationMax = value; }
+
+    [SerializeField]
+    private float varietyMin = 0f;
+    /// <summary>
+    /// "Разновидность" - дополнительный параметр для выделения разновидностей
+    /// биома. Чем меньше диапазон, тем реже встречается биом
+    /// </summary>
+    public float VarietyMin { get => varietyMin; set => varietyMin = value; }
+
+    [SerializeField]
+    private float varietyMax = 1f;
+    /// <summary>
+    /// "Разновидность" - дополнительный параметр для выделения разновидностей
+    /// биома. Чем меньше диапазон, тем реже встречается биом
+    /// </summary>
+    public float VarietyMax { get => varietyMax; set => varietyMax = value; }
+
+    [SerializeField]
+    private BiomeTree[] trees;
+    public BiomeTree[] Trees { get => trees; set => trees = value; }
+
+    [SerializeField]
+    private float treesDensity = 0.5f;
+    /// <summary>
+    /// Плотность рассадки деревьев. Значение от 0 до 1 включительно
+    /// </summary>
+    public float TreesDensity { get => treesDensity; set => treesDensity = value; }
 }

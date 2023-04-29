@@ -10,7 +10,7 @@ public static class NoiseMapUtils
     /// </summary>
     public static float[,] GenerateNoiseMap(
         NoiseData noiseData, int seed,
-        int width, int height, Vector2 offset)
+        int width, int height, Vector2 offset, float scaleMultiplier = 1f)
     {
         int octaves = noiseData.Octaves;
         // Массив данных о вершинах
@@ -60,10 +60,12 @@ public static class NoiseMapUtils
                     float generatedValue = 0;
                     switch (noiseData.NoiseType) {
                         case NoiseType.Perlin:
-                            generatedValue = PerlinNoise.GetNoise(seed, xResult, yResult, noiseData.Scale);
+                            generatedValue = PerlinNoise.GetNoise(seed, xResult,
+                                yResult, noiseData.Scale * scaleMultiplier);
                         break;
                         case NoiseType.Simplex:
-                            generatedValue = SimplexNoise.GetNoise(xResult, yResult, noiseData.Scale);
+                            generatedValue = SimplexNoise.GetNoise(xResult, yResult,
+                                noiseData.Scale * scaleMultiplier);
                         break;
                     }
 

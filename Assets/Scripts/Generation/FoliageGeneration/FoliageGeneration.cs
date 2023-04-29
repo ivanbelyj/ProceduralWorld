@@ -8,11 +8,16 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
     [SerializeField]
     private GameObject[] treePrefabs;
 
-    public void Initialize() {
-        
+    [SerializeField]
+    private BiomesScheme biomesScheme;
+
+    private WorldGenerationData worldData;
+
+    public void Initialize(WorldGenerationData worldGenerationData) {
+        worldData = worldGenerationData;
     }
 
-    public ChunkData ProcessChunk(WorldData worldData, ChunkData chunkData)
+    public ChunkData ProcessChunk(ChunkData chunkData)
     {
         var terrainData = chunkData.TerrainData;
 
@@ -21,6 +26,7 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
         }).ToArray();
 
         var trees = CreateTreeInstancesHalton(terrainData);
+                    // CreateTreeInstancesRandom(worldData, chunkData);
         terrainData.SetTreeInstances(trees.ToArray(), true);
         
         return chunkData;
@@ -57,20 +63,24 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
         return tree;
     }
 
-    private List<TreeInstance> CreateTreeInstancesRandom(TerrainData terrainData) {
+    private List<TreeInstance> CreateTreeInstancesRandom(WorldGenerationData worldData, ChunkData chunkData) {
+        var terrainData = chunkData.TerrainData;
         var res = new List<TreeInstance>();
+
+        System.Random rnd = new System.Random();
         
-        for (float x = 0; x < terrainData.heightmapResolution; x++)
+        for (int x = 0; x < worldData.ChunkResolution; x++)
         {
-            for (float z = 0; z < terrainData.heightmapResolution; z++)
+            for (int z = 0; z < worldData.ChunkResolution; z++)
             {
-                int r = UnityEngine.Random.Range(0, 500);
-                if (r == 0)
+                double fixingValue = rnd.NextDouble();
+                if (fixingValue < biomesScheme.GetBiomeById(chunkData.BiomeIds[z, x]).TreesDensity)
                 {
                     var tree = CreateTreeInstance(new Vector3(x / terrainData.heightmapResolution,
                         0, z / terrainData.heightmapResolution));
                     res.Add(tree);
                 }
+                Debug.Log($"Foliage. x: {x}, z: {z}");
             }
         }
 

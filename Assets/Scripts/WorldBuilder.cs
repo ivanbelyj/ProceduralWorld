@@ -4,11 +4,11 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Компонен, позволяющий создавать чанки на сцене
+/// Компонент, позволяющий создавать чанки на сцене
 /// </summary>
 public class WorldBuilder : MonoBehaviour
 {
-    private WorldData worldData;
+    private WorldGenerationData worldData;
 
     private Dictionary<ChunkPosition, Terrain> createdTerrains;
 
@@ -24,7 +24,7 @@ public class WorldBuilder : MonoBehaviour
     private GameObject chunksParent;
     private GameObject noiseMapsParent;
 
-    public void Initialize(WorldData worldData) {
+    public void Initialize(WorldGenerationData worldData) {
         this.worldData = worldData;
         createdTerrains = new Dictionary<ChunkPosition, Terrain>();
 
@@ -48,38 +48,60 @@ public class WorldBuilder : MonoBehaviour
         UpdateNeighbors(chunkData.ChunkPosition);
         PaintTerrain(terrain);
 
-        Color[] heightsColorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(chunkData.TerrainData
-            .GetHeights(0, 0, worldData.HeightsSize, worldData.HeightsSize));
-        CreateSpriteMap(chunkData, heightsColorMap);
-
-        Color[] biomesColorMap = BiomesMapToColorMap(chunkData.BiomeIds);
-        CreateSpriteMap(chunkData, biomesColorMap, 5);
+        CreateSpriteMaps(chunkData);
 
         return terrainGO;
     }
 
-    private Color[] BiomesMapToColorMap(uint[,] biomesMap) {
+    private void CreateSpriteMaps(ChunkData chunkData) {
+        List<(Color, float[,])> colorsAndMaps = new List<(Color, float[,])>() {
+            (Color.white, chunkData.TerrainData
+                .GetHeights(0, 0, worldData.ChunkResolution, worldData.ChunkResolution)),
+            (Color.red, chunkData.Temperature),
+            (Color.cyan, chunkData.Moisture),
+            (Color.yellow, chunkData.Radiation),
+            (Color.magenta, chunkData.Variety),
+            
+        };
+        float offset = 0;
+        const float OFFSET_STEP = 5f;
+        foreach (var colorAndMap in colorsAndMaps) {
+            Color[] colorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(colorAndMap.Item2);
+            CreateSpriteMap(chunkData, colorMap, offset, colorAndMap.Item1);
+            offset += OFFSET_STEP;
+        }
+
+        Color[] biomesColorMap = BiomesMapToColorMap(chunkData.BiomeIds, chunkData.Variety);
+        CreateSpriteMap(chunkData, biomesColorMap, offset + OFFSET_STEP);
+    }
+
+    private Color[] BiomesMapToColorMap(uint[,] biomesMap, float[,] variety) {
         int width = biomesMap.GetLength(1);
         int height = biomesMap.GetLength(0);
         Color[] res = new Color[width * height];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                res[y * width + x] = biomesScheme.GetBiomeById(biomesMap[y, x]).GroupColor;
+                Biome biome = biomesScheme.GetBiomeById(biomesMap[y, x]);
+                res[y * width + x] = Color.Lerp(Color.black, biome.GroupColor,
+                    variety[y, x]);
             }
         }
         return res;
     }
 
-    private void CreateSpriteMap(ChunkData chunkData, Color[] colorMap, float zOffset = 0) {
-        // Color[] colorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(
-        //     chunkData.TerrainData.GetHeights(0, 0, worldData.HeightsSize, worldData.HeightsSize));
+    private void CreateSpriteMap(ChunkData chunkData, Color[] colorMap, float zOffset = 0,
+        Color color = default) {
+        if (color == default) {
+            color = Color.white;
+        }
+        
         Texture2D noiseTexture = NoiseMapToTextureUtils.ColorMapToTexture(
-            worldData.HeightsSize, worldData.HeightsSize, colorMap);
+            worldData.ChunkResolution, worldData.ChunkResolution, colorMap);
 
-        int mapSize = worldData.HeightsSize;
+        int mapSize = worldData.ChunkResolution;
         
         ChunkPosition cPos = chunkData.ChunkPosition;
-        // Магическое число... почему-то работает
+        // Магическое число...
         Vector3 pos = 0.65f * new Vector3(cPos.X, cPos.Z, zOffset);
         
         GameObject spriteGO = Instantiate(mapPrefab, pos, Quaternion.identity);
@@ -89,6 +111,9 @@ public class WorldBuilder : MonoBehaviour
         
         noiseRenderer.RenderMap(mapSize, mapSize,
             colorMap);
+
+        var spriteRenderer = spriteGO.GetComponent<SpriteRenderer>();
+        spriteRenderer.color = color;
     }
 
     private void PaintTerrain(Terrain terrain) {

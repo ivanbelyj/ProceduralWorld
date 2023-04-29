@@ -7,9 +7,8 @@ using UnityEngine;
 /// </summary>
 public class WorldGenerator : MonoBehaviour
 {
-    private WorldData worldData;
+    private WorldGenerationData worldData;
     private List<IGenerationStage> generationStages;
-    // private TerrainData initialTerrainData;
 
     [SerializeField]
     private BaseTerrainGeneration baseTerrainGeneration;
@@ -23,7 +22,7 @@ public class WorldGenerator : MonoBehaviour
     /// <summary>
     /// Устанавливает исходные данные о мире перед тем, как генерировать чанки
     /// </summary>
-    public void Initialize(WorldData wordData) {
+    public void Initialize(WorldGenerationData wordData) {
         this.worldData = wordData;
         // this.initialTerrainData = initialTerrainData;
 
@@ -42,7 +41,7 @@ public class WorldGenerator : MonoBehaviour
         generationStages.Add(foliageGeneration);
 
         foreach(var stage in generationStages) {
-            stage.Initialize();
+            stage.Initialize(worldData);
         }
     }
 
@@ -60,10 +59,9 @@ public class WorldGenerator : MonoBehaviour
             TerrainData = terrainData
         };
 
-        ChunkData lastProcessed = generationStages[0].ProcessChunk(worldData,
-            initialChunkData);
+        ChunkData lastProcessed = generationStages[0].ProcessChunk(initialChunkData);
         foreach (var stage in generationStages) {
-            lastProcessed = stage.ProcessChunk(worldData, lastProcessed);
+            lastProcessed = stage.ProcessChunk(lastProcessed);
         }
         return lastProcessed;
     }

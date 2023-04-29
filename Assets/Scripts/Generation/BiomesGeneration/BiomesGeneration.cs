@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BiomesGeneration : MonoBehaviour, IGenerationStage
 {
-    private int moistureSeedC = 1233;
-    private int temperatureSeedC = 7733;
+    private const int moistureSeedC = 1233;
+    private const int temperatureSeedC = 7733;
+    private const int radiationSeedC = 131377;
+    private const int varietySeedC = 881231;
 
     [SerializeField]
     private BiomesScheme biomesScheme;
@@ -16,31 +18,53 @@ public class BiomesGeneration : MonoBehaviour, IGenerationStage
     [SerializeField]
     private NoiseData temperatureNoise;
 
-    public void Initialize()
+    [SerializeField]
+    private NoiseData radiationNoise;
+
+    [SerializeField]
+    private NoiseData varietyNoise;
+
+    private WorldGenerationData worldData;
+
+    public void Initialize(WorldGenerationData worldGenerationData)
     {
+        worldData = worldGenerationData;
         biomesScheme.Initialize();
     }
 
-    public ChunkData ProcessChunk(WorldData worldData, ChunkData chunkData)
+    public ChunkData ProcessChunk(ChunkData chunkData)
     {
-        int heightsSize = worldData.HeightsSize;
+        int heightsSize = worldData.ChunkResolution;
 
         var noiseOffset = new Vector2(chunkData.ChunkPosition.X * worldData.ChunkSize,
             chunkData.ChunkPosition.Z * worldData.ChunkSize);
 
-        float[,] moisture = NoiseMapUtils.GenerateNoiseMap(moistureNoise,
+        float[,] moisture = chunkData.Moisture = NoiseMapUtils.GenerateNoiseMap(moistureNoise,
             worldData.Seed * moistureSeedC,
-            heightsSize, heightsSize, noiseOffset);
+            heightsSize, heightsSize, noiseOffset,
+            worldData.WorldScale);
 
-        float[,] temperature = NoiseMapUtils.GenerateNoiseMap(temperatureNoise,
+        float[,] temperature = chunkData.Temperature = NoiseMapUtils.GenerateNoiseMap(temperatureNoise,
             worldData.Seed * temperatureSeedC,
-            heightsSize, heightsSize, noiseOffset);
+            heightsSize, heightsSize, noiseOffset,
+            worldData.WorldScale);
+
+        float[,] radiation = chunkData.Radiation = NoiseMapUtils.GenerateNoiseMap(radiationNoise,
+            worldData.Seed * radiationSeedC,
+            heightsSize, heightsSize, noiseOffset,
+            worldData.WorldScale);
+
+        float[,] variety = chunkData.Variety = NoiseMapUtils.GenerateNoiseMap(varietyNoise,
+            worldData.Seed * varietySeedC,
+            heightsSize, heightsSize, noiseOffset,
+            worldData.WorldScale);
         
         // id биомов, расположенных в соответствии с позициями чанка
         uint[,] biomes = new uint[heightsSize, heightsSize];
         for (int y = 0; y < heightsSize; y++) {
             for (int x = 0; x < heightsSize; x++) {
-                biomes[y, x] = biomesScheme.GetBiomeId(moisture[y, x], temperature[y, x]);
+                biomes[y, x] = biomesScheme.GetBiomeId(moisture[y, x], temperature[y, x],
+                    radiation[y, x], variety[y, x]);
             }
         }
         chunkData.BiomeIds = biomes;

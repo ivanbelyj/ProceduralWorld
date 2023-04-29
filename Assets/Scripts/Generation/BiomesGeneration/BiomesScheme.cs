@@ -17,15 +17,15 @@ public class BiomesScheme : MonoBehaviour
     private Dictionary<uint, Biome> biomeById;
 
     private Color[] biomeMapColors;  // Массив цветов изображения с матрицей биомов
-    private int width;  // Ширина матрицы биомов
-    private int height;  // Высота матрицы биомов
+    private int widthTemperature;  // Ширина матрицы биомов
+    private int heightMoisture;  // Высота матрицы биомов
 
     public void Initialize()
     {
         // Загрузка цветов изображения-схемы биомов
         biomeMapColors = biomeSchemeImage.GetPixels();
-        width = biomeSchemeImage.width;
-        height = biomeSchemeImage.height;
+        widthTemperature = biomeSchemeImage.width;
+        heightMoisture = biomeSchemeImage.height;
 
         biomeGroupByColor = new Dictionary<Color, BiomesGroup>();
         biomeById = new Dictionary<uint, Biome>();
@@ -33,7 +33,7 @@ public class BiomesScheme : MonoBehaviour
             if (!biomeGroupByColor.ContainsKey(biome.GroupColor)) {
                 biomeGroupByColor.Add(biome.GroupColor, new BiomesGroup());
             }
-            biomeGroupByColor[biome.GroupColor].Biomes.Add(biome);
+            biomeGroupByColor[biome.GroupColor].Add(biome);
 
             biomeById.Add(biome.BiomeId, biome);
         }
@@ -43,20 +43,22 @@ public class BiomesScheme : MonoBehaviour
         return biomeById[id];
     }
 
-    public uint GetBiomeId(float moisture, float temperature)
+    public uint GetBiomeId(float moisture, float temperature, float radiation, float variety)
     {
         // Определение позиции в матрице биомов на основе влажности и температуры
-        int x = Mathf.FloorToInt(moisture * (width - 1));
-        int y = Mathf.FloorToInt(temperature * (height - 1));
+        int x = Mathf.FloorToInt(moisture * (widthTemperature - 1));
+        int y = Mathf.FloorToInt(temperature * (heightMoisture - 1));
 
         // Определение цвета в позиции x, y в матрице биомов
-        Color color = biomeMapColors[y * width + x];
+        Color color = biomeMapColors[y * widthTemperature + x];
 
         // Определение типа биома на основе цвета
         if (biomeGroupByColor.ContainsKey(color))
         {
-            // Todo: учет дополнительных параметров, например, радиации
-            return biomeGroupByColor[color].Biomes[0].BiomeId;
+            return biomeGroupByColor[color]
+                .WithRadiation(radiation)
+                .OfVariety(variety)
+                .GetOne().BiomeId;
         }
         else
         {

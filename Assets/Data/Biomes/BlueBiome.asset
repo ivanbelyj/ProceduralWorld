@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   biomeId: 3
   groupColor: {r: 0, g: 0, b: 1, a: 1}
+  trees:
+  - treePrefab: {fileID: 100000, guid: 9d4985571e43aac408db8aeda688503e, type: 3}
+    prevalence: 1
+  treesDensity: 0.5

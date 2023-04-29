@@ -1231,10 +1231,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldGenerator: {fileID: 2086771712}
   worldBuilder: {fileID: 2086771710}
-  worldData:
-    seed: 33
+  worldGenerationData:
+    seed: 3
     chunkSize: 64
-    chunkHeight: 128
+    chunkHeight: 64
+    worldScale: 10
   chunksRadius: 3
 --- !u!114 &2086771710
 MonoBehaviour:
@@ -1268,6 +1269,7 @@ MonoBehaviour:
   - {fileID: 100000, guid: 957ab4229070f7942965a3e0d5507385, type: 3}
   - {fileID: 100000, guid: 825c43696a816b247ac7c0335aceed48, type: 3}
   - {fileID: 100000, guid: c7add449d9cd20349baea26eb9ca4bcb, type: 3}
+  biomesScheme: {fileID: 2086771715}
 --- !u!114 &2086771712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,13 +1321,25 @@ MonoBehaviour:
     octaves: 2
     persistence: 0.5
     lacunarity: 2
-    scale: 0.005
+    scale: 0.01
   temperatureNoise:
     noiseType: 1
     octaves: 1
     persistence: 0.5
     lacunarity: 2
-    scale: 0.005
+    scale: 0.01
+  radiationNoise:
+    noiseType: 1
+    octaves: 2
+    persistence: 0.5
+    lacunarity: 2
+    scale: 0.01
+  varietyNoise:
+    noiseType: 1
+    octaves: 2
+    persistence: 0.5
+    lacunarity: 2
+    scale: 0.01
 --- !u!114 &2086771715
 MonoBehaviour:
   m_ObjectHideFlags: 0

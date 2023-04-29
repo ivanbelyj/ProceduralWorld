@@ -6,12 +6,13 @@ public class BaseTerrainGeneration : MonoBehaviour, IGenerationStage
 {
     [SerializeField]
     private NoiseData noiseData;
-    public void Initialize() {
-        
+    private WorldGenerationData worldData;
+    public void Initialize(WorldGenerationData worldGenerationData) {
+        worldData = worldGenerationData;
     }
-    public ChunkData ProcessChunk(WorldData worldData, ChunkData chunkData)
+    public ChunkData ProcessChunk(ChunkData chunkData)
     {
-        int heightsSize = worldData.HeightsSize;
+        int chunkRes = worldData.ChunkResolution;
 
         // Создание карты шума в виде массива
         var noiseOffset = new Vector2(chunkData.ChunkPosition.X * worldData.ChunkSize,
@@ -19,13 +20,13 @@ public class BaseTerrainGeneration : MonoBehaviour, IGenerationStage
 
         // Создание матрицы шума, чтобы в дальнейшем назначить Terrain через TerrainData
         float[,] heights = NoiseMapUtils.GenerateNoiseMap(noiseData, worldData.Seed,
-            heightsSize, heightsSize, noiseOffset);
+            chunkRes, chunkRes, noiseOffset, worldData.WorldScale);
 
         // Применение карты высот и настроек к TerrainData
         chunkData.TerrainData.size = new Vector3(worldData.ChunkSize,
-            worldData.ChunkHeight, worldData.ChunkSize);
+            worldData.ChunkHeight / worldData.WorldScale, worldData.ChunkSize);
         
-        chunkData.TerrainData.heightmapResolution = heightsSize;
+        chunkData.TerrainData.heightmapResolution = chunkRes;
         chunkData.TerrainData.SetHeights(0, 0, heights);
         
         return chunkData;
