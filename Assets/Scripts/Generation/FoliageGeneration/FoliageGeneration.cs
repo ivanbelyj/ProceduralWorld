@@ -9,7 +9,7 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
     /// Значение, изменяющее сетку прохода по точкам чанка для расстановки деревьев.
     /// 1, чтобы проход осуществлялся по каждой точке чанка (ресурсозатратно)
     /// </summary>
-    private const float treeDensityModifier = 0.26f;
+    private const float treeDensityModifier = 0.4f;
 
     [SerializeField]
     private BiomesScheme biomesScheme;
@@ -47,7 +47,20 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
     // }
 
     private Tree SelectTree(Biome biome, float moisture, float radiation) {
-        return biome.Trees.Length > 0 ? biome.Trees[0].Tree : null;
+        BiomeTree[] trees = biome.Trees;
+
+        float totalPrevalence = trees.Sum(x => x.Prevalence);
+
+        float randomNum = Random.Range(0, totalPrevalence);
+
+        foreach (BiomeTree tree in trees) {
+            randomNum -= tree.Prevalence;
+            if (randomNum <= 0) {
+                return tree.Tree;
+            }
+        }
+
+        return null;
     }
     
     /// <param name="position">Локальная позиция дерева на Terrain, в диапазоне [0, 1]</param>

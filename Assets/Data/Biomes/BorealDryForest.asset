@@ -19,6 +19,12 @@ MonoBehaviour:
   varietyMin: 0
   varietyMax: 1
   trees:
-  - tree: {fileID: 11400000, guid: dc772365f9672f64b8a373e120a21e2c, type: 2}
+  - tree: {fileID: 11400000, guid: 5bc414c313f939742b3a4a3872a66755, type: 2}
+    prevalence: 1
+  - tree: {fileID: 11400000, guid: e94d2ef6e5de3e84eb3e77e481d4bb51, type: 2}
+    prevalence: 1
+  - tree: {fileID: 11400000, guid: 8736773b1e023db4bb505a34e7778963, type: 2}
+    prevalence: 1
+  - tree: {fileID: 11400000, guid: 9a2177a6d1f5b8d4db83a9e0e01a9de3, type: 2}
     prevalence: 1
   treesDensity: 0.4
