@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Данные о биоме
 /// </summary>
-[CreateAssetMenu(fileName = "New Biome", menuName = "Biome/Biome", order = 51)]
+[CreateAssetMenu(fileName = "New Biome", menuName = "Procedural World/Biome", order = 51)]
 public class Biome : ScriptableObject
 {
     [SerializeField]

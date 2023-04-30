@@ -9,14 +9,17 @@ using UnityEngine;
 public class BiomeTree
 {
     [SerializeField]
-    private GameObject treePrefab;
-    public GameObject TreePrefab { get => treePrefab; set => treePrefab = value; }
+    private Tree tree;
+    /// <summary>
+    /// Вид дерева
+    /// </summary>
+    public Tree Tree { get => tree; set => tree = value; }
 
     [SerializeField]
-    private float prevalence;
+    private float prevalence = 1;
     /// <summary>
-    /// Распространенность дерева, учитывающаяся при выборе дерева, которое
-    /// будет расположено в биоме на данном шаге. Допустимы любые положительные значения,
+    /// Распространенность дерева, учитывающаяся при выборе дерева для расстановки.
+    /// Допустимы любые положительные значения,
     /// чем больше, тем больше вероятность выбора данного дерева
     /// </summary>
     public float Prevalence { get => prevalence; set => prevalence = value; }

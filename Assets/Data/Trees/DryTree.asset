@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273d0d6bd97af054a954399b32fd00be, type: 3}
+  m_Name: DryTree
+  m_EditorClassIdentifier: 
+  treePrefabs:
+  - {fileID: 100000, guid: 9d4985571e43aac408db8aeda688503e, type: 3}
+  - {fileID: 100000, guid: 957ab4229070f7942965a3e0d5507385, type: 3}
+  - {fileID: 100000, guid: 825c43696a816b247ac7c0335aceed48, type: 3}
+  - {fileID: 100000, guid: c7add449d9cd20349baea26eb9ca4bcb, type: 3}
+  - {fileID: 100000, guid: 9258c7e79ffde2240ad0723849c5df0b, type: 3}
+  - {fileID: 100000, guid: 18f1d85f5b089094b8029cccfeb43123, type: 3}
+  - {fileID: 100000, guid: de5d536ef580c6f4ab44fdc6d8d688dc, type: 3}
+  - {fileID: 100000, guid: ff6bb6f672ea04347afccc823dbae5a9, type: 3}
+  - {fileID: 100000, guid: fdc960dba145a814b8134492c6dc734c, type: 3}

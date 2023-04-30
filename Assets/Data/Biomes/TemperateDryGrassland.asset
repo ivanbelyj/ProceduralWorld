@@ -19,4 +19,4 @@ MonoBehaviour:
   varietyMin: 0
   varietyMax: 1
   trees: []
-  treesDensity: 0.5
+  treesDensity: 0.15

@@ -18,5 +18,7 @@ MonoBehaviour:
   radiationMax: 1
   varietyMin: 0
   varietyMax: 1
-  trees: []
-  treesDensity: 0.5
+  trees:
+  - tree: {fileID: 11400000, guid: dc772365f9672f64b8a373e120a21e2c, type: 2}
+    prevalence: 1
+  treesDensity: 0.4

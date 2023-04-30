@@ -46,8 +46,8 @@ public class BiomesScheme : MonoBehaviour
     public uint GetBiomeId(float moisture, float temperature, float radiation, float variety)
     {
         // Определение позиции в матрице биомов на основе влажности и температуры
-        int x = Mathf.FloorToInt(moisture * (widthTemperature - 1));
-        int y = Mathf.FloorToInt(temperature * (heightMoisture - 1));
+        int x = Mathf.FloorToInt(temperature * (widthTemperature - 1));
+        int y = Mathf.FloorToInt(moisture * (heightMoisture - 1));
 
         // Определение цвета в позиции x, y в матрице биомов
         Color32 color = biomeMapColors[y * widthTemperature + x];

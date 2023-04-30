@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class FoliageGeneration : MonoBehaviour, IGenerationStage
 {
-    [SerializeField]
-    private GameObject[] treePrefabs;
+    /// <summary>
+    /// Значение, изменяющее сетку прохода по точкам чанка для расстановки деревьев.
+    /// 1, чтобы проход осуществлялся по каждой точке чанка (ресурсозатратно)
+    /// </summary>
+    private const float treeDensityModifier = 0.26f;
 
     [SerializeField]
     private BiomesScheme biomesScheme;
@@ -19,71 +22,144 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
 
     public ChunkData ProcessChunk(ChunkData chunkData)
     {
-        var terrainData = chunkData.TerrainData;
-
-        terrainData.treePrototypes = treePrefabs.Select(go => new TreePrototype() {
-            prefab = go
-        }).ToArray();
-
-        var trees = CreateTreeInstancesHalton(terrainData);
-                    // CreateTreeInstancesRandom(worldData, chunkData);
-        terrainData.SetTreeInstances(trees.ToArray(), true);
+        var prototypesAndInstances = CreateTreePrototypesAndInstances(worldData, chunkData);
+                    // CreateTreeInstancesHalton(terrainData);
+        chunkData.TerrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
+        chunkData.TerrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
         
         return chunkData;
     }
 
-    private List<TreeInstance> CreateTreeInstancesHalton(TerrainData terrainData) {
-        List<TreeInstance> res = new List<TreeInstance>();
+    // private List<TreeInstance> CreateTreeInstancesHalton(TerrainData terrainData) {
+    //     List<TreeInstance> res = new List<TreeInstance>();
 
-        var haltonX = new HaltonSequence(2);
-        var haltonZ = new HaltonSequence(3);
+    //     var haltonX = new HaltonSequence(2);
+    //     var haltonZ = new HaltonSequence(3);
 
-        for (int i = 0; i < 7; i++)
-        {
-            float x = (float)haltonX.Next();
-            float z = (float)haltonZ.Next();
-            Vector3 position = new Vector3(x, 0, z);
-            res.Add(CreateTreeInstance(position));
-        }
-        return res;
+    //     for (int i = 0; i < 7; i++)
+    //     {
+    //         float x = (float)haltonX.Next();
+    //         float z = (float)haltonZ.Next();
+    //         Vector3 position = new Vector3(x, 0, z);
+    //         res.Add(CreateTreeInstance(position));
+    //     }
+    //     return res;
+    // }
+
+    private Tree SelectTree(Biome biome, float moisture, float radiation) {
+        return biome.Trees.Length > 0 ? biome.Trees[0].Tree : null;
     }
-
+    
     /// <param name="position">Локальная позиция дерева на Terrain, в диапазоне [0, 1]</param>
-    private TreeInstance CreateTreeInstance(Vector3 position) {
-        TreeInstance tree = new TreeInstance();
+    private TreeInstance CreateTreeInstance(int prototypeIndex, Vector3 position,
+        float worldScale) {
+        TreeInstance treeInstance = new TreeInstance();
 
-        tree.position = position;
+        treeInstance.position = position;
 
-        tree.prototypeIndex = 0;
-        tree.widthScale = 1f;
-        tree.heightScale = 1f;
-        tree.color = Color.white;
-        tree.lightmapColor = Color.white;
+        treeInstance.prototypeIndex = prototypeIndex;
+        treeInstance.widthScale = 1f / worldScale;
+        treeInstance.heightScale = 1f / worldScale;
+        treeInstance.color = Color.white;
+        treeInstance.lightmapColor = Color.white;
 
-        return tree;
+        return treeInstance;
     }
 
-    private List<TreeInstance> CreateTreeInstancesRandom(WorldGenerationData worldData, ChunkData chunkData) {
-        var terrainData = chunkData.TerrainData;
-        var res = new List<TreeInstance>();
+    /// <summary>
+    /// Вероятность возникновения дерева в точке заданного биома с заданной
+    /// влажностью
+    /// </summary>    
+    private float TreeProbability(Biome biome, float moisture) {
+        return Mathf.Clamp01(biome.TreesDensity * moisture);
+        // Todo: разные виды деревьев и лесов по-разному воспринимают радиацию.
+        // Кроме того, радиация может не только снижать количество деревьев, но,
+        // например, влиять на распределение видов
+    }
+
+    private (List<TreePrototype>, List<TreeInstance>) CreateTreePrototypesAndInstances(
+        WorldGenerationData worldData, ChunkData chunkData) {
+        var instances = new List<TreeInstance>();
+        var prototypes = new List<TreePrototype>();
 
         System.Random rnd = new System.Random();
-        
-        for (int x = 0; x < worldData.ChunkResolution; x++)
+
+        float chunkSize = worldData.ChunkResolution;
+
+        // Проход осуществляется не по каждой точке чанка,
+        // а по сетке со скорректированным масштабом
+
+        // Половина ячейки сетки
+        const float treeCellHalfSize = 1 / treeDensityModifier / 2;
+        Debug.Log("Tree cell half size: " + treeCellHalfSize);
+
+        // Деревья, которые были посажены в чанке и уже добавлены в результирующий
+        // список прототипов, а также их будущие индексы прототипа (их много т.к. дерево
+        // может быть представлено множеством моделей)
+        Dictionary<Tree, int[]> treePrefabsInChunkAndProtIndexes
+            = new Dictionary<Tree, int[]>();
+
+        for (float x = 0; x < chunkSize; x += 1 / treeDensityModifier)
         {
-            for (int z = 0; z < worldData.ChunkResolution; z++)
+            for (float z = 0; z < chunkSize; z += 1 / treeDensityModifier)
             {
-                double fixingValue = rnd.NextDouble();
-                if (fixingValue < biomesScheme.GetBiomeById(chunkData.BiomeIds[z, x]).TreesDensity)
+                int biomeZ = Mathf.RoundToInt(z);
+                int biomeX = Mathf.RoundToInt(x);
+                Biome biome = biomesScheme.GetBiomeById(
+                    chunkData.BiomeIds[biomeZ, biomeX]);
+
+                float moisture = chunkData.Moisture[biomeZ, biomeX];
+                float radiation = chunkData.Radiation[biomeZ, biomeX];
+                
+                float treeProbability = TreeProbability(biome, moisture);
+                float fixingValue = (float)rnd.NextDouble();
+                if (fixingValue < treeProbability)
                 {
-                    var tree = CreateTreeInstance(new Vector3(x / terrainData.heightmapResolution,
-                        0, z / terrainData.heightmapResolution));
-                    res.Add(tree);
+                    // === Вычисление позиции дерева ===
+                    // Деревья размещаются в середине ячеек
+                    Vector3 gridTreePos = new Vector3(x + treeCellHalfSize, 0,
+                        z + treeCellHalfSize);
+
+                    // Сетка обхода при сильной модификации выглядит слишком квадратно,
+                    // поэтому каждое дерево смещается (максимум на длину одной ячейки)
+                    Vector3 offset = new Vector3(Random.value, 0, Random.value).normalized
+                        / treeDensityModifier;
+                    Vector3 treePos = (gridTreePos + offset) / chunkSize;
+
+                    // === Выбор дерева === 
+                    Tree tree = SelectTree(biome, moisture, radiation);
+                    // Но выбрать дерево недостаточно, нужно добавить прототип (если его еще не было)
+
+                    // === Создание прототипа (если не создан) ===
+                    if (tree != null && !treePrefabsInChunkAndProtIndexes.ContainsKey(tree)) {
+                        int[] treeVariantsIndexes = new int[tree.TreePrefabs.Length];
+                        
+                        // Все варианты моделей дерева добавляются как прототипы
+                        for (int i = 0; i < tree.TreePrefabs.Length; i++) {
+                            // Добавление результата
+                            prototypes.Add(new TreePrototype() {
+                                prefab = tree.TreePrefabs[i]
+                            });
+                            int protIndex = prototypes.Count - 1;
+                            // Индекс только что добавленного
+                            treeVariantsIndexes[i] = protIndex;
+                        }
+                        // По Tree доступен список индексов прототипов его вариантов
+                        treePrefabsInChunkAndProtIndexes.Add(tree, treeVariantsIndexes);
+                    }
+
+                    // === Создание TreeInstance ===
+                    if (tree != null) {
+                        int[] variantsProtIndexes = treePrefabsInChunkAndProtIndexes[tree];
+                        int rndIndex = rnd.Next(variantsProtIndexes.Length);
+                        var treeInstance = CreateTreeInstance(rndIndex, treePos, worldData.WorldScale);
+                        instances.Add(treeInstance);
+                    }
                 }
-                Debug.Log($"Foliage. x: {x}, z: {z}");
+                // Debug.Log($"Foliage. x: {x}, z: {z}");
             }
         }
 
-        return res;
+        return (prototypes, instances);
     }
 }
