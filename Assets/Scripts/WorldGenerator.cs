@@ -17,14 +17,16 @@ public class WorldGenerator : MonoBehaviour
     private BiomesGeneration biomesGeneration;
 
     [SerializeField]
-    private FoliageGeneration foliageGeneration;
+    private TreesGeneration foliageGeneration;
+
+    [SerializeField]
+    private DetailsGeneration detailsGeneration;
 
     /// <summary>
     /// Устанавливает исходные данные о мире перед тем, как генерировать чанки
     /// </summary>
     public void Initialize(WorldGenerationData wordData) {
         this.worldData = wordData;
-        // this.initialTerrainData = initialTerrainData;
 
         Random.InitState(wordData.Seed);
 
@@ -39,6 +41,7 @@ public class WorldGenerator : MonoBehaviour
         generationStages.Add(baseTerrainGeneration);
         generationStages.Add(biomesGeneration);
         generationStages.Add(foliageGeneration);
+        generationStages.Add(detailsGeneration);
 
         foreach(var stage in generationStages) {
             stage.Initialize(worldData);
@@ -67,7 +70,7 @@ public class WorldGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Создание изначальных данных ландшафта, которые далее будут переданы на обработку
+    /// Создание изначальных данных ландшафта, которые далее будут обрабатываться
     /// </summary>
     private TerrainData CreateInitialTerrainData() {
         return new TerrainData();

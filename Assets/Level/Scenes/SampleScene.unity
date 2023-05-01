@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -730,14 +730,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 22.5}
+  m_LocalRotation: {x: 0, y: 0.92387956, z: -0.38268343, w: 0}
+  m_LocalPosition: {x: 0, y: 200, z: 22.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 180, z: 0}
 --- !u!114 &1015633300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,6 +1192,7 @@ GameObject:
   - component: {fileID: 2086771715}
   - component: {fileID: 2086771714}
   - component: {fileID: 2086771711}
+  - component: {fileID: 2086771716}
   - component: {fileID: 2086771710}
   - component: {fileID: 2086771712}
   - component: {fileID: 2086771709}
@@ -1280,6 +1281,7 @@ MonoBehaviour:
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
   foliageGeneration: {fileID: 2086771711}
+  detailsGeneration: {fileID: 2086771716}
 --- !u!114 &2086771713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,6 +1369,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3db4719d58713c94684d922a18a1f0c9, type: 2}
   - {fileID: 11400000, guid: cf5287aea537c41458ff28afbfc90438, type: 2}
   - {fileID: 11400000, guid: 691e73ee61ae4ee4bb07c5cff1f608ac, type: 2}
+--- !u!114 &2086771716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086771707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35199402b2b203f4d8d250ded78a34b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grassTexture: {fileID: 2800000, guid: 25168a0547328904e84a0afe5131a7cf, type: 3}
 --- !u!114 &2129107195
 MonoBehaviour:
   m_ObjectHideFlags: 0

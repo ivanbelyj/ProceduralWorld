@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class FoliageGeneration : MonoBehaviour, IGenerationStage
+public class TreesGeneration : GenerationStage
 {
     /// <summary>
     /// Значение, изменяющее сетку прохода по точкам чанка для расстановки деревьев.
@@ -14,20 +14,19 @@ public class FoliageGeneration : MonoBehaviour, IGenerationStage
     [SerializeField]
     private BiomesScheme biomesScheme;
 
-    private WorldGenerationData worldData;
-
-    public void Initialize(WorldGenerationData worldGenerationData) {
-        worldData = worldGenerationData;
-    }
-
-    public ChunkData ProcessChunk(ChunkData chunkData)
+    public override ChunkData ProcessChunk(ChunkData chunkData)
     {
-        var prototypesAndInstances = CreateTreePrototypesAndInstances(worldData, chunkData);
-                    // CreateTreeInstancesHalton(terrainData);
-        chunkData.TerrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
-        chunkData.TerrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
+        CreateTrees(chunkData);
         
         return chunkData;
+    }
+
+    private void CreateTrees(ChunkData chunkData) {
+        TerrainData terrainData = chunkData.TerrainData;
+        var prototypesAndInstances = CreateTreePrototypesAndInstances(worldData, chunkData);
+                    // CreateTreeInstancesHalton(terrainData);
+        terrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
+        terrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
     }
 
     // private List<TreeInstance> CreateTreeInstancesHalton(TerrainData terrainData) {

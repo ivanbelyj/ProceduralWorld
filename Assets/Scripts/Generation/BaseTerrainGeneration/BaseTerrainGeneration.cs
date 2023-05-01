@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseTerrainGeneration : MonoBehaviour, IGenerationStage
+public class BaseTerrainGeneration : GenerationStage
 {
     [SerializeField]
     private NoiseData noiseData;
-    private WorldGenerationData worldData;
-    public void Initialize(WorldGenerationData worldGenerationData) {
-        worldData = worldGenerationData;
-    }
-    public ChunkData ProcessChunk(ChunkData chunkData)
+
+    public override ChunkData ProcessChunk(ChunkData chunkData)
     {
         int chunkRes = worldData.ChunkResolution;
 

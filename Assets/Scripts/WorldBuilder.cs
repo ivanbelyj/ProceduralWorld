@@ -44,13 +44,18 @@ public class WorldBuilder : MonoBehaviour
         var terrain = terrainGO.GetComponent<Terrain>();
         createdTerrains[chunkData.ChunkPosition] = terrain;
         
-        terrain.treeBillboardDistance = 1000;
-        UpdateNeighbors(chunkData.ChunkPosition);
+        ApplyTerrainSettings(terrain);
+        // UpdateNeighbors(chunkData.ChunkPosition);
         PaintTerrain(terrain);
 
         CreateSpriteMaps(chunkData);
 
         return terrainGO;
+    }
+
+    private void ApplyTerrainSettings(Terrain terrain) {
+        terrain.treeBillboardDistance = 1000;
+        terrain.detailObjectDistance = 250;
     }
 
     private void CreateSpriteMaps(ChunkData chunkData) {

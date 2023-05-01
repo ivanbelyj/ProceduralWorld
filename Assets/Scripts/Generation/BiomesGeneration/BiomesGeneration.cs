@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BiomesGeneration : MonoBehaviour, IGenerationStage
+public class BiomesGeneration : GenerationStage
 {
     private const int moistureSeedC = 1233;
     private const int temperatureSeedC = 7733;
@@ -37,15 +37,13 @@ public class BiomesGeneration : MonoBehaviour, IGenerationStage
     [SerializeField]
     private NoiseData varietyNoise;
 
-    private WorldGenerationData worldData;
-
-    public void Initialize(WorldGenerationData worldGenerationData)
+    public override void Initialize(WorldGenerationData worldGenerationData)
     {
-        worldData = worldGenerationData;
+        base.Initialize(worldGenerationData);
         biomesScheme.Initialize();
     }
 
-    public ChunkData ProcessChunk(ChunkData chunkData)
+    public override ChunkData ProcessChunk(ChunkData chunkData)
     {
         int heightsSize = worldData.ChunkResolution;
 
