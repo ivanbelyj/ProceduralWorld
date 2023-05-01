@@ -16,6 +16,7 @@ public class TreesGeneration : GenerationStage
 
     public override ChunkData ProcessChunk(ChunkData chunkData)
     {
+        chunkData = base.ProcessChunk(chunkData);
         CreateTrees(chunkData);
         
         return chunkData;
@@ -46,6 +47,10 @@ public class TreesGeneration : GenerationStage
     // }
 
     private Tree SelectTree(Biome biome, float moisture, float radiation) {
+        // int len = biome.Trees.Length;
+        // return len == 0 ? null : biome.Trees[Mathf.FloorToInt(
+        //     len * (float)randomForCurrentChunk.NextDouble())].Tree;
+        
         BiomeTree[] trees = biome.Trees;
 
         float totalPrevalence = trees.Sum(x => x.Prevalence);
@@ -94,8 +99,6 @@ public class TreesGeneration : GenerationStage
         var instances = new List<TreeInstance>();
         var prototypes = new List<TreePrototype>();
 
-        System.Random rnd = new System.Random();
-
         float chunkSize = worldData.ChunkResolution;
 
         // Проход осуществляется не по каждой точке чанка,
@@ -124,7 +127,8 @@ public class TreesGeneration : GenerationStage
                 float radiation = chunkData.Radiation[biomeZ, biomeX];
                 
                 float treeProbability = TreeProbability(biome, moisture);
-                float fixingValue = (float)rnd.NextDouble();
+
+                float fixingValue = (float)randomForCurrentChunk.NextDouble();
                 if (fixingValue < treeProbability)
                 {
                     // === Вычисление позиции дерева ===
@@ -134,7 +138,8 @@ public class TreesGeneration : GenerationStage
 
                     // Сетка обхода при сильной модификации выглядит слишком квадратно,
                     // поэтому каждое дерево смещается (максимум на длину одной ячейки)
-                    Vector3 offset = new Vector3(Random.value, 0, Random.value).normalized
+                    Vector3 offset = new Vector3((float)randomForCurrentChunk.NextDouble(),
+                        0, (float)randomForCurrentChunk.NextDouble()).normalized
                         / treeDensityModifier;
                     Vector3 treePos = (gridTreePos + offset) / chunkSize;
 
@@ -163,7 +168,7 @@ public class TreesGeneration : GenerationStage
                     // === Создание TreeInstance ===
                     if (tree != null) {
                         int[] variantsProtIndexes = treePrefabsInChunkAndProtIndexes[tree];
-                        int rndIndex = rnd.Next(variantsProtIndexes.Length);
+                        int rndIndex = randomForCurrentChunk.Next(variantsProtIndexes.Length);
                         var treeInstance = CreateTreeInstance(rndIndex, treePos, worldData.WorldScale);
                         instances.Add(treeInstance);
                     }

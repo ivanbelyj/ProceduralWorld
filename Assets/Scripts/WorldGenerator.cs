@@ -28,20 +28,20 @@ public class WorldGenerator : MonoBehaviour
     public void Initialize(WorldGenerationData wordData) {
         this.worldData = wordData;
 
-        Random.InitState(wordData.Seed);
-
-        generationStages = new List<IGenerationStage>();
-        AddGenerationStages();
+        // Random.InitState(wordData.Seed);
+        AddGenerationStages(worldData.Seed);
     }
 
     /// <summary>
     /// Добавление объектов, осуществляющих генерацию
     /// </summary>
-    private void AddGenerationStages() {
+    private void AddGenerationStages(int seed) {
+        generationStages = new List<IGenerationStage>();
+
         generationStages.Add(baseTerrainGeneration);
         generationStages.Add(biomesGeneration);
         generationStages.Add(foliageGeneration);
-        generationStages.Add(detailsGeneration);
+        // generationStages.Add(detailsGeneration);
 
         foreach(var stage in generationStages) {
             stage.Initialize(worldData);
