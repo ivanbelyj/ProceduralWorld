@@ -48,7 +48,8 @@ public class WorldBuilder : MonoBehaviour
         // UpdateNeighbors(chunkData.ChunkPosition);
         PaintTerrain(terrain);
 
-        CreateSpriteMaps(chunkData);
+        if (chunkData.BiomeIds != null)
+            CreateSpriteMaps(chunkData);
 
         return terrainGO;
     }

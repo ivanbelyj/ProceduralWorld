@@ -104,8 +104,13 @@ public class TreesGeneration : GenerationStage
         // Проход осуществляется не по каждой точке чанка,
         // а по сетке со скорректированным масштабом
 
+        // treeDensityModifier обычно принимает значения меньше 1 для укрупнения сетки
+        // и уменьшения количества проходов (оптимизация), а WorldScale больше 1 уменьшает сетку,
+        // чтобы деревья были рассажены корректно даже с учетом масштабирования
+        float gridModifier = treeDensityModifier * worldData.WorldScale;
+
         // Половина ячейки сетки
-        const float treeCellHalfSize = 1 / treeDensityModifier / 2;
+        float treeCellHalfSize = 1 / gridModifier / 2;
         Debug.Log("Tree cell half size: " + treeCellHalfSize);
 
         // Деревья, которые были посажены в чанке и уже добавлены в результирующий
@@ -114,12 +119,12 @@ public class TreesGeneration : GenerationStage
         Dictionary<Tree, int[]> treePrefabsInChunkAndProtIndexes
             = new Dictionary<Tree, int[]>();
 
-        for (float x = 0; x < chunkSize; x += 1 / treeDensityModifier)
+        for (float x = 0; x < chunkSize; x += 1 / gridModifier)
         {
-            for (float z = 0; z < chunkSize; z += 1 / treeDensityModifier)
+            for (float z = 0; z < chunkSize; z += 1 / gridModifier)
             {
-                int biomeZ = Mathf.RoundToInt(z);
-                int biomeX = Mathf.RoundToInt(x);
+                int biomeZ = Mathf.FloorToInt(z);
+                int biomeX = Mathf.FloorToInt(x);
                 Biome biome = biomesScheme.GetBiomeById(
                     chunkData.BiomeIds[biomeZ, biomeX]);
 
@@ -140,7 +145,7 @@ public class TreesGeneration : GenerationStage
                     // поэтому каждое дерево смещается (максимум на длину одной ячейки)
                     Vector3 offset = new Vector3((float)randomForCurrentChunk.NextDouble(),
                         0, (float)randomForCurrentChunk.NextDouble()).normalized
-                        / treeDensityModifier;
+                        / gridModifier;
                     Vector3 treePos = (gridTreePos + offset) / chunkSize;
 
                     // === Выбор дерева === 

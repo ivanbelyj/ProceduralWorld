@@ -5,10 +5,101 @@ using UnityEngine;
 /// </summary>
 public static class NoiseMapUtils
 {
+    public static float[,] GenerateNoiseMap(
+        NoiseData noiseData, int seed,
+        int width, int height, Vector2 offset, float scaleMultiplier = 1f) {
+        FastNoiseLite simplex = Simplex(noiseData, seed);
+        // FastNoiseLite ridged = Ridged(noiseData, seed);
+
+        float[,] noiseMap = new float[height, width];
+
+        float halfWidth = width / 2f;
+        float halfHeight = height / 2f;
+
+        // Проход по точкам карты высот
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                // Координаты для получения значения из шума
+                float noiseX = (x - halfWidth + offset.x) * noiseData.Scale * scaleMultiplier;
+                float noiseY = (y - halfHeight + offset.y) * noiseData.Scale * scaleMultiplier;
+
+                float noiseVal = To01(simplex.GetNoise(noiseX, noiseY));
+                noiseMap[y, x] = noiseVal * noiseVal;
+            }
+        }
+
+        return noiseMap;
+    }
+
+    private static FastNoiseLite Cellular(NoiseData noiseData, int seed) {
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
+        noise.SetSeed(seed);
+        // noise.SetFrequency(noiseData.Scale * scaleMultiplier);
+        noise.SetFrequency(0.01f);
+
+        noise.SetFractalType(FastNoiseLite.FractalType.PingPong);
+        noise.SetFractalOctaves(4);
+        noise.SetFractalLacunarity(2);
+        noise.SetFractalGain(0.9f);
+        noise.SetFractalWeightedStrength(0.7f);
+        noise.SetFractalPingPongStrength(3f);
+
+        noise.SetCellularDistanceFunction(FastNoiseLite.CellularDistanceFunction.Euclidean);
+        noise.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance2Add);
+        noise.SetCellularJitter(1f);
+
+        return noise;
+    }
+
+    private static FastNoiseLite Simplex(NoiseData noiseData, int seed) {
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noise.SetSeed(seed);
+        // noise.SetFrequency(noiseData.Scale * scaleMultiplier);
+        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise.SetFractalOctaves(noiseData.Octaves);
+        noise.SetFractalLacunarity(noiseData.Lacunarity);
+        noise.SetFractalGain(noiseData.Persistence);
+        return noise;
+    }
+
+    private static FastNoiseLite Ridged(NoiseData noiseData, int seed) {
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noise.SetSeed(seed);
+        // noise.SetFrequency(noiseData.Scale * scaleMultiplier);
+        noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
+        noise.SetFractalOctaves(noiseData.Octaves);
+        noise.SetFractalLacunarity(noiseData.Lacunarity);
+        noise.SetFractalGain(noiseData.Persistence);
+        return noise;
+    }
+
+    private static FastNoiseLite SimplexLow(NoiseData noiseData, int seed) {
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noise.SetSeed(seed);
+        noise.SetFrequency(0.008f);
+        // noise.SetFrequency(noiseData.Scale * scaleMultiplier);
+        noise.SetFractalType(FastNoiseLite.FractalType.None);
+        noise.SetFractalOctaves(1);
+        noise.SetFractalLacunarity(noiseData.Lacunarity);
+        noise.SetFractalGain(noiseData.Persistence);
+        return noise;
+    }
+
+    // [-1; 1] -> [0; 1]
+    private static float To01(float val) {
+        return (val + 1) / 2;
+    } 
+
     /// <summary>
     /// Генерирует карту шума с заданными параметрами
     /// </summary>
-    public static float[,] GenerateNoiseMap(
+    public static float[,] GenerateNoiseMapOld(
         NoiseData noiseData, int seed,
         int width, int height, Vector2 offset, float scaleMultiplier = 1f)
     {
@@ -68,6 +159,8 @@ public static class NoiseMapUtils
                                 noiseData.Scale * scaleMultiplier);
                         break;
                     }
+                    // Перераспределение
+                    generatedValue = Mathf.Pow(generatedValue, 3f);
 
                     // Наложение октав
                     noiseHeight += generatedValue * amplitude;
@@ -102,31 +195,4 @@ public static class NoiseMapUtils
     //     }
     //     return noise;
     // }
-
-    public static float[,] ToMatrix(float[] noiseMap, int mapSize) {
-        
-        float[,] res = new float[mapSize, mapSize];
-        // for (int i = 0; i < noiseMap.Length; i++) {
-        //     heights[i / mapSize, i % mapSize] = noiseMap[i];
-        // }
-        for (int y = 0; y < mapSize; y++) {
-            for (int x = 0; x < mapSize; x++) {
-                res[y, x] = noiseMap[y * mapSize + x];
-            }
-        }
-        return res;
-    }
-
-    public static float[] Flatten(float[,] matrix) {
-        int height = matrix.GetLength(0);
-        int width = matrix.GetLength(1);
-        float[] res = new float[height * width];
-        
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                res[y * width + x] = matrix[y, x];
-            }
-        }
-        return res;
-    }
 }

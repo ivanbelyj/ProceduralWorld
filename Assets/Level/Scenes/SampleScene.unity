@@ -1235,9 +1235,9 @@ MonoBehaviour:
   worldGenerationData:
     seed: 9900122
     chunkSize: 64
-    chunkHeight: 128
+    chunkHeight: 1024
     worldScale: 1
-  chunksRadius: 3
+  chunksRadius: 1
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1280,7 +1280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
-  foliageGeneration: {fileID: 2086771711}
+  treesGeneration: {fileID: 2086771711}
   detailsGeneration: {fileID: 2086771716}
 --- !u!114 &2086771713
 MonoBehaviour:
@@ -1296,10 +1296,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseData:
     noiseType: 1
-    octaves: 16
+    octaves: 8
     persistence: 0.5
     lacunarity: 2
-    scale: 0.0005
+    scale: 0.02
 --- !u!114 &2086771714
 MonoBehaviour:
   m_ObjectHideFlags: 0

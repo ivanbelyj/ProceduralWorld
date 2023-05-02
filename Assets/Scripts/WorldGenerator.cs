@@ -17,7 +17,7 @@ public class WorldGenerator : MonoBehaviour
     private BiomesGeneration biomesGeneration;
 
     [SerializeField]
-    private TreesGeneration foliageGeneration;
+    private TreesGeneration treesGeneration;
 
     [SerializeField]
     private DetailsGeneration detailsGeneration;
@@ -40,7 +40,7 @@ public class WorldGenerator : MonoBehaviour
 
         generationStages.Add(baseTerrainGeneration);
         generationStages.Add(biomesGeneration);
-        generationStages.Add(foliageGeneration);
+        generationStages.Add(treesGeneration);
         // generationStages.Add(detailsGeneration);
 
         foreach(var stage in generationStages) {
