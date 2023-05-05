@@ -27,4 +27,6 @@ MonoBehaviour:
     prevalence: 1
   - tree: {fileID: 11400000, guid: 9a2177a6d1f5b8d4db83a9e0e01a9de3, type: 2}
     prevalence: 1
+  - tree: {fileID: 11400000, guid: a2a7f0ee1d93a4a449479f14acff2383, type: 2}
+    prevalence: 1
   treesDensity: 0.4

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum NoiseType
 {
-    Perlin, Simplex
+    Perlin, Simplex, Ridged
 }

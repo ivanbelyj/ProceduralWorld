@@ -278,6 +278,7 @@ MonoBehaviour:
     persistence: 0.5
     lacunarity: 2
     scale: 0
+  noiseMapRenderer: {fileID: 0}
 --- !u!114 &274112591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,7 +291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d8d10c1cf177b40ba1856b4f4049e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainLevels: []
 --- !u!212 &274112592
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1233,10 +1233,10 @@ MonoBehaviour:
   worldGenerator: {fileID: 2086771712}
   worldBuilder: {fileID: 2086771710}
   worldGenerationData:
-    seed: 9900122
+    seed: 692
     chunkSize: 64
     chunkHeight: 1024
-    worldScale: 1
+    worldScale: 32
   chunksRadius: 1
 --- !u!114 &2086771710
 MonoBehaviour:
@@ -1296,10 +1296,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseData:
     noiseType: 1
-    octaves: 8
+    octaves: 16
     persistence: 0.5
     lacunarity: 2
     scale: 0.02
+    redistributionExtent: 3
+    seedModifier: 1313
 --- !u!114 &2086771714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,25 +1320,33 @@ MonoBehaviour:
     octaves: 2
     persistence: 0.5
     lacunarity: 2
-    scale: 0.0004
+    scale: 0.16
+    redistributionExtent: 1
+    seedModifier: 2331
   temperatureNoise:
     noiseType: 1
-    octaves: 1
+    octaves: 3
     persistence: 0.5
     lacunarity: 2
-    scale: 0.00004
+    scale: 0.04
+    redistributionExtent: 1
+    seedModifier: 91
   radiationNoise:
     noiseType: 1
     octaves: 1
     persistence: 0.5
     lacunarity: 2
-    scale: 0.0003
+    scale: 0.1
+    redistributionExtent: 1.2
+    seedModifier: 57
   varietyNoise:
     noiseType: 1
-    octaves: 3
+    octaves: 2
     persistence: 0.5
     lacunarity: 2
-    scale: 0.0008
+    scale: 0.2
+    redistributionExtent: 1
+    seedModifier: 413
 --- !u!114 &2086771715
 MonoBehaviour:
   m_ObjectHideFlags: 0

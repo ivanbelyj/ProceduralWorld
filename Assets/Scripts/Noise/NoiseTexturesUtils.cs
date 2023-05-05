@@ -37,32 +37,4 @@ public static class NoiseMapToTextureUtils
         }
         return colorMap;
     }
-
-    /// <summary>
-    /// Преобразует массив с данными о шуме в массив цветов, зависящих от высоты, для передачи в текстуру
-    /// </summary>
-    public static Color[] NoiseMapToColorMapByTerrainLevels(float[,] noiseMap,
-        IList<TerrainLevel> terrainLevels)
-    {
-        Color[] colorMap = new Color[noiseMap.Length];
-        int width = noiseMap.GetLength(0);
-        int height = noiseMap.GetLength(1);
-        for (int y = 0; y < width; y++)
-        {
-            for (int x = 0; x < height; x++) {
-                colorMap[y * width + x] = terrainLevels[terrainLevels.Count - 1].color;
-                foreach (var level in terrainLevels)
-                {
-                    // Если шум попадает в более низкий диапазон, то используем его
-                    if (noiseMap[y, x] < level.height)
-                    {
-                        colorMap[y * width + x] = level.color;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return colorMap;
-    }
 }
