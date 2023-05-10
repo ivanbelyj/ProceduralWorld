@@ -17,6 +17,8 @@ public class ChunkData
     /// </summary>
     public Dictionary<uint, float[,]> BiomeMasksById { get; set; }
 
+    public Terrain Terrain { get; set; }
+
     public ChunkData() {
         
     }

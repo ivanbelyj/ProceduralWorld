@@ -11,10 +11,6 @@ public class ChunkWorld : MonoBehaviour
     [SerializeField]
     private WorldGenerator worldGenerator;
 
-    // Создает игровые объекты чанков на сцене
-    [SerializeField]
-    private WorldBuilder worldBuilder;
-
     // Это поле сериализуется, а значит, может задаваться в окне inspector
     [SerializeField]
     private WorldGenerationData worldGenerationData;
@@ -26,7 +22,6 @@ public class ChunkWorld : MonoBehaviour
     private void Awake()
     {
         worldGenerator.Initialize(worldGenerationData);
-        worldBuilder.Initialize(worldGenerationData);
         
         // Создание мира n x n
         int n = chunksRadius - 1;
@@ -41,7 +36,6 @@ public class ChunkWorld : MonoBehaviour
     /// Генерирует чанк и создает на сцене GameObject
     /// </summary>
     private void GenerateAndCreateChunkGO(ChunkPosition pos) {
-        ChunkData chunkData = worldGenerator.GenerateChunk(pos);
-        worldBuilder.CreateChunkGO(chunkData);
+        ChunkData chunkData = worldGenerator.CreateChunk(pos);
     }
 }

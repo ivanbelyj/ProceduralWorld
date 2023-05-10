@@ -4,6 +4,13 @@ using UnityEngine;
 
 public abstract class GenerationStage : MonoBehaviour, IGenerationStage
 {
+    [SerializeField]
+    private bool includeInGeneration = true;
+    public bool IncludeInGeneration {
+        get => includeInGeneration;
+        set => includeInGeneration = value;
+    }
+
     protected WorldGenerationData worldData;
     /// <summary>
     /// Для обеспечения детерминированности генерации каждого чанка, для каждого из них

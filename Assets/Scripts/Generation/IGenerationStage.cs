@@ -16,4 +16,5 @@ public interface IGenerationStage
 {
     void Initialize(WorldGenerationData worldGenerationData);
     ChunkData ProcessChunk(ChunkData chunkData);
+    bool IncludeInGeneration { get; }
 }

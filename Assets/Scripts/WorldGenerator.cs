@@ -25,6 +25,16 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField]
     private DetailsGeneration detailsGeneration;
 
+    // Создает игровые объекты чанков на сцене
+    [SerializeField]
+    private WorldBuilder worldBuilder;
+
+    [SerializeField]
+    private Texturing texturing;
+
+    [SerializeField]
+    private DebugSpritesBuilder debugSpritesBuilder;
+
     /// <summary>
     /// Устанавливает исходные данные о мире перед тем, как генерировать чанки
     /// </summary>
@@ -44,7 +54,11 @@ public class WorldGenerator : MonoBehaviour
         generationStages.Add(biomesGeneration);
         generationStages.Add(biomesMasksGeneration);
         generationStages.Add(treesGeneration);
-        // generationStages.Add(detailsGeneration);
+        generationStages.Add(detailsGeneration);
+
+        generationStages.Add(worldBuilder);
+        generationStages.Add(texturing);
+        generationStages.Add(debugSpritesBuilder);
 
         foreach(var stage in generationStages) {
             stage.Initialize(worldData);
@@ -54,7 +68,7 @@ public class WorldGenerator : MonoBehaviour
     /// <summary>
     /// Генерирует данные чанка, расположенного по заданной позиции
     /// </summary>
-    public ChunkData GenerateChunk(ChunkPosition chunkPos) {
+    public ChunkData CreateChunk(ChunkPosition chunkPos) {
         if (generationStages.Count == 0)
             throw new System.InvalidOperationException(
                 "Generation stages must be set before chunk generation");
@@ -67,7 +81,8 @@ public class WorldGenerator : MonoBehaviour
 
         ChunkData lastProcessed = generationStages[0].ProcessChunk(initialChunkData);
         foreach (var stage in generationStages) {
-            lastProcessed = stage.ProcessChunk(lastProcessed);
+            if (stage.IncludeInGeneration)
+                lastProcessed = stage.ProcessChunk(lastProcessed);
         }
         return lastProcessed;
     }
