@@ -12,6 +12,11 @@ public class ChunkData
     public float[,] Variety { get; set; }
     public uint[,] BiomeIds { get; set; }
 
+    /// <summary>
+    /// Маски биомов чанка по id биомов. Используется, например, для текстурирования биомов
+    /// </summary>
+    public Dictionary<uint, float[,]> BiomeMasksById { get; set; }
+
     public ChunkData() {
         
     }

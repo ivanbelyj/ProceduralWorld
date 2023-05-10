@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using sc.terrain.proceduralpainter;
 using UnityEngine;
+using System.Linq;
 
+[RequireComponent(typeof(TerrainPainter))]
 public class TerrainPainterController : MonoBehaviour
 {
     private TerrainPainter terrainPainter;
@@ -24,8 +26,5 @@ public class TerrainPainterController : MonoBehaviour
         terrainPainter.RepaintAll();
     }
 
-    void Update()
-    {
-        
-    }
+    
 }

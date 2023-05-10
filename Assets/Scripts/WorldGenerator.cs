@@ -17,6 +17,9 @@ public class WorldGenerator : MonoBehaviour
     private BiomesGeneration biomesGeneration;
 
     [SerializeField]
+    private BiomesMasksGeneration biomesMasksGeneration;
+
+    [SerializeField]
     private TreesGeneration treesGeneration;
 
     [SerializeField]
@@ -28,7 +31,6 @@ public class WorldGenerator : MonoBehaviour
     public void Initialize(WorldGenerationData wordData) {
         this.worldData = wordData;
 
-        // Random.InitState(wordData.Seed);
         AddGenerationStages(worldData.Seed);
     }
 
@@ -40,6 +42,7 @@ public class WorldGenerator : MonoBehaviour
 
         generationStages.Add(baseTerrainGeneration);
         generationStages.Add(biomesGeneration);
+        generationStages.Add(biomesMasksGeneration);
         generationStages.Add(treesGeneration);
         // generationStages.Add(detailsGeneration);
 

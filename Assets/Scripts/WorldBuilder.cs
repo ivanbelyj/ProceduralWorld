@@ -21,6 +21,9 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField]
     private BiomesScheme biomesScheme;
 
+    [SerializeField]
+    private uint biomeIdToDisplayMaskForTest;
+
     private GameObject chunksParent;
     private GameObject noiseMapsParent;
 
@@ -45,7 +48,7 @@ public class WorldBuilder : MonoBehaviour
         createdTerrains[chunkData.ChunkPosition] = terrain;
         
         ApplyTerrainSettings(terrain);
-        // UpdateNeighbors(chunkData.ChunkPosition);
+        UpdateNeighbors(chunkData.ChunkPosition);
         PaintTerrain(terrain);
 
         if (chunkData.BiomeIds != null)
@@ -71,14 +74,29 @@ public class WorldBuilder : MonoBehaviour
         };
         float offset = 0;
         const float OFFSET_STEP = 5f;
+
+        // Отображение карты высот, температуры, влажности, радиации...
         foreach (var colorAndMap in colorsAndMaps) {
             Color[] colorMap = NoiseMapToTextureUtils.NoiseMapToColorMap(colorAndMap.Item2);
-            CreateSpriteMap(chunkData, colorMap, offset, colorAndMap.Item1);
-            offset += OFFSET_STEP;
+            CreateSpriteMap(chunkData, colorMap, NextOffset(), colorAndMap.Item1);
         }
 
+        // Отображение карты биомов
         Color[] biomesColorMap = BiomesMapToColorMap(chunkData.BiomeIds, chunkData.Variety);
-        CreateSpriteMap(chunkData, biomesColorMap, offset + OFFSET_STEP);
+        CreateSpriteMap(chunkData, biomesColorMap, NextOffset());
+
+        // Отображение маски одного из биомов (для теста)
+        if (chunkData.BiomeMasksById.ContainsKey(biomeIdToDisplayMaskForTest)) {
+            
+            float[,] biomeMask = chunkData.BiomeMasksById[biomeIdToDisplayMaskForTest];
+            
+            Color[] biomeMaskColors = NoiseMapToTextureUtils.NoiseMapToColorMap(biomeMask);
+            CreateSpriteMap(chunkData, biomeMaskColors, NextOffset(), Color.white);
+        }
+
+        float NextOffset() {
+            return offset += OFFSET_STEP;
+        }
     }
 
     private Color[] BiomesMapToColorMap(uint[,] biomesMap, float[,] variety) {
@@ -109,7 +127,7 @@ public class WorldBuilder : MonoBehaviour
         
         ChunkPosition cPos = chunkData.ChunkPosition;
         // Магическое число...
-        Vector3 pos = 0.65f * new Vector3(cPos.X, cPos.Z, zOffset);
+        Vector3 pos = 1.28f * new Vector3(cPos.X, cPos.Z, zOffset);
         
         GameObject spriteGO = Instantiate(mapPrefab, pos, Quaternion.identity);
         spriteGO.transform.SetParent(noiseMapsParent.transform);
