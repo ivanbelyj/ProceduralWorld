@@ -111,7 +111,6 @@ public class TreesGeneration : GenerationStage
 
         // Половина ячейки сетки
         float treeCellHalfSize = 1 / gridModifier / 2;
-        Debug.Log("Tree cell half size: " + treeCellHalfSize);
 
         // Деревья, которые были посажены в чанке и уже добавлены в результирующий
         // список прототипов, а также их будущие индексы прототипа (их много т.к. дерево

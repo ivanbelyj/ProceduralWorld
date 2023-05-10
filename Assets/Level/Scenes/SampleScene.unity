@@ -340,7 +340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &500848142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1330,10 +1330,10 @@ MonoBehaviour:
   worldGenerator: {fileID: 2086771712}
   worldGenerationData:
     seed: 11
-    chunkSize: 64
+    chunkSize: 128
     chunkHeight: 1024
     worldScale: 1
-  chunksRadius: 4
+  chunksRadius: 2
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1359,7 +1359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8fd97e0d16a3e40a3424c566014abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  includeInGeneration: 1
+  includeInGeneration: 0
   biomesScheme: {fileID: 2086771715}
 --- !u!114 &2086771712
 MonoBehaviour:
@@ -1373,6 +1373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12baf4a539e831e4c937af82ebcde5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showLogMessages: 0
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
   biomesMasksGeneration: {fileID: 2086771717}

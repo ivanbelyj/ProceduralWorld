@@ -11,6 +11,9 @@ public class WorldGenerator : MonoBehaviour
     private List<IGenerationStage> generationStages;
 
     [SerializeField]
+    private bool showLogMessages;
+
+    [SerializeField]
     private BaseTerrainGeneration baseTerrainGeneration;
 
     [SerializeField]
@@ -49,8 +52,9 @@ public class WorldGenerator : MonoBehaviour
     /// </summary>
     private void AddGenerationStages(int seed) {
         generationStages = new List<IGenerationStage>();
-
+        
         generationStages.Add(baseTerrainGeneration);
+
         generationStages.Add(biomesGeneration);
         generationStages.Add(biomesMasksGeneration);
         generationStages.Add(treesGeneration);
@@ -60,9 +64,15 @@ public class WorldGenerator : MonoBehaviour
         generationStages.Add(texturing);
         generationStages.Add(debugSpritesBuilder);
 
+        if (showLogMessages)
+            Debug.Log("Initializing WorldGenerator...");
+        float startTime = GetTime();
+
         foreach(var stage in generationStages) {
             stage.Initialize(worldData);
         }
+        if (showLogMessages)
+            Debug.Log($"Initialized. Elapsed: {GetTime() - startTime} ms");
     }
 
     /// <summary>
@@ -78,13 +88,37 @@ public class WorldGenerator : MonoBehaviour
             ChunkPosition = chunkPos,
             TerrainData = terrainData
         };
+        // Настройки чанка
+        // Todo: разобраться с волшебством
+        // initialChunkData.TerrainData.size = new Vector3(worldData.ChunkSize,
+        //     worldData.ChunkHeight / worldData.WorldScale, worldData.ChunkSize);
+        // initialChunkData.TerrainData.heightmapResolution = worldData.ChunkResolution;
 
-        ChunkData lastProcessed = generationStages[0].ProcessChunk(initialChunkData);
+        if (showLogMessages)
+            Debug.Log($"Creating chunk {chunkPos}...");
+        float totalStartTime = GetTime();
+
+        ChunkData lastProcessed = initialChunkData;
         foreach (var stage in generationStages) {
-            if (stage.IncludeInGeneration)
+            if (stage.IncludeInGeneration) {
+                if (showLogMessages)
+                    Debug.Log($"Stage {stage.StageName}");
+                
+                float startTime = GetTime();
+
                 lastProcessed = stage.ProcessChunk(lastProcessed);
+
+                if (showLogMessages)
+                    Debug.Log($"Stage {stage.StageName} completed. Elapsed: {GetTime() - startTime} ms");
+            }
         }
+        if (showLogMessages)
+            Debug.Log($"Chunk {chunkPos} created. Elapsed: {GetTime() - totalStartTime} ms");
         return lastProcessed;
+    }
+
+    private float GetTime() {
+        return Time.realtimeSinceStartup * 1000;
     }
 
     /// <summary>

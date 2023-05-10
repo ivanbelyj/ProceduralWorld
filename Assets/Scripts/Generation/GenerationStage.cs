@@ -11,6 +11,17 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
         set => includeInGeneration = value;
     }
 
+    private string stageName;
+
+    public string StageName {
+        get {
+            if (stageName == null) {
+                stageName = GetType().Name;
+            }
+            return stageName;
+        }
+    }
+
     protected WorldGenerationData worldData;
     /// <summary>
     /// Для обеспечения детерминированности генерации каждого чанка, для каждого из них

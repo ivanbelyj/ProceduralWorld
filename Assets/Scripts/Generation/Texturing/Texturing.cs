@@ -10,18 +10,8 @@ public class Texturing : GenerationStage
     public override ChunkData ProcessChunk(ChunkData chunkData)
     {
         chunkData = base.ProcessChunk(chunkData);
-
-        // TerrainPainter может быть выключен в редакторе,
-        // чтобы после остановки игры не появлялась ошибка
-        // MissingReferenceException самого ассета
-        bool togglePainter = !terrainPainterController.gameObject.activeSelf;
-        if (togglePainter)
-            terrainPainterController.gameObject.SetActive(true);
         
         PaintTerrain(chunkData.Terrain);
-
-        if (togglePainter)
-            terrainPainterController.gameObject.SetActive(false);
         
         return chunkData;
     }

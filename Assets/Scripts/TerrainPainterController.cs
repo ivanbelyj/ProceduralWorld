@@ -18,7 +18,6 @@ public class TerrainPainterController : MonoBehaviour
     }
 
     public void Repaint(Terrain terrain) {
-        Debug.Log("Repaint terrain " + terrain.name);
         terrainPainter.RepaintTerrain(terrain);
     }
 

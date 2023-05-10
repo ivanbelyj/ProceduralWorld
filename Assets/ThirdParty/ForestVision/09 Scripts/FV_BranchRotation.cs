@@ -79,7 +79,7 @@ public class FV_BranchRotation : MonoBehaviour {
 	void Start(){
 		
 		//generate unique seed value from this branch position
-		Random.seed = Mathf.RoundToInt(transform.localPosition.x);
+		Random.InitState(Mathf.RoundToInt(transform.localPosition.x));
 
 		//offset orignal period by a little
 		X_Period = X_Period + Random.Range(0.005f, 0.009f); 

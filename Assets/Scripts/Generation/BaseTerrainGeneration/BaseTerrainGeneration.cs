@@ -9,6 +9,8 @@ public class BaseTerrainGeneration : GenerationStage
 
     public override ChunkData ProcessChunk(ChunkData chunkData)
     {
+        chunkData = base.ProcessChunk(chunkData);
+
         int chunkRes = worldData.ChunkResolution;
 
         // Создание карты шума в виде массива
@@ -20,12 +22,24 @@ public class BaseTerrainGeneration : GenerationStage
             chunkRes, chunkRes, noiseOffset, worldData.WorldScale);
 
         // Применение карты высот и настроек к TerrainData
-        chunkData.TerrainData.size = new Vector3(worldData.ChunkSize,
+        Vector3 terrainSize = new Vector3(worldData.ChunkSize,
             worldData.ChunkHeight / worldData.WorldScale, worldData.ChunkSize);
         
+        /// ===================================
+        // ВНИМАНИЕ! МИНУТКА ВОЛШЕБСТВА
+        // Попробуйте убрать один из этих абсолютно идентичных блоков
+        // и посмотрите, как неведомые силы изменят рельеф
+        chunkData.TerrainData.size = terrainSize;
         chunkData.TerrainData.heightmapResolution = chunkRes;
+
+        chunkData.TerrainData.size = terrainSize;
+        chunkData.TerrainData.heightmapResolution = chunkRes;
+        // Спустя часы поисков проблемы удалось свести к этим волшебным строчкам,
+        // но истинные причины навсегда останутся в темных недрах Unity...
+        /// ====================================
+
         chunkData.TerrainData.SetHeights(0, 0, heights);
-        
+
         return chunkData;
     }
 }

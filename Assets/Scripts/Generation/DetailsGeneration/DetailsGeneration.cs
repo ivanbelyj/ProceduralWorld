@@ -11,6 +11,8 @@ public class DetailsGeneration : GenerationStage
 
     public override ChunkData ProcessChunk(ChunkData chunkData)
     {
+        chunkData = base.ProcessChunk(chunkData);
+        
         chunkData.TerrainData.SetDetailResolution(worldData.ChunkSize * detailDensityMultiplier,
             worldData.ChunkSize * detailDensityMultiplier);
         CreateDetails(chunkData);

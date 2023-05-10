@@ -45,6 +45,7 @@ public class BiomesGeneration : GenerationStage
 
     public override ChunkData ProcessChunk(ChunkData chunkData)
     {
+        chunkData = base.ProcessChunk(chunkData);
         int heightsSize = worldData.ChunkResolution;
 
         var noiseOffset = new Vector2(chunkData.ChunkPosition.X * worldData.ChunkSize,

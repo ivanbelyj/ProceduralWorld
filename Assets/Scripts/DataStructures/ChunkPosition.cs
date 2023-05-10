@@ -26,6 +26,6 @@ public struct ChunkPosition
 
     public override string ToString()
     {
-        return $"{X}, {Z}";
+        return $"({X}, {Z})";
     }
 }

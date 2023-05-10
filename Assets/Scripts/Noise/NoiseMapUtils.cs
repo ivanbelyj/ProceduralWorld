@@ -23,7 +23,7 @@ public static class NoiseMapUtils
                 fastNoiseLite = Simplex(noiseData);
                 break;
             case NoiseType.Perlin:
-                fastNoiseLite = Simplex(noiseData);  // Todo
+                fastNoiseLite = Simplex(noiseData);  // Todo: Perlin noise
                 break;
             case NoiseType.Ridged:
                 fastNoiseLite = Ridged(noiseData);

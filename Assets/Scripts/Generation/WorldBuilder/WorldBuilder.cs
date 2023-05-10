@@ -33,6 +33,7 @@ public class WorldBuilder : GenerationStage
     /// </summary>
     public GameObject CreateChunkGO(ChunkData chunkData) {
         GameObject terrainGO = Terrain.CreateTerrainGameObject(chunkData.TerrainData);
+        terrainGO.name = chunkData.ChunkPosition.ToString();
         terrainGO.transform.SetParent(chunksParent.transform);
         terrainGO.transform.position = new Vector3(worldData.ChunkSize * chunkData.ChunkPosition.X, 0,
             worldData.ChunkSize * chunkData.ChunkPosition.Z);
@@ -57,8 +58,6 @@ public class WorldBuilder : GenerationStage
     /// но и его соседей
     /// </summary>
     private void UpdateNeighbors(ChunkPosition cPos, bool setForNeighbors = true) {
-        if (setForNeighbors)
-            Debug.Log("Обновление соседей для " + cPos);
         // Установка соседей
         Terrain terrain = createdTerrains[cPos];
         
