@@ -333,7 +333,6 @@ GameObject:
   m_Component:
   - component: {fileID: 500848144}
   - component: {fileID: 500848143}
-  - component: {fileID: 500848142}
   m_Layer: 0
   m_Name: TerrainPainter3
   m_TagString: Untagged
@@ -341,18 +340,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &500848142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 500848141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b57323df243b96745acbe59ae0fbde02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &500848143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +399,7 @@ MonoBehaviour:
     - {fileID: 1015633300}
     - {fileID: 1271768437}
     - {fileID: 154125547}
-  - enabled: 1
+  - enabled: 0
     layer: {fileID: 8574412962073106934, guid: a026f67c6452bb7488422ec75c67c660, type: 2}
     modifierStack:
     - {fileID: 1316543926}
@@ -1333,7 +1320,7 @@ MonoBehaviour:
     chunkSize: 128
     chunkHeight: 1024
     worldScale: 1
-  chunksRadius: 2
+  chunksRadius: 3
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1521,7 +1508,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInGeneration: 1
-  terrainPainterController: {fileID: 500848142}
+  testBiomeId: 15
+  testTerrainLayer: {fileID: 8574412962073106934, guid: 9a73362259799e748b5f32ee4d5b9f54, type: 2}
+  terrainPainter: {fileID: 500848143}
 --- !u!114 &2086771719
 MonoBehaviour:
   m_ObjectHideFlags: 0
