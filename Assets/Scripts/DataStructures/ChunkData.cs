@@ -17,6 +17,9 @@ public class ChunkData
     /// </summary>
     public Dictionary<uint, float[,]> BiomeMasksById { get; set; }
 
+    // Todo: delete
+    public float[,] TestInterpolatedBiomeMask { get; set; }
+
     public Terrain Terrain { get; set; }
 
     public ChunkData() {

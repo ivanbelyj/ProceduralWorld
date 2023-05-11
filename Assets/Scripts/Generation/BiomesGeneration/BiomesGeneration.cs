@@ -23,7 +23,7 @@ public class BiomesGeneration : GenerationStage
     private const float radiationDissipationByDryness = 0.5f;
 
     [SerializeField]
-    private BiomesScheme biomesScheme;
+    private BiomesManager biomesManager;
 
     [SerializeField]
     private NoiseData moistureNoise;
@@ -40,7 +40,7 @@ public class BiomesGeneration : GenerationStage
     public override void Initialize(WorldGenerationData worldGenerationData)
     {
         base.Initialize(worldGenerationData);
-        biomesScheme.Initialize();
+        biomesManager.Initialize();
     }
 
     public override ChunkData ProcessChunk(ChunkData chunkData)
@@ -81,7 +81,7 @@ public class BiomesGeneration : GenerationStage
         uint[,] biomes = new uint[heightsSize, heightsSize];
         for (int y = 0; y < heightsSize; y++) {
             for (int x = 0; x < heightsSize; x++) {
-                biomes[y, x] = biomesScheme.GetBiomeId(moisture[y, x], temperatureOnHeights[y, x],
+                biomes[y, x] = biomesManager.GetBiomeId(moisture[y, x], temperatureOnHeights[y, x],
                     radiation[y, x], variety[y, x]);
             }
         }

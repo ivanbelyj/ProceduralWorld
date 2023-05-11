@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using sc.terrain.proceduralpainter;
 using UnityEngine;
 
 /// <summary>
@@ -54,4 +55,12 @@ public class Biome : ScriptableObject
     /// Плотность рассадки деревьев. Значение от 0 до 1 включительно
     /// </summary>
     public float TreesDensity { get => treesDensity; set => treesDensity = value; }
+
+    [SerializeField]
+    private LayerSettings[] layerSettings;
+
+    /// <summary>
+    /// Слои текстурирования ландшафта, специфичные для данного биома
+    /// </summary>
+    public LayerSettings[] LayerSettings { get => layerSettings; set => layerSettings = value; }
 }

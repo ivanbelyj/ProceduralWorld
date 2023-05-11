@@ -12,7 +12,7 @@ public class TreesGeneration : GenerationStage
     private const float treeDensityModifier = 0.4f;
 
     [SerializeField]
-    private BiomesScheme biomesScheme;
+    private BiomesManager biomesManager;
 
     public override ChunkData ProcessChunk(ChunkData chunkData)
     {
@@ -124,7 +124,7 @@ public class TreesGeneration : GenerationStage
             {
                 int biomeZ = Mathf.FloorToInt(z);
                 int biomeX = Mathf.FloorToInt(x);
-                Biome biome = biomesScheme.GetBiomeById(
+                Biome biome = biomesManager.GetBiomeById(
                     chunkData.BiomeIds[biomeZ, biomeX]);
 
                 float moisture = chunkData.Moisture[biomeZ, biomeX];

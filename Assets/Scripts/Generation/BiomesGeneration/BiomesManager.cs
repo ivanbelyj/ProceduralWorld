@@ -6,7 +6,7 @@ using UnityEngine;
 /// Имеет доступ к списку существующих биомов и классифицирующей схеме, позволяет
 /// классифицировать тип биома по передаваемым параметрам
 /// </summary>
-public class BiomesScheme : MonoBehaviour
+public class BiomesManager : MonoBehaviour
 {
     [SerializeField]
     private Texture2D biomeSchemeImage;  // Изображение с матрицей классификации биомов

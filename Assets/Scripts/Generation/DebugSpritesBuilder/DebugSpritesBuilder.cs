@@ -8,7 +8,7 @@ public class DebugSpritesBuilder : GenerationStage
     private GameObject mapPrefab;
 
     [SerializeField]
-    private BiomesScheme biomesScheme;
+    private BiomesManager biomesManager;
 
     [SerializeField]
     private uint biomeIdToDisplayMaskForTest;
@@ -60,6 +60,15 @@ public class DebugSpritesBuilder : GenerationStage
             CreateSpriteMap(chunkData, biomeMaskColors, NextOffset(), Color.white);
         }
 
+        // Интерполированная маска биома
+        float[,] interpolatedMask = chunkData.TestInterpolatedBiomeMask;
+        
+        if (interpolatedMask != null) {
+            Color[] interpolatedColors = NoiseMapToTextureUtils.NoiseMapToColorMap(interpolatedMask);
+            CreateSpriteMap(chunkData, interpolatedColors, NextOffset(), Color.white);
+        }
+        
+
         float NextOffset() {
             return offset += OFFSET_STEP;
         }
@@ -71,7 +80,7 @@ public class DebugSpritesBuilder : GenerationStage
         Color[] res = new Color[width * height];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Biome biome = biomesScheme.GetBiomeById(biomesMap[y, x]);
+                Biome biome = biomesManager.GetBiomeById(biomesMap[y, x]);
                 // res[y * width + x] = Color.Lerp(Color.black, biome.GroupColor,
                 //     variety[y, x]);
                 res[y * width + x] = biome.GroupColor;

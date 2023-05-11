@@ -1320,7 +1320,7 @@ MonoBehaviour:
     chunkSize: 128
     chunkHeight: 1024
     worldScale: 1
-  chunksRadius: 3
+  chunksRadius: 2
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1347,7 +1347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInGeneration: 0
-  biomesScheme: {fileID: 2086771715}
+  biomesManager: {fileID: 2086771715}
 --- !u!114 &2086771712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,7 +1360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12baf4a539e831e4c937af82ebcde5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showLogMessages: 0
+  showLogMessages: 1
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
   biomesMasksGeneration: {fileID: 2086771717}
@@ -1403,7 +1403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInGeneration: 1
-  biomesScheme: {fileID: 2086771715}
+  biomesManager: {fileID: 2086771715}
   moistureNoise:
     noiseType: 1
     octaves: 2
@@ -1508,9 +1508,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInGeneration: 1
-  testBiomeId: 15
-  testTerrainLayer: {fileID: 8574412962073106934, guid: 9a73362259799e748b5f32ee4d5b9f54, type: 2}
+  scaleFactor: 3
+  fadeWidth: 4
   terrainPainter: {fileID: 500848143}
+  biomesManager: {fileID: 2086771715}
 --- !u!114 &2086771719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1525,7 +1526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   includeInGeneration: 1
   mapPrefab: {fileID: 1169464040882109418, guid: 4dd83e91a86af364f965344c9bc6055e, type: 3}
-  biomesScheme: {fileID: 2086771715}
+  biomesManager: {fileID: 2086771715}
   biomeIdToDisplayMaskForTest: 15
 --- !u!114 &2113076000
 MonoBehaviour:
