@@ -1334,7 +1334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldGenerator: {fileID: 2086771712}
   worldGenerationData:
-    seed: 743
+    seed: 999999
     chunkSize: 128
     chunkHeight: 1024
     worldScale: 1
