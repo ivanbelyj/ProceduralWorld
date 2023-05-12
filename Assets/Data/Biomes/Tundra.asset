@@ -20,3 +20,4 @@ MonoBehaviour:
   varietyMax: 1
   trees: []
   treesDensity: 0.05
+  layerSettings: []

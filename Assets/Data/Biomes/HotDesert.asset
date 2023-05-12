@@ -20,3 +20,7 @@ MonoBehaviour:
   varietyMax: 1
   trees: []
   treesDensity: 0
+  layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: 9a73362259799e748b5f32ee4d5b9f54, type: 2}
+    modifierStack: []

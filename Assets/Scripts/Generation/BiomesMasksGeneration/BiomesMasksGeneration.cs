@@ -7,7 +7,7 @@ public class BiomesMasksGeneration : GenerationStage
     public override ChunkData ProcessChunk(ChunkData chunkData)
     {
         chunkData = base.ProcessChunk(chunkData);
-        chunkData.BiomeMasksById = GetBiomeMasksForIds(chunkData.BiomeIds);
+        chunkData.BiomeMaskById = GetBiomeMasksForIds(chunkData.BiomeIds);
         return chunkData;
     }
 

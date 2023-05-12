@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Позиция чанка в бесконечном мире относительно начала мира (чанк (0, 0))
 /// </summary>
-public struct ChunkPosition
+public struct ChunkPosition : IEquatable<ChunkPosition>
 {
 
     public int X { get; private set; }
@@ -27,5 +28,25 @@ public struct ChunkPosition
     public override string ToString()
     {
         return $"({X}, {Z})";
+    }
+
+    public override bool Equals(object other) {
+        if (other is ChunkPosition chunkPos) {
+            return Equals(chunkPos);
+        } else
+            return false;
+    }
+
+    public bool Equals(ChunkPosition other)
+    {
+        return this.X == other.X && this.Z == other.Z;
+    }
+
+    public static bool operator==(ChunkPosition pos1, ChunkPosition pos2) {
+        return pos1.Equals(pos2);
+    }
+
+    public static bool operator!=(ChunkPosition pos1, ChunkPosition pos2) {
+        return !pos1.Equals(pos2);
     }
 }

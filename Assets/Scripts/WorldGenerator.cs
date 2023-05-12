@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -88,11 +89,6 @@ public class WorldGenerator : MonoBehaviour
             ChunkPosition = chunkPos,
             TerrainData = terrainData
         };
-        // Настройки чанка
-        // Todo: разобраться с волшебством
-        // initialChunkData.TerrainData.size = new Vector3(worldData.ChunkSize,
-        //     worldData.ChunkHeight / worldData.WorldScale, worldData.ChunkSize);
-        // initialChunkData.TerrainData.heightmapResolution = worldData.ChunkResolution;
 
         if (showLogMessages)
             Debug.Log($"Creating chunk {chunkPos}...");
@@ -112,6 +108,7 @@ public class WorldGenerator : MonoBehaviour
                     Debug.Log($"Stage {stage.StageName} completed. Elapsed: {GetTime() - startTime} ms");
             }
         }
+
         if (showLogMessages)
             Debug.Log($"Chunk {chunkPos} created. Elapsed: {GetTime() - totalStartTime} ms");
         return lastProcessed;

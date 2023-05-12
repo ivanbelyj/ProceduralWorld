@@ -30,3 +30,7 @@ MonoBehaviour:
   - tree: {fileID: 11400000, guid: dc772365f9672f64b8a373e120a21e2c, type: 2}
     prevalence: 1
   treesDensity: 0
+  layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: b74ca3ccab646fc4781e1b2373413853, type: 2}
+    modifierStack: []

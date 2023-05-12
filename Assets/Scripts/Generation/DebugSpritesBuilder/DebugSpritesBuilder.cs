@@ -52,16 +52,16 @@ public class DebugSpritesBuilder : GenerationStage
         CreateSpriteMap(chunkData, biomesColorMap, NextOffset());
 
         // Отображение маски одного из биомов (для теста)
-        if (chunkData.BiomeMasksById.ContainsKey(biomeIdToDisplayMaskForTest)) {
+        if (chunkData.BiomeMaskById.ContainsKey(biomeIdToDisplayMaskForTest)) {
             
-            float[,] biomeMask = chunkData.BiomeMasksById[biomeIdToDisplayMaskForTest];
+            float[,] biomeMask = chunkData.BiomeMaskById[biomeIdToDisplayMaskForTest];
             
             Color[] biomeMaskColors = NoiseMapToTextureUtils.NoiseMapToColorMap(biomeMask);
             CreateSpriteMap(chunkData, biomeMaskColors, NextOffset(), Color.white);
         }
 
         // Интерполированная маска биома
-        float[,] interpolatedMask = chunkData.TestInterpolatedBiomeMask;
+        float[,] interpolatedMask = chunkData.InterpolatedBiomeMask;
         
         if (interpolatedMask != null) {
             Color[] interpolatedColors = NoiseMapToTextureUtils.NoiseMapToColorMap(interpolatedMask);

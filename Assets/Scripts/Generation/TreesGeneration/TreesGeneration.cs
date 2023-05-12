@@ -25,26 +25,9 @@ public class TreesGeneration : GenerationStage
     private void CreateTrees(ChunkData chunkData) {
         TerrainData terrainData = chunkData.TerrainData;
         var prototypesAndInstances = CreateTreePrototypesAndInstances(worldData, chunkData);
-                    // CreateTreeInstancesHalton(terrainData);
         terrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
         terrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
     }
-
-    // private List<TreeInstance> CreateTreeInstancesHalton(TerrainData terrainData) {
-    //     List<TreeInstance> res = new List<TreeInstance>();
-
-    //     var haltonX = new HaltonSequence(2);
-    //     var haltonZ = new HaltonSequence(3);
-
-    //     for (int i = 0; i < 7; i++)
-    //     {
-    //         float x = (float)haltonX.Next();
-    //         float z = (float)haltonZ.Next();
-    //         Vector3 position = new Vector3(x, 0, z);
-    //         res.Add(CreateTreeInstance(position));
-    //     }
-    //     return res;
-    // }
 
     private Tree SelectTree(Biome biome, float moisture, float radiation) {
         // int len = biome.Trees.Length;

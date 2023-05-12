@@ -15,10 +15,12 @@ public class ChunkData
     /// <summary>
     /// Маски биомов чанка по id биомов. Используется, например, для текстурирования биомов
     /// </summary>
-    public Dictionary<uint, float[,]> BiomeMasksById { get; set; }
+    public Dictionary<uint, float[,]> BiomeMaskById { get; set; }
 
-    // Todo: delete
-    public float[,] TestInterpolatedBiomeMask { get; set; }
+    // Необходимо для отображения одной из карт интерполированной маски биома
+    // для наглядности при разработке
+    // Todo: хранить здесь карты всех биомов
+    public float[,] InterpolatedBiomeMask { get; set; }
 
     public Terrain Terrain { get; set; }
 

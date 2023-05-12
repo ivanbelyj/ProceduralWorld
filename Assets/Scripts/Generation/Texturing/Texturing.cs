@@ -15,9 +15,6 @@ public class Texturing : GenerationStage
     private int scaleFactor;
 
     [SerializeField]
-    private float fadeWidth;
-
-    [SerializeField]
     private TerrainPainter terrainPainter;
 
     [SerializeField]
@@ -30,7 +27,7 @@ public class Texturing : GenerationStage
         chunkData = base.ProcessChunk(chunkData);
 
         // Добавление слоев, специфичных для биомов чанка
-        foreach (var biomeIdAndMask in chunkData.BiomeMasksById) {
+        foreach (var biomeIdAndMask in chunkData.BiomeMaskById) {
             Biome biome = biomesManager.GetBiomeById(biomeIdAndMask.Key);
             if (biome == null)
                 Debug.LogError("Unknown biome");
@@ -38,7 +35,7 @@ public class Texturing : GenerationStage
                 continue;
 
             float[,] interpolatedMask = InterpolateBiomeMask(biomeIdAndMask.Value);
-            chunkData.TestInterpolatedBiomeMask = interpolatedMask;
+            chunkData.InterpolatedBiomeMask = interpolatedMask;
             
             Debug.Log($"Adding layer settings for biome {biome.BiomeId} of chunk {chunkData.ChunkPosition}");
             AddBiomeLayerSettings(biome, BiomeMaskToTexture2D(interpolatedMask));    
@@ -55,8 +52,8 @@ public class Texturing : GenerationStage
 
     // Интерполяция и сглаживание маски биома для нормального вида в игре
     private float[,] InterpolateBiomeMask(float[,] biomeMask) {
-        // float[,] interpolatedMask = MatrixProcessingUtils.InterpolateBilinear(
-        //     biomeMask, k);
+        float[,] interpolatedMask = MatrixProcessingUtils.InterpolateBilinear(
+            biomeMask, scaleFactor);
         // float[,] smoothedMask = MatrixProcessingUtils.BlurLinear(
         //     interpolatedMask, fadeWidth
         // );

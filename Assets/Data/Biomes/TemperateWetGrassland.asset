@@ -21,6 +21,6 @@ MonoBehaviour:
   trees: []
   treesDensity: 0.23
   layerSettings:
-  - enabled: 0
-    layer: {fileID: 8574412962073106934, guid: d50bb24e1550c3c4cbc7630940c8269e, type: 2}
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: cdea734f1edb3164e9017746ccdc955d, type: 2}
     modifierStack: []
