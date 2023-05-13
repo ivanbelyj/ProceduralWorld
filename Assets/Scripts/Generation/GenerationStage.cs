@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class GenerationStage : MonoBehaviour, IGenerationStage
 {
+    [SerializeField]
+    protected IDispatcher dispatcher;
+
     [SerializeField]
     private bool includeInGeneration = true;
     public bool IncludeInGeneration {
@@ -30,16 +34,18 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
     /// </summary>
     protected System.Random randomForCurrentChunk;
     
-    public virtual void Initialize(WorldGenerationData worldGenerationData)
+    public virtual void Initialize(WorldGenerationData worldGenerationData, IDispatcher dispatcher)
     {
         worldData = worldGenerationData;
+        this.dispatcher = dispatcher;
     }
 
-    public virtual ChunkData ProcessChunk(ChunkData chunkData) {
+    public async virtual Task<ChunkData> ProcessChunk(ChunkData chunkData) {
         ChunkPosition cPos = chunkData.ChunkPosition;
         int seedForChunk = unchecked(((cPos.X << 16) | cPos.Z) * worldData.Seed);
         randomForCurrentChunk = new System.Random(seedForChunk);
-        Random.InitState(seedForChunk * 61);
+
+        dispatcher.Enqueue(() => Random.InitState(seedForChunk * 61));
         
         return chunkData;
     }

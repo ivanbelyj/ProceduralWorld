@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class DetailsGeneration : GenerationStage
@@ -9,30 +10,34 @@ public class DetailsGeneration : GenerationStage
     [SerializeField]
     private Texture2D grassTexture;
 
-    public override ChunkData ProcessChunk(ChunkData chunkData)
+    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = base.ProcessChunk(chunkData);
+        chunkData = await base.ProcessChunk(chunkData);
         
-        chunkData.TerrainData.SetDetailResolution(worldData.ChunkSize * detailDensityMultiplier,
-            worldData.ChunkSize * detailDensityMultiplier);
+        dispatcher.Enqueue(() => {
+            chunkData.TerrainData.SetDetailResolution(worldData.ChunkSize * detailDensityMultiplier,
+                worldData.ChunkSize * detailDensityMultiplier);
+        });
+        
         CreateDetails(chunkData);
         return chunkData;
     }
 
-    private void CreateDetails(ChunkData chunkData) {
+    private async void CreateDetails(ChunkData chunkData) {
         TerrainData terrainData = chunkData.TerrainData;
 
         var grassDetailPrototype = new DetailPrototype() {
             prototypeTexture = grassTexture,
             
         };
+        dispatcher.Enqueue(() => {
+            terrainData.detailPrototypes = new DetailPrototype[] {
+                grassDetailPrototype
+            };
+        });
 
-        terrainData.detailPrototypes = new DetailPrototype[] {
-            grassDetailPrototype
-        };
-
-        int detailResolution = terrainData.detailResolution;
-        int detailLayers = terrainData.detailPrototypes.Length;
+        int detailResolution = await dispatcher.Enqueue(() => terrainData.detailResolution);
+        int detailLayers = await dispatcher.Enqueue(() => terrainData.detailPrototypes.Length);
 
         int[,] detailValues = new int[detailResolution, detailResolution];
 
@@ -42,6 +47,8 @@ public class DetailsGeneration : GenerationStage
             }
         }
 
-        terrainData.SetDetailLayer(0, 0, 0, detailValues);
+        dispatcher.Enqueue(() => {
+            terrainData.SetDetailLayer(0, 0, 0, detailValues);
+        });
     }
 }

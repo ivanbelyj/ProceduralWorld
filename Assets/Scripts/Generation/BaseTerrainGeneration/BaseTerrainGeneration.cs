@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BaseTerrainGeneration : GenerationStage
@@ -7,9 +8,9 @@ public class BaseTerrainGeneration : GenerationStage
     [SerializeField]
     private NoiseData noiseData;
 
-    public override ChunkData ProcessChunk(ChunkData chunkData)
+    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = base.ProcessChunk(chunkData);
+        chunkData = await base.ProcessChunk(chunkData);
 
         int chunkRes = worldData.ChunkResolution;
 
@@ -25,20 +26,25 @@ public class BaseTerrainGeneration : GenerationStage
         Vector3 terrainSize = new Vector3(worldData.ChunkSize,
             worldData.ChunkHeight / worldData.WorldScale, worldData.ChunkSize);
         
-        /// ===================================
-        // ВНИМАНИЕ! МИНУТКА ВОЛШЕБСТВА
-        // Попробуйте убрать один из этих абсолютно идентичных блоков
-        // и посмотрите, как неведомые силы изменят рельеф
-        chunkData.TerrainData.size = terrainSize;
-        chunkData.TerrainData.heightmapResolution = chunkRes;
+        dispatcher.Enqueue(() => {
 
-        chunkData.TerrainData.size = terrainSize;
-        chunkData.TerrainData.heightmapResolution = chunkRes;
-        // Спустя часы поисков проблемы удалось свести к этим волшебным строчкам,
-        // но истинные причины навсегда останутся в темных недрах Unity...
-        /// ====================================
 
-        chunkData.TerrainData.SetHeights(0, 0, heights);
+            /// ===================================
+            // ВНИМАНИЕ! МИНУТКА ВОЛШЕБСТВА
+            // Попробуйте убрать один из этих абсолютно идентичных блоков
+            // и посмотрите, как неведомые силы изменят рельеф
+            chunkData.TerrainData.size = terrainSize;
+            chunkData.TerrainData.heightmapResolution = chunkRes;
+
+            chunkData.TerrainData.size = terrainSize;
+            chunkData.TerrainData.heightmapResolution = chunkRes;
+            // Спустя часы поисков проблемы удалось свести к этим волшебным строчкам,
+            // но истинные причины навсегда останутся в темных недрах Unity...
+            /// ====================================
+
+
+            chunkData.TerrainData.SetHeights(0, 0, heights);
+        });
 
         return chunkData;
     }

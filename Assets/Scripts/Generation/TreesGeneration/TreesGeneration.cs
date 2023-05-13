@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class TreesGeneration : GenerationStage
@@ -14,22 +15,24 @@ public class TreesGeneration : GenerationStage
     [SerializeField]
     private BiomesManager biomesManager;
 
-    public override ChunkData ProcessChunk(ChunkData chunkData)
+    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = base.ProcessChunk(chunkData);
-        CreateTrees(chunkData);
+        chunkData = await base.ProcessChunk(chunkData);
+        await CreateTrees(chunkData);
         
         return chunkData;
     }
 
-    private void CreateTrees(ChunkData chunkData) {
+    private async Task CreateTrees(ChunkData chunkData) {
         TerrainData terrainData = chunkData.TerrainData;
-        var prototypesAndInstances = CreateTreePrototypesAndInstances(worldData, chunkData);
-        terrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
-        terrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
+        var prototypesAndInstances = await CreateTreePrototypesAndInstances(worldData, chunkData);
+        dispatcher.Enqueue(() => {
+            terrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
+            terrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
+        });
     }
 
-    private Tree SelectTree(Biome biome, float moisture, float radiation) {
+    private async Task<Tree> SelectTree(Biome biome, float moisture, float radiation) {
         // int len = biome.Trees.Length;
         // return len == 0 ? null : biome.Trees[Mathf.FloorToInt(
         //     len * (float)randomForCurrentChunk.NextDouble())].Tree;
@@ -38,7 +41,7 @@ public class TreesGeneration : GenerationStage
 
         float totalPrevalence = trees.Sum(x => x.Prevalence);
 
-        float randomNum = Random.Range(0, totalPrevalence);
+        float randomNum = await dispatcher.Enqueue(() => Random.Range(0, totalPrevalence));
 
         foreach (BiomeTree tree in trees) {
             randomNum -= tree.Prevalence;
@@ -77,7 +80,7 @@ public class TreesGeneration : GenerationStage
         // например, влиять на распределение видов
     }
 
-    private (List<TreePrototype>, List<TreeInstance>) CreateTreePrototypesAndInstances(
+    private async Task<(List<TreePrototype>, List<TreeInstance>)> CreateTreePrototypesAndInstances(
         WorldGenerationData worldData, ChunkData chunkData) {
         var instances = new List<TreeInstance>();
         var prototypes = new List<TreePrototype>();
@@ -131,7 +134,7 @@ public class TreesGeneration : GenerationStage
                     Vector3 treePos = (gridTreePos + offset) / chunkSize;
 
                     // === Выбор дерева === 
-                    Tree tree = SelectTree(biome, moisture, radiation);
+                    Tree tree = await SelectTree(biome, moisture, radiation);
                     // Но выбрать дерево недостаточно, нужно добавить прототип (если его еще не было)
 
                     // === Создание прототипа (если не создан) ===

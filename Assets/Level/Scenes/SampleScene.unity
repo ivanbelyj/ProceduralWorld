@@ -940,6 +940,50 @@ MonoBehaviour:
   noiseScale: 50
   noiseOffset: {x: 0, y: 0}
   levels: {x: 0.11704423, y: 1}
+--- !u!1 &1455195864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1455195866}
+  - component: {fileID: 1455195865}
+  m_Layer: 0
+  m_Name: Dispatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1455195865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455195864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94e5cf61724423040a3f6fbbe3dba976, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1455195866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455195864}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 61.14485, y: 125.44496, z: 59.312134}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1559777799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1364,7 +1408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8fd97e0d16a3e40a3424c566014abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  includeInGeneration: 1
+  includeInGeneration: 0
   biomesManager: {fileID: 2086771715}
 --- !u!114 &2086771712
 MonoBehaviour:
@@ -1378,7 +1422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12baf4a539e831e4c937af82ebcde5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showLogMessages: 1
+  showLogMessages: 0
+  dispatcher: {fileID: 1455195865}
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
   biomesMasksGeneration: {fileID: 2086771717}
@@ -1406,7 +1451,7 @@ MonoBehaviour:
     persistence: 0.5
     lacunarity: 2
     scale: 0.02
-    redistributionExtent: 3
+    redistributionExtent: 4
     seedModifier: 1313
 --- !u!114 &2086771714
 MonoBehaviour:
@@ -1557,6 +1602,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 963194227}
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
+      propertyPath: movement.jumpForce
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: movement.isDebugLog
       value: 0
       objectReference: {fileID: 0}
@@ -1571,6 +1620,14 @@ PrefabInstance:
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: overview.sensitivity
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
+      propertyPath: movement.runningAcceleration
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
+      propertyPath: movement.referenceAcceleration
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1807461413602009159, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: m_Name

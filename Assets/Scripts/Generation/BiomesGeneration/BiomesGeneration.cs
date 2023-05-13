@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BiomesGeneration : GenerationStage
@@ -37,15 +38,16 @@ public class BiomesGeneration : GenerationStage
     [SerializeField]
     private NoiseData varietyNoise;
 
-    public override void Initialize(WorldGenerationData worldGenerationData)
+    public override void Initialize(WorldGenerationData worldGenerationData,
+        IDispatcher dispatcher)
     {
-        base.Initialize(worldGenerationData);
+        base.Initialize(worldGenerationData, dispatcher);
         biomesManager.Initialize();
     }
 
-    public override ChunkData ProcessChunk(ChunkData chunkData)
+    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = base.ProcessChunk(chunkData);
+        chunkData = await base.ProcessChunk(chunkData);
         int heightsSize = worldData.ChunkResolution;
 
         var noiseOffset = new Vector2(chunkData.ChunkPosition.X * worldData.ChunkSize,
@@ -61,8 +63,9 @@ public class BiomesGeneration : GenerationStage
             worldData.Seed * temperatureSeedC,
             heightsSize, heightsSize, noiseOffset,
             worldData.WorldScale);
-        float[,] temperatureOnHeights = chunkData.Temperature = TemperatureOnHeights(temperatureRandom,
-            chunkData.TerrainData.GetHeights(0, 0, heightsSize, heightsSize));
+        float[,] temperatureOnHeights = chunkData.Temperature
+            = await dispatcher.Enqueue(() => TemperatureOnHeights(temperatureRandom,
+            chunkData.TerrainData.GetHeights(0, 0, heightsSize, heightsSize)));
 
         // Radiation
         float[,] radiationNotDissipated = NoiseMapUtils.GenerateNoiseMap(radiationNoise,

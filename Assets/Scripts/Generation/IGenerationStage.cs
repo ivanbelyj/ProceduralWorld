@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -14,8 +15,8 @@ using UnityEngine;
 /// </summary>
 public interface IGenerationStage
 {
-    void Initialize(WorldGenerationData worldGenerationData);
-    ChunkData ProcessChunk(ChunkData chunkData);
+    void Initialize(WorldGenerationData worldGenerationData, IDispatcher dispatcher);
+    Task<ChunkData> ProcessChunk(ChunkData chunkData);
     string StageName { get; }
     bool IncludeInGeneration { get; }
 }

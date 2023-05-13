@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class DebugSpritesBuilder : GenerationStage
@@ -15,16 +16,19 @@ public class DebugSpritesBuilder : GenerationStage
 
     private GameObject noiseMapsParent;
 
-    public override void Initialize(WorldGenerationData worldGenerationData)
+    public override void Initialize(WorldGenerationData worldGenerationData,
+        IDispatcher dispatcher)
     {
-        base.Initialize(worldGenerationData);
+        base.Initialize(worldGenerationData, dispatcher);
         noiseMapsParent = new GameObject("NoiseMaps");
     }
 
-    public override ChunkData ProcessChunk(ChunkData chunkData)
+    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = base.ProcessChunk(chunkData);
-        CreateSpriteMaps(chunkData);
+        chunkData = await base.ProcessChunk(chunkData);
+        dispatcher.Enqueue(() => {
+            CreateSpriteMaps(chunkData);
+        });
         return chunkData;
     }
 

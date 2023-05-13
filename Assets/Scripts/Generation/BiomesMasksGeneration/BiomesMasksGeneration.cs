@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BiomesMasksGeneration : GenerationStage
 {
-    public override ChunkData ProcessChunk(ChunkData chunkData)
+    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = base.ProcessChunk(chunkData);
+        chunkData = await base.ProcessChunk(chunkData);
         chunkData.BiomeMaskById = GetBiomeMasksForIds(chunkData.BiomeIds);
         return chunkData;
     }

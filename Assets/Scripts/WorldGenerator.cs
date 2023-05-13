@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -8,11 +10,11 @@ using UnityEngine;
 /// </summary>
 public class WorldGenerator : MonoBehaviour
 {
-    private WorldGenerationData worldData;
-    private List<IGenerationStage> generationStages;
-
     [SerializeField]
     private bool showLogMessages;
+
+    [SerializeField]
+    private Dispatcher dispatcher;
 
     [SerializeField]
     private BaseTerrainGeneration baseTerrainGeneration;
@@ -38,6 +40,9 @@ public class WorldGenerator : MonoBehaviour
 
     [SerializeField]
     private DebugSpritesBuilder debugSpritesBuilder;
+
+    private WorldGenerationData worldData;
+    private List<IGenerationStage> generationStages;
 
     /// <summary>
     /// Устанавливает исходные данные о мире перед тем, как генерировать чанки
@@ -70,7 +75,7 @@ public class WorldGenerator : MonoBehaviour
         float startTime = GetTime();
 
         foreach(var stage in generationStages) {
-            stage.Initialize(worldData);
+            stage.Initialize(worldData, dispatcher);
         }
         if (showLogMessages)
             Debug.Log($"Initialized. Elapsed: {GetTime() - startTime} ms");
@@ -79,12 +84,13 @@ public class WorldGenerator : MonoBehaviour
     /// <summary>
     /// Генерирует данные чанка, расположенного по заданной позиции
     /// </summary>
-    public ChunkData CreateChunk(ChunkPosition chunkPos) {
+    public async Task<ChunkData> CreateChunkAsync(ChunkPosition chunkPos) {
         if (generationStages.Count == 0)
             throw new System.InvalidOperationException(
                 "Generation stages must be set before chunk generation");
         
-        var terrainData = CreateInitialTerrainData();
+        TerrainData terrainData = await dispatcher.Enqueue(
+            () => CreateInitialTerrainData());
         ChunkData initialChunkData = new ChunkData() {
             ChunkPosition = chunkPos,
             TerrainData = terrainData
@@ -102,7 +108,7 @@ public class WorldGenerator : MonoBehaviour
                 
                 float startTime = GetTime();
 
-                lastProcessed = stage.ProcessChunk(lastProcessed);
+                lastProcessed = await Task.Run(() => stage.ProcessChunk(lastProcessed));
 
                 if (showLogMessages)
                     Debug.Log($"Stage {stage.StageName} completed. Elapsed: {GetTime() - startTime} ms");
@@ -113,6 +119,10 @@ public class WorldGenerator : MonoBehaviour
             Debug.Log($"Chunk {chunkPos} created. Elapsed: {GetTime() - totalStartTime} ms");
         return lastProcessed;
     }
+
+    // public async Task<ChunkData> CreateChunkAsync(ChunkPosition chunkPos) {
+    //     return await Task.Run(() => CreateChunk(chunkPos));
+    // }
 
     private float GetTime() {
         return Time.realtimeSinceStartup * 1000;
