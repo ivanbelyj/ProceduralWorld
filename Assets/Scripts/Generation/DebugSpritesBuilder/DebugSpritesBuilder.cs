@@ -26,7 +26,7 @@ public class DebugSpritesBuilder : GenerationStage
     public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
         chunkData = await base.ProcessChunk(chunkData);
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
             CreateSpriteMaps(chunkData);
         });
         return chunkData;

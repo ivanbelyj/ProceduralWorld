@@ -32,7 +32,7 @@ public class PresentInChunk : MonoBehaviour
     private async void Start() {
         updatingPointsOfPresence = true;
         presencePointId = NewPresencePointId();
-        await chunkWorld.AddPresencePoint(presencePointId, initialChunkPosition);
+        await chunkWorld.AddPresencePointAsync(presencePointId, initialChunkPosition);
         updatingPointsOfPresence = false;
 
         transform.position = chunkWorld.PosInActiveChunkToWorldPos(initialChunkPosition);
@@ -44,6 +44,7 @@ public class PresentInChunk : MonoBehaviour
     }
 
     private ChunkPosition GetCurrentChunkPosition() {
+        // return initialChunkPosition;
         return chunkWorld.WorldPosToChunkPos(transform.position);
     }
 

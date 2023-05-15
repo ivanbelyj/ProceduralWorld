@@ -89,7 +89,7 @@ public class WorldGenerator : MonoBehaviour
             throw new System.InvalidOperationException(
                 "Generation stages must be set before chunk generation");
         
-        TerrainData terrainData = await dispatcher.Enqueue(
+        TerrainData terrainData = await dispatcher.Execute(
             () => CreateInitialTerrainData());
         ChunkData initialChunkData = new ChunkData() {
             ChunkPosition = chunkPos,
@@ -108,7 +108,8 @@ public class WorldGenerator : MonoBehaviour
                 
                 float startTime = GetTime();
 
-                lastProcessed = await Task.Run(() => stage.ProcessChunk(lastProcessed));
+                // lastProcessed = await Task.Run(() => stage.ProcessChunk(lastProcessed));
+                lastProcessed = await stage.ProcessChunk(lastProcessed);
 
                 if (showLogMessages)
                     Debug.Log($"Stage {stage.StageName} completed. Elapsed: {GetTime() - startTime} ms");

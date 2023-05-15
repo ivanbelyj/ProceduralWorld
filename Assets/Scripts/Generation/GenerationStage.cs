@@ -45,7 +45,7 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
         int seedForChunk = unchecked(((cPos.X << 16) | cPos.Z) * worldData.Seed);
         randomForCurrentChunk = new System.Random(seedForChunk);
 
-        dispatcher.Enqueue(() => Random.InitState(seedForChunk * 61));
+        await dispatcher.Execute(() => Random.InitState(seedForChunk * 61));
         
         return chunkData;
     }

@@ -33,19 +33,19 @@ public class WorldBuilder : GenerationStage
     /// На основе ChunkData создает игровой объект чанка на сцене и возвращает его
     /// </summary>
     public async Task<GameObject> CreateChunkGO(ChunkData chunkData) {
-        GameObject terrainGO = await dispatcher.Enqueue(
+        GameObject terrainGO = await dispatcher.Execute(
             () => Terrain.CreateTerrainGameObject(chunkData.TerrainData));
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
             terrainGO.name = chunkData.ChunkPosition.ToString();
             terrainGO.transform.SetParent(chunksParent.transform);
             terrainGO.transform.position = new Vector3(worldData.ChunkSize * chunkData.ChunkPosition.X, 0,
             worldData.ChunkSize * chunkData.ChunkPosition.Z);
         });
         
-        var terrain = chunkData.Terrain = await dispatcher.Enqueue(
+        var terrain = chunkData.Terrain = await dispatcher.Execute(
             () => terrainGO.GetComponent<Terrain>());
         
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
             createdTerrains[chunkData.ChunkPosition] = terrain;
             ApplyTerrainSettings(terrain);
             UpdateNeighbors(chunkData.ChunkPosition);

@@ -26,7 +26,7 @@ public class BaseTerrainGeneration : GenerationStage
         Vector3 terrainSize = new Vector3(worldData.ChunkSize,
             worldData.ChunkHeight / worldData.WorldScale, worldData.ChunkSize);
         
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
 
 
             /// ===================================

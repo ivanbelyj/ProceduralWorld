@@ -9,7 +9,7 @@ public interface IDispatcher
     /// <summary>
     /// Планирует код для выполнения в главном потоке
     /// </summary>
-    void Enqueue(Action action);
+    Task Execute(Action action);
     
-    Task<T> Enqueue<T>(Func<T> func);
+    Task<T> Execute<T>(Func<T> func);
 }

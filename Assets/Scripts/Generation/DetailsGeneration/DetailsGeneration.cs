@@ -14,7 +14,7 @@ public class DetailsGeneration : GenerationStage
     {
         chunkData = await base.ProcessChunk(chunkData);
         
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
             chunkData.TerrainData.SetDetailResolution(worldData.ChunkSize * detailDensityMultiplier,
                 worldData.ChunkSize * detailDensityMultiplier);
         });
@@ -30,14 +30,14 @@ public class DetailsGeneration : GenerationStage
             prototypeTexture = grassTexture,
             
         };
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
             terrainData.detailPrototypes = new DetailPrototype[] {
                 grassDetailPrototype
             };
         });
 
-        int detailResolution = await dispatcher.Enqueue(() => terrainData.detailResolution);
-        int detailLayers = await dispatcher.Enqueue(() => terrainData.detailPrototypes.Length);
+        int detailResolution = await dispatcher.Execute(() => terrainData.detailResolution);
+        int detailLayers = await dispatcher.Execute(() => terrainData.detailPrototypes.Length);
 
         int[,] detailValues = new int[detailResolution, detailResolution];
 
@@ -47,7 +47,7 @@ public class DetailsGeneration : GenerationStage
             }
         }
 
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
             terrainData.SetDetailLayer(0, 0, 0, detailValues);
         });
     }

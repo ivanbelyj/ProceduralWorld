@@ -41,7 +41,7 @@ public class Texturing : GenerationStage
             await AddBiomeLayerSettings(biome, await BiomeMaskToTexture2D(interpolatedMask));    
         }
 
-        PaintTerrain(chunkData.Terrain);
+        await PaintTerrain(chunkData.Terrain);
 
         // К следующим чанкам специфичные слои биома не должны применяться
         if (layersAddedForCurrentChunk > 0)
@@ -67,16 +67,18 @@ public class Texturing : GenerationStage
         int biomeMaskWidth = biomeMask.GetLength(1);
 
         Color[] biomeMaskColors = NoiseMapToTextureUtils.NoiseMapToColorMap(biomeMask);
-        Texture2D biomeMaskTexture = await dispatcher.Enqueue(() =>
+        Texture2D biomeMaskTexture = await dispatcher.Execute(() =>
             NoiseMapToTextureUtils.ColorMapToTexture(biomeMaskWidth, biomeMaskHeight, biomeMaskColors));
 
         return biomeMaskTexture;
     }
 
-    private void PaintTerrain(Terrain terrain) {
-        dispatcher.Enqueue(() => {
+    private async Task PaintTerrain(Terrain terrain) {
+        // Todo: исправить костыль ()
+        await dispatcher.Execute(() => {
             terrainPainter.SetTargetTerrains(new Terrain[] { terrain });
             terrainPainter.RepaintAll();
+            return Task.CompletedTask;
         });
     }
 
@@ -88,7 +90,7 @@ public class Texturing : GenerationStage
                 layer = layerSettings.layer,
                 modifierStack = new List<Modifier>(layerSettings.modifierStack)
             };
-            TextureMask textureMask = await dispatcher.Enqueue(() =>
+            TextureMask textureMask = await dispatcher.Execute(() =>
                 (TextureMask)ScriptableObject.CreateInstance("TextureMask"));
             textureMask.enabled = true;
             textureMask.texture = biomeMaskTexture;

@@ -64,7 +64,7 @@ public class BiomesGeneration : GenerationStage
             heightsSize, heightsSize, noiseOffset,
             worldData.WorldScale);
         float[,] temperatureOnHeights = chunkData.Temperature
-            = await dispatcher.Enqueue(() => TemperatureOnHeights(temperatureRandom,
+            = await dispatcher.Execute(() => TemperatureOnHeights(temperatureRandom,
             chunkData.TerrainData.GetHeights(0, 0, heightsSize, heightsSize)));
 
         // Radiation

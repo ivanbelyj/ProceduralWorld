@@ -26,7 +26,7 @@ public class TreesGeneration : GenerationStage
     private async Task CreateTrees(ChunkData chunkData) {
         TerrainData terrainData = chunkData.TerrainData;
         var prototypesAndInstances = await CreateTreePrototypesAndInstances(worldData, chunkData);
-        dispatcher.Enqueue(() => {
+        await dispatcher.Execute(() => {
             terrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
             terrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
         });
@@ -41,7 +41,7 @@ public class TreesGeneration : GenerationStage
 
         float totalPrevalence = trees.Sum(x => x.Prevalence);
 
-        float randomNum = await dispatcher.Enqueue(() => Random.Range(0, totalPrevalence));
+        float randomNum = await dispatcher.Execute(() => Random.Range(0, totalPrevalence));
 
         foreach (BiomeTree tree in trees) {
             randomNum -= tree.Prevalence;
