@@ -1423,6 +1423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showLogMessages: 1
+  maxNormalMsPerStage: 300
   dispatcher: {fileID: 1455195865}
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
@@ -1543,7 +1544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35199402b2b203f4d8d250ded78a34b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  includeInGeneration: 0
+  includeInGeneration: 1
   grassTexture: {fileID: 2800000, guid: 25168a0547328904e84a0afe5131a7cf, type: 3}
 --- !u!114 &2086771717
 MonoBehaviour:

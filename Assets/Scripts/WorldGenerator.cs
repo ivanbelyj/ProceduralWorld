@@ -14,6 +14,11 @@ public class WorldGenerator : MonoBehaviour
     private bool showLogMessages;
 
     [SerializeField]
+    [Tooltip("Максимальное количество миллисекунд, которое считается допустимым для генерации этапа. "
+        + " При превышении во время генерации будет выводиться предупреждение")]
+    private float maxNormalMsPerStage = 200;
+
+    [SerializeField]
     private Dispatcher dispatcher;
 
     [SerializeField]
@@ -78,7 +83,7 @@ public class WorldGenerator : MonoBehaviour
             stage.Initialize(worldData, dispatcher);
         }
         if (showLogMessages)
-            Debug.Log($"Initialized. Elapsed: {GetTime() - startTime} ms");
+            Debug.Log($"Initialized. Elapsed: { GetTime() - startTime} ms");
     }
 
     /// <summary>
@@ -109,15 +114,22 @@ public class WorldGenerator : MonoBehaviour
                 float startTime = GetTime();
 
                 // lastProcessed = await Task.Run(() => stage.ProcessChunk(lastProcessed));
-                lastProcessed = await stage.ProcessChunk(lastProcessed);
+                lastProcessed = await stage.ProcessChunkAsync(lastProcessed);
 
+                float elapsedMs = GetTime() - startTime;
                 if (showLogMessages)
-                    Debug.Log($"Stage {stage.StageName} completed. Elapsed: {GetTime() - startTime} ms");
+                    Debug.Log($"Stage {stage.StageName} completed. Elapsed: { elapsedMs } ms");
+
+                if (elapsedMs > maxNormalMsPerStage) {
+                    Debug.LogWarning($"Max normal time ({maxNormalMsPerStage})" + 
+                        $" per generation stage is exceeded ({elapsedMs}) by { stage.StageName }");
+                }
             }
         }
 
         if (showLogMessages)
-            Debug.Log($"Chunk {chunkPos} created. Elapsed: {GetTime() - totalStartTime} ms");
+            Debug.Log($"Chunk {chunkPos} created. Elapsed: { GetTime() - totalStartTime } ms");
+            
         return lastProcessed;
     }
 

@@ -45,51 +45,53 @@ public class BiomesGeneration : GenerationStage
         biomesManager.Initialize();
     }
 
-    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = await base.ProcessChunk(chunkData);
+        // chunkData = await base.ProcessChunk(chunkData);
         int heightsSize = worldData.ChunkResolution;
 
         var noiseOffset = new Vector2(chunkData.ChunkPosition.X * worldData.ChunkSize,
             chunkData.ChunkPosition.Z * worldData.ChunkSize);
 
-        float[,] moisture = chunkData.Moisture = NoiseMapUtils.GenerateNoiseMap(moistureNoise,
-            worldData.Seed * moistureSeedC,
-            heightsSize, heightsSize, noiseOffset,
-            worldData.WorldScale);
+        float[,] moisture = chunkData.Moisture = await Task.Run(() =>
+            NoiseMapUtils.GenerateNoiseMap(moistureNoise,
+                worldData.Seed * moistureSeedC,
+                heightsSize, heightsSize, noiseOffset,
+                worldData.WorldScale));
 
         // Temperature
-        float[,] temperatureRandom = NoiseMapUtils.GenerateNoiseMap(temperatureNoise,
+        float[,] temperatureRandom = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(temperatureNoise,
             worldData.Seed * temperatureSeedC,
             heightsSize, heightsSize, noiseOffset,
-            worldData.WorldScale);
-        float[,] temperatureOnHeights = chunkData.Temperature
-            = await dispatcher.Execute(() => TemperatureOnHeights(temperatureRandom,
-            chunkData.TerrainData.GetHeights(0, 0, heightsSize, heightsSize)));
+            worldData.WorldScale));
+        float[,] temperatureOnHeights = chunkData.Temperature = TemperatureOnHeights(temperatureRandom,
+            chunkData.TerrainData.GetHeights(0, 0, heightsSize, heightsSize));
 
         // Radiation
-        float[,] radiationNotDissipated = NoiseMapUtils.GenerateNoiseMap(radiationNoise,
+        float[,] radiationNotDissipated = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(radiationNoise,
             worldData.Seed * radiationSeedC,
             heightsSize, heightsSize, noiseOffset,
-            worldData.WorldScale);
+            worldData.WorldScale));
         float[,] radiation = chunkData.Radiation
-            = RadiationDissipatedByDryness(moisture, radiationNotDissipated);
+            = await Task.Run(() => RadiationDissipatedByDryness(moisture, radiationNotDissipated));
 
-        float[,] variety = chunkData.Variety = NoiseMapUtils.GenerateNoiseMap(varietyNoise,
-            worldData.Seed * varietySeedC,
-            heightsSize, heightsSize, noiseOffset,
-            worldData.WorldScale);
+        float[,] variety = chunkData.Variety = await Task.Run(() =>
+            NoiseMapUtils.GenerateNoiseMap(varietyNoise,
+                worldData.Seed * varietySeedC,
+                heightsSize, heightsSize, noiseOffset,
+                worldData.WorldScale));
         
         // id биомов, расположенных в соответствии с позициями чанка
-        uint[,] biomes = new uint[heightsSize, heightsSize];
-        for (int y = 0; y < heightsSize; y++) {
-            for (int x = 0; x < heightsSize; x++) {
-                biomes[y, x] = biomesManager.GetBiomeId(moisture[y, x], temperatureOnHeights[y, x],
-                    radiation[y, x], variety[y, x]);
+        chunkData.BiomeIds = await Task.Run(() => {
+            uint[,] biomes = new uint[heightsSize, heightsSize];
+            for (int y = 0; y < heightsSize; y++) {
+                for (int x = 0; x < heightsSize; x++) {
+                    biomes[y, x] = biomesManager.GetBiomeId(moisture[y, x], temperatureOnHeights[y, x],
+                        radiation[y, x], variety[y, x]);
+                }
             }
-        }
-
-        chunkData.BiomeIds = biomes;
+            return biomes;
+        });
 
         return chunkData;
     }

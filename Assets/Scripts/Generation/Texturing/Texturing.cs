@@ -23,10 +23,8 @@ public class Texturing : GenerationStage
 
     private int layersAddedForCurrentChunk;
 
-    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = await base.ProcessChunk(chunkData);
-
         // Добавление слоев, специфичных для биомов чанка
         foreach (var biomeIdAndMask in chunkData.BiomeMaskById) {
             Biome biome = biomesManager.GetBiomeById(biomeIdAndMask.Key);
@@ -35,13 +33,14 @@ public class Texturing : GenerationStage
             if (biome.LayerSettings == null || biome.LayerSettings.Length == 0)
                 continue;
 
-            float[,] interpolatedMask = InterpolateBiomeMask(biomeIdAndMask.Value);
+            float[,] interpolatedMask = await Task.Run(() => InterpolateBiomeMask(biomeIdAndMask.Value));
             chunkData.InterpolatedBiomeMask = interpolatedMask;
             
-            await AddBiomeLayerSettings(biome, await BiomeMaskToTexture2D(interpolatedMask));    
+            AddBiomeLayerSettings(biome, await BiomeMaskToTexture2D(interpolatedMask));    
         }
 
-        await PaintTerrain(chunkData.Terrain);
+        terrainPainter.SetTargetTerrains(new Terrain[] { chunkData.Terrain });
+        terrainPainter.RepaintAll();
 
         // К следующим чанкам специфичные слои биома не должны применяться
         if (layersAddedForCurrentChunk > 0)
@@ -73,16 +72,7 @@ public class Texturing : GenerationStage
         return biomeMaskTexture;
     }
 
-    private async Task PaintTerrain(Terrain terrain) {
-        // Todo: исправить костыль ()
-        await dispatcher.Execute(() => {
-            terrainPainter.SetTargetTerrains(new Terrain[] { terrain });
-            terrainPainter.RepaintAll();
-            return Task.CompletedTask;
-        });
-    }
-
-    private async Task AddBiomeLayerSettings(Biome biome, Texture2D biomeMaskTexture) {
+    private void AddBiomeLayerSettings(Biome biome, Texture2D biomeMaskTexture) {
         foreach (LayerSettings layerSettings in biome.LayerSettings) {
             // Исходный объект не должен изменяться, поэтому создается новый
             LayerSettings newLayerSettings = new LayerSettings() {
@@ -90,8 +80,7 @@ public class Texturing : GenerationStage
                 layer = layerSettings.layer,
                 modifierStack = new List<Modifier>(layerSettings.modifierStack)
             };
-            TextureMask textureMask = await dispatcher.Execute(() =>
-                (TextureMask)ScriptableObject.CreateInstance("TextureMask"));
+            TextureMask textureMask = (TextureMask)ScriptableObject.CreateInstance("TextureMask");
             textureMask.enabled = true;
             textureMask.texture = biomeMaskTexture;
 

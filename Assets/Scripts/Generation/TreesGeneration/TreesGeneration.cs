@@ -10,14 +10,13 @@ public class TreesGeneration : GenerationStage
     /// Значение, изменяющее сетку прохода по точкам чанка для расстановки деревьев.
     /// 1, чтобы проход осуществлялся по каждой точке чанка (ресурсозатратно)
     /// </summary>
-    private const float treeDensityModifier = 0.4f;
+    private const float treeDensityModifier = 0.3f;
 
     [SerializeField]
     private BiomesManager biomesManager;
 
-    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = await base.ProcessChunk(chunkData);
         await CreateTrees(chunkData);
         
         return chunkData;
@@ -25,23 +24,26 @@ public class TreesGeneration : GenerationStage
 
     private async Task CreateTrees(ChunkData chunkData) {
         TerrainData terrainData = chunkData.TerrainData;
-        var prototypesAndInstances = await CreateTreePrototypesAndInstances(worldData, chunkData);
-        await dispatcher.Execute(() => {
-            terrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
-            terrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
-        });
+        var prototypesAndInstances = await Task.Run(() =>
+            CreateTreePrototypesAndInstances(worldData, chunkData));
+        terrainData.treePrototypes = prototypesAndInstances.Item1.ToArray();
+        terrainData.SetTreeInstances(prototypesAndInstances.Item2.ToArray(), true);
     }
 
-    private async Task<Tree> SelectTree(Biome biome, float moisture, float radiation) {
+    private Dictionary<Biome, float> sumOfTreePrevalenceByBiome = new Dictionary<Biome, float>();
+
+    private Tree SelectTree(Biome biome, float moisture, float radiation) {
         // int len = biome.Trees.Length;
         // return len == 0 ? null : biome.Trees[Mathf.FloorToInt(
         //     len * (float)randomForCurrentChunk.NextDouble())].Tree;
         
         BiomeTree[] trees = biome.Trees;
 
-        float totalPrevalence = trees.Sum(x => x.Prevalence);
-
-        float randomNum = await dispatcher.Execute(() => Random.Range(0, totalPrevalence));
+        if (!sumOfTreePrevalenceByBiome.ContainsKey(biome)) {
+            sumOfTreePrevalenceByBiome[biome] = trees.Sum(x => x.Prevalence);
+        }
+        float totalPrevalence = sumOfTreePrevalenceByBiome[biome];
+        float randomNum = randomForCurrentChunk.Range(0, totalPrevalence);
 
         foreach (BiomeTree tree in trees) {
             randomNum -= tree.Prevalence;
@@ -80,7 +82,7 @@ public class TreesGeneration : GenerationStage
         // например, влиять на распределение видов
     }
 
-    private async Task<(List<TreePrototype>, List<TreeInstance>)> CreateTreePrototypesAndInstances(
+    private (List<TreePrototype>, List<TreeInstance>) CreateTreePrototypesAndInstances(
         WorldGenerationData worldData, ChunkData chunkData) {
         var instances = new List<TreeInstance>();
         var prototypes = new List<TreePrototype>();
@@ -134,7 +136,7 @@ public class TreesGeneration : GenerationStage
                     Vector3 treePos = (gridTreePos + offset) / chunkSize;
 
                     // === Выбор дерева === 
-                    Tree tree = await SelectTree(biome, moisture, radiation);
+                    Tree tree = SelectTree(biome, moisture, radiation);
                     // Но выбрать дерево недостаточно, нужно добавить прототип (если его еще не было)
 
                     // === Создание прототипа (если не создан) ===

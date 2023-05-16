@@ -40,13 +40,17 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
         this.dispatcher = dispatcher;
     }
 
-    public async virtual Task<ChunkData> ProcessChunk(ChunkData chunkData) {
+    // Todo: rename
+
+    public async Task<ChunkData> ProcessChunkAsync(ChunkData chunkData) {
         ChunkPosition cPos = chunkData.ChunkPosition;
         int seedForChunk = unchecked(((cPos.X << 16) | cPos.Z) * worldData.Seed);
         randomForCurrentChunk = new System.Random(seedForChunk);
 
         await dispatcher.Execute(() => Random.InitState(seedForChunk * 61));
         
-        return chunkData;
+        return await ProcessChunk(chunkData);
     }
+
+    protected abstract Task<ChunkData> ProcessChunk(ChunkData chunkData);
 }

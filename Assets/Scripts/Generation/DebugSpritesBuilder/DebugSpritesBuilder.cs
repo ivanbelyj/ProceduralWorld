@@ -23,13 +23,10 @@ public class DebugSpritesBuilder : GenerationStage
         noiseMapsParent = new GameObject("NoiseMaps");
     }
 
-    public async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
-        chunkData = await base.ProcessChunk(chunkData);
-        await dispatcher.Execute(() => {
-            CreateSpriteMaps(chunkData);
-        });
-        return chunkData;
+        CreateSpriteMaps(chunkData);
+        return Task.FromResult(chunkData);
     }
 
     private void CreateSpriteMaps(ChunkData chunkData) {
