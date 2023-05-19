@@ -32,3 +32,4 @@ MonoBehaviour:
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: d11b96403c9dc844387c20c79299e7ca, type: 2}
     modifierStack: []
+  biomeDetails: []

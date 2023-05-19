@@ -24,3 +24,134 @@ MonoBehaviour:
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: a026f67c6452bb7488422ec75c67c660, type: 2}
     modifierStack: []
+  biomeDetails:
+  - terrainDetail: {fileID: 11400000, guid: 981b2ed2c432fdd498036670c22b6cec, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.821
+    rarity: 1
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 315fed44e73a4984c8940cf23a5f4fff, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.368
+    rarity: 1
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: eae8194456b29df4c87ef4c31d9abf38, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.5
+    rarity: 1
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 925dd8d9984521f4bb3bd2f02fb06d8c, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.226
+    rarity: 100
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 7ca717e15e9cbfd40a0c2af43e92cf35, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.804
+    rarity: 100
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: 4e23cc2552cd80e4e9a059fada15c3a5, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.754
+    rarity: 1000
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: dece13fbd5ab0d849bf39c0b9a27b999, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.754
+    rarity: 100
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: 881ee906df9bb76428f2c774ecf60752, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.318
+    rarity: 100
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: 13962ab885bb6b14aaadfe6af3daa9a7, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.754
+    rarity: 100
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: 726737a4a48cd46408c010ab22385c33, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.226
+    rarity: 10
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: f5087a02e1e85314aaec182d6535f200, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.326
+    rarity: 100
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: 71191b0500d19d443b1e2acd483c55a7, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.452
+    rarity: 100
+    densityMultiplier: 2
+  - terrainDetail: {fileID: 11400000, guid: 671d2761947deb449bdc542c65fd66b7, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 0}
+    healthyColor: {r: 0.4509804, g: 0.7607843, b: 0.41960785, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.167
+    rarity: 10
+    densityMultiplier: 2

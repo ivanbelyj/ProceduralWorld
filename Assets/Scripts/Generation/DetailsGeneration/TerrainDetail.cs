@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+/// <summary>
+/// 
+/// </summary>
+[CreateAssetMenu(fileName = "New Terrain Detail",
+    menuName = "Procedural World/Terrain Detail", order = 51)]
+public class TerrainDetail : ScriptableObject
+{
+    public GameObject prototype;
+    public bool usePrototypeMesh;
+    public Texture2D prototypeTexture;
+    
+    public float minWidth = 1f;
+    public float maxWidth = 2f;
+    public float minHeight = 1f;
+    public float maxHeight = 2f;
+    
+    public DetailRenderMode renderMode;
+    public bool useInstancing;
+}

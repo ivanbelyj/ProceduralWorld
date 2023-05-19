@@ -127,6 +127,10 @@ public class ChunkWorld : MonoBehaviour
     public void RemovePresencePoint(uint pointId) {
         ChunkPosition chunkPos = presencePointById[pointId];
         presencePointById.Remove(pointId);
+
+        // Todo: deactivate chunks:
+        return;
+
         HashSet<ChunkPosition> chunksToDeactivate = new HashSet<ChunkPosition>();
         for (int x = chunkPos.X - activeChunksRadius + 1; x <= chunkPos.X + activeChunksRadius - 1; x++) {
             for (int z = chunkPos.Z - activeChunksRadius + 1; z <= chunkPos.Z + activeChunksRadius - 1; z++) {

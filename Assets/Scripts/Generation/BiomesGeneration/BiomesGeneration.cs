@@ -48,7 +48,7 @@ public class BiomesGeneration : GenerationStage
     protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
         // chunkData = await base.ProcessChunk(chunkData);
-        int heightsSize = worldData.ChunkResolution;
+        int chunkRes = worldData.ChunkResolution;
 
         var noiseOffset = new Vector2(chunkData.ChunkPosition.X * worldData.ChunkSize,
             chunkData.ChunkPosition.Z * worldData.ChunkSize);
@@ -56,21 +56,21 @@ public class BiomesGeneration : GenerationStage
         float[,] moisture = chunkData.Moisture = await Task.Run(() =>
             NoiseMapUtils.GenerateNoiseMap(moistureNoise,
                 worldData.Seed * moistureSeedC,
-                heightsSize, heightsSize, noiseOffset,
+                chunkRes, chunkRes, noiseOffset,
                 worldData.WorldScale));
 
         // Temperature
         float[,] temperatureRandom = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(temperatureNoise,
             worldData.Seed * temperatureSeedC,
-            heightsSize, heightsSize, noiseOffset,
+            chunkRes, chunkRes, noiseOffset,
             worldData.WorldScale));
         float[,] temperatureOnHeights = chunkData.Temperature = TemperatureOnHeights(temperatureRandom,
-            chunkData.TerrainData.GetHeights(0, 0, heightsSize, heightsSize));
+            chunkData.TerrainData.GetHeights(0, 0, chunkRes, chunkRes));
 
         // Radiation
         float[,] radiationNotDissipated = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(radiationNoise,
             worldData.Seed * radiationSeedC,
-            heightsSize, heightsSize, noiseOffset,
+            chunkRes, chunkRes, noiseOffset,
             worldData.WorldScale));
         float[,] radiation = chunkData.Radiation
             = await Task.Run(() => RadiationDissipatedByDryness(moisture, radiationNotDissipated));
@@ -78,16 +78,22 @@ public class BiomesGeneration : GenerationStage
         float[,] variety = chunkData.Variety = await Task.Run(() =>
             NoiseMapUtils.GenerateNoiseMap(varietyNoise,
                 worldData.Seed * varietySeedC,
-                heightsSize, heightsSize, noiseOffset,
+                chunkRes, chunkRes, noiseOffset,
                 worldData.WorldScale));
+
+        // id биомов, которые встретились в чанке. Необходимо на других этапах
+        chunkData.ChunkBiomes = new HashSet<uint>();
         
         // id биомов, расположенных в соответствии с позициями чанка
         chunkData.BiomeIds = await Task.Run(() => {
-            uint[,] biomes = new uint[heightsSize, heightsSize];
-            for (int y = 0; y < heightsSize; y++) {
-                for (int x = 0; x < heightsSize; x++) {
+            uint[,] biomes = new uint[chunkRes, chunkRes];
+            for (int y = 0; y < chunkRes; y++) {
+                for (int x = 0; x < chunkRes; x++) {
                     biomes[y, x] = biomesManager.GetBiomeId(moisture[y, x], temperatureOnHeights[y, x],
                         radiation[y, x], variety[y, x]);
+                    if (!chunkData.ChunkBiomes.Contains(biomes[y, x])) {
+                        chunkData.ChunkBiomes.Add(biomes[y, x]);
+                    }
                 }
             }
             return biomes;

@@ -63,4 +63,11 @@ public class Biome : ScriptableObject
     /// Слои текстурирования ландшафта, специфичные для данного биома
     /// </summary>
     public LayerSettings[] LayerSettings { get => layerSettings; set => layerSettings = value; }
+
+    [SerializeField]
+    private BiomeDetail[] biomeDetails;
+    /// <summary>
+    /// Детали ландшафта, такие как трава, камни, и т.п.
+    /// </summary>
+    public BiomeDetail[] BiomeDetails => biomeDetails;
 }
