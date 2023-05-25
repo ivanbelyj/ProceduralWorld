@@ -6,9 +6,6 @@ using UnityEngine;
 public abstract class GenerationStage : MonoBehaviour, IGenerationStage
 {
     [SerializeField]
-    protected IDispatcher dispatcher;
-
-    [SerializeField]
     private bool includeInGeneration = true;
     public bool IncludeInGeneration {
         get => includeInGeneration;
@@ -34,10 +31,9 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
     /// </summary>
     protected System.Random randomForCurrentChunk;
     
-    public virtual void Initialize(WorldGenerationData worldGenerationData, IDispatcher dispatcher)
+    public virtual void Initialize(WorldGenerationData worldGenerationData)
     {
         worldData = worldGenerationData;
-        this.dispatcher = dispatcher;
     }
 
     // Todo: rename
@@ -47,7 +43,7 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
         int seedForChunk = unchecked(((cPos.X << 16) | cPos.Z) * worldData.Seed);
         randomForCurrentChunk = new System.Random(seedForChunk);
 
-        await dispatcher.Execute(() => Random.InitState(seedForChunk * 61));
+        Random.InitState(seedForChunk * 61);
         
         return await ProcessChunk(chunkData);
     }

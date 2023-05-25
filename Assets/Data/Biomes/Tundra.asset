@@ -20,4 +20,8 @@ MonoBehaviour:
   varietyMax: 1
   trees: []
   treesDensity: 0.05
-  layerSettings: []
+  layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: 7a3dfbc580691e34785957b90a2f6a1b, type: 2}
+    modifierStack: []
+  biomeDetails: []

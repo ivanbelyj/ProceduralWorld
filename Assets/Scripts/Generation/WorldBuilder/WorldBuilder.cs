@@ -13,9 +13,8 @@ public class WorldBuilder : GenerationStage
     private GameObject chunksParent;
     
 
-    public override void Initialize(WorldGenerationData worldData,
-        IDispatcher dispatcher) {
-        base.Initialize(worldData, dispatcher);
+    public override void Initialize(WorldGenerationData worldData) {
+        base.Initialize(worldData);
 
         createdTerrains = new Dictionary<ChunkPosition, Terrain>();
 
@@ -25,31 +24,25 @@ public class WorldBuilder : GenerationStage
     protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
         // chunkData = await base.ProcessChunk(chunkData);
-        await CreateChunkGO(chunkData);
-        return chunkData;
+        CreateChunkGO(chunkData);
+        return await Task.FromResult(chunkData);
     }
 
     /// <summary>
     /// На основе ChunkData создает игровой объект чанка на сцене и возвращает его
     /// </summary>
-    public async Task<GameObject> CreateChunkGO(ChunkData chunkData) {
-        GameObject terrainGO = await dispatcher.Execute(
-            () => Terrain.CreateTerrainGameObject(chunkData.TerrainData));
-        await dispatcher.Execute(() => {
-            terrainGO.name = chunkData.ChunkPosition.ToString();
-            terrainGO.transform.SetParent(chunksParent.transform);
-            terrainGO.transform.position = new Vector3(worldData.ChunkSize * chunkData.ChunkPosition.X, 0,
-            worldData.ChunkSize * chunkData.ChunkPosition.Z);
-        });
+    public GameObject CreateChunkGO(ChunkData chunkData) {
+        GameObject terrainGO = Terrain.CreateTerrainGameObject(chunkData.TerrainData);
+        terrainGO.name = chunkData.ChunkPosition.ToString();
+        terrainGO.transform.SetParent(chunksParent.transform);
+        terrainGO.transform.position = new Vector3(worldData.ChunkSize * chunkData.ChunkPosition.X, 0,
+        worldData.ChunkSize * chunkData.ChunkPosition.Z);
         
-        var terrain = chunkData.Terrain = await dispatcher.Execute(
-            () => terrainGO.GetComponent<Terrain>());
+        var terrain = chunkData.Terrain = terrainGO.GetComponent<Terrain>();
         
-        await dispatcher.Execute(() => {
-            createdTerrains[chunkData.ChunkPosition] = terrain;
-            ApplyTerrainSettings(terrain);
-            UpdateNeighbors(chunkData.ChunkPosition);
-        });
+        createdTerrains[chunkData.ChunkPosition] = terrain;
+        ApplyTerrainSettings(terrain);
+        UpdateNeighbors(chunkData.ChunkPosition);
 
         return terrainGO;
     }

@@ -20,3 +20,5 @@ MonoBehaviour:
   varietyMax: 1
   trees: []
   treesDensity: 0.15
+  layerSettings: []
+  biomeDetails: []

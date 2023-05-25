@@ -65,9 +65,9 @@ public class Texturing : GenerationStage
         int biomeMaskHeight = biomeMask.GetLength(0);
         int biomeMaskWidth = biomeMask.GetLength(1);
 
-        Color[] biomeMaskColors = NoiseMapToTextureUtils.NoiseMapToColorMap(biomeMask);
-        Texture2D biomeMaskTexture = await dispatcher.Execute(() =>
-            NoiseMapToTextureUtils.ColorMapToTexture(biomeMaskWidth, biomeMaskHeight, biomeMaskColors));
+        Color[] biomeMaskColors = await Task.Run(() => NoiseMapToTextureUtils.NoiseMapToColorMap(biomeMask));
+        Texture2D biomeMaskTexture = NoiseMapToTextureUtils.ColorMapToTexture(
+            biomeMaskWidth, biomeMaskHeight, biomeMaskColors);
 
         return biomeMaskTexture;
     }

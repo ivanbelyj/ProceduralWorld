@@ -18,9 +18,14 @@ MonoBehaviour:
   radiationMax: 1
   varietyMin: 0
   varietyMax: 1
-  trees: []
+  trees:
+  - tree: {fileID: 11400000, guid: 589509aee4d4bfd47907b01b684ec6ef, type: 2}
+    prevalence: 2
+  - tree: {fileID: 11400000, guid: 21b57f48204697a4b88829e73370d6d4, type: 2}
+    prevalence: 1
   treesDensity: 0.93
   layerSettings:
-  - enabled: 0
+  - enabled: 1
     layer: {fileID: 8574412962073106934, guid: d50bb24e1550c3c4cbc7630940c8269e, type: 2}
     modifierStack: []
+  biomeDetails: []

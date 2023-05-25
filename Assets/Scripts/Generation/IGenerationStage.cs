@@ -15,7 +15,7 @@ using UnityEngine;
 /// </summary>
 public interface IGenerationStage
 {
-    void Initialize(WorldGenerationData worldGenerationData, IDispatcher dispatcher);
+    void Initialize(WorldGenerationData worldGenerationData);
     Task<ChunkData> ProcessChunkAsync(ChunkData chunkData);
     string StageName { get; }
     bool IncludeInGeneration { get; }

@@ -6,11 +6,10 @@ using UnityEngine;
 
 public class TreesGeneration : GenerationStage
 {
-    /// <summary>
-    /// Значение, изменяющее сетку прохода по точкам чанка для расстановки деревьев.
-    /// 1, чтобы проход осуществлялся по каждой точке чанка (ресурсозатратно)
-    /// </summary>
-    private const float treeDensityModifier = 0.3f;
+    [Tooltip("Значение, изменяющее сетку прохода по точкам чанка для расстановки деревьев. "
+    + "1, чтобы проход осуществлялся по каждой точке чанка (ресурсозатратно)")]
+    [SerializeField]
+    private float treeDensityModifier = 0.2f;
 
     [SerializeField]
     private BiomesManager biomesManager;

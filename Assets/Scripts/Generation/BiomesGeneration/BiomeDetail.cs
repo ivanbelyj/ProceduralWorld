@@ -36,7 +36,8 @@ public class BiomeDetail
         // healthyColor = new Color(0.45f, 0.76f, 0.42f);
     }
 
-    public DetailPrototype ToDetailPrototype(int noiseSeed) {
+    public DetailPrototype ToDetailPrototype(int noiseSeed, int variant) {
+        bool useMesh = terrainDetail.usePrototypeMesh;
         return new DetailPrototype() {
             dryColor = dryColor,
             healthyColor = healthyColor,
@@ -47,11 +48,12 @@ public class BiomeDetail
             noiseSeed = noiseSeed,
             noiseSpread = noiseSpread,
             holeEdgePadding = holeEdgePadding,
-            prototype = terrainDetail.prototype,
-            prototypeTexture = terrainDetail.prototypeTexture,
+            prototype = useMesh ? terrainDetail.prototypeVariants[variant] : null,
+            prototypeTexture =  !useMesh ?
+                terrainDetail.prototypeTextureVariants[variant] : null,
             renderMode = terrainDetail.renderMode,
             useInstancing = terrainDetail.useInstancing,
-            usePrototypeMesh = terrainDetail.usePrototypeMesh
+            usePrototypeMesh = useMesh
         };
     }
 }

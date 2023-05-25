@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4418d8447ac2c5e4baafa444c6767700, type: 3}
+  m_Name: Flower
+  m_EditorClassIdentifier: 
+  prototypeVariants: []
+  usePrototypeMesh: 0
+  prototypeTextureVariants:
+  - {fileID: 2800000, guid: 5733619f617fd954cac22d3d11fd1b93, type: 3}
+  - {fileID: 2800000, guid: c6bde8cacfa93444fa98152cb9e36815, type: 3}
+  - {fileID: 2800000, guid: 5c744e80ad52c884c9ac4c9139b3aaae, type: 3}
+  - {fileID: 2800000, guid: e3b33de953074bc4a88d9487f19c1202, type: 3}
+  - {fileID: 2800000, guid: b3d0250e4b7a1ac4abe98a38d34d2048, type: 3}
+  minWidth: 1
+  maxWidth: 2
+  minHeight: 1
+  maxHeight: 2
+  renderMode: 2
+  useInstancing: 0

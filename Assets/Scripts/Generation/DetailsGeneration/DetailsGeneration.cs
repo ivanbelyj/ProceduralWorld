@@ -16,7 +16,8 @@ public class DetailsGeneration : GenerationStage
     [Tooltip("В Unity существуют ограничения на максимальное возможное количество деталей на batch, "
         + "поэтому с повышением разрешения карты деталей некоторые из них могут не отображаться. "
         + "В таком случае можно уменьшить максимальное значение "
-        + " detailResolutionPerPatch (128) в указанное число раз, однако это снижает производительность")]
+        + " detailResolutionPerPatch (128) в указанное число раз, однако это снижает производительность, "
+        + "поэтому крайне не рекомендуется")]
     private int detailResolutionPerPatchDivider = 2;
     private const int MAX_DETAIL_RESOLUTION_PER_PATCH = 128;
 
@@ -29,10 +30,10 @@ public class DetailsGeneration : GenerationStage
     [SerializeField]
     private NoiseData detailNoiseData;
 
-    // Todo: зависимость от радиации, влажности, высоты, температуры
-
     protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
+        // Todo: почему-то тормозит главный поток
+        // Todo: detail variants (все варианты в одном ScriptableObject)
         int detailRes = worldData.ChunkSize * detailDensityMultiplier;
         chunkData.TerrainData.SetDetailResolution(detailRes,
             MAX_DETAIL_RESOLUTION_PER_PATCH / detailResolutionPerPatchDivider);
@@ -45,11 +46,14 @@ public class DetailsGeneration : GenerationStage
         TerrainData terrainData = chunkData.TerrainData;
 
         // Сбор всех деталей, которые встречаются в чанке
-        var chunkDetails = new List<BiomeDetail>();
-        foreach (uint biomeId in chunkData.ChunkBiomes) {
-            Biome biome = biomesManager.GetBiomeById(biomeId);
-            chunkDetails.AddRange(biome.BiomeDetails);
-        }
+        var chunkDetails = await Task.Run(() => {
+            var chunkDetails = new List<BiomeDetail>();
+            foreach (uint biomeId in chunkData.ChunkBiomes) {
+                Biome biome = biomesManager.GetBiomeById(biomeId);
+                chunkDetails.AddRange(biome.BiomeDetails);
+            }
+            return chunkDetails;
+        });
 
         // Создание слоев
         int detailRes = chunkData.TerrainData.detailResolution;
@@ -73,8 +77,12 @@ public class DetailsGeneration : GenerationStage
         // Инициализация результата (изначально все слои пусты)
         var res = new List<(DetailPrototype, int[,])>(chunkDetails.Count);
         for (int i = 0; i < chunkDetails.Count; i++) {
-            // Todo: seed
-            res.Add((chunkDetails[i].ToDetailPrototype(0), new int[detailRes, detailRes]));
+            TerrainDetail terrainDetail = chunkDetails[i].TerrainDetail;
+            int rndVariant = randomForCurrentChunk.Next(terrainDetail.usePrototypeMesh ?
+                terrainDetail.prototypeVariants.Length
+                : terrainDetail.prototypeTextureVariants.Length);
+            res.Add((chunkDetails[i].ToDetailPrototype(randomForCurrentChunk.Next(), rndVariant),
+                new int[detailRes, detailRes]));
         }
 
         // Некоторые детали размещаются на основе шума, поэтому для них генерируются шумы
@@ -103,8 +111,8 @@ public class DetailsGeneration : GenerationStage
 
         const float EPS = 1e-8f;
 
-        // Какие детали будут расположены в данной позиции
         for (int i = 0; i < chunkDetails.Count; i++) {
+        // Parallel.For(0, chunkDetails.Count, (int i, ParallelLoopState loopState) => {
             BiomeDetail detail = chunkDetails[i];
             int step = 1;
             int maxIter = detailRes;
@@ -150,6 +158,7 @@ public class DetailsGeneration : GenerationStage
                     res[i].Item2[y, x] = densityInPos;
                 }
             }
+        // });
         }
 
         return res;

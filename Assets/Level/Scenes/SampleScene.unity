@@ -927,50 +927,6 @@ MonoBehaviour:
   noiseScale: 50
   noiseOffset: {x: 0, y: 0}
   levels: {x: 0.11704423, y: 1}
---- !u!1 &1455195864
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1455195866}
-  - component: {fileID: 1455195865}
-  m_Layer: 0
-  m_Name: Dispatcher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1455195865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455195864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e5cf61724423040a3f6fbbe3dba976, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1455195866
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455195864}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 61.14485, y: 125.44496, z: 59.312134}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1559777799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,10 +1309,10 @@ MonoBehaviour:
   worldGenerator: {fileID: 2086771712}
   worldGenerationData:
     seed: 999999
-    chunkSize: 128
+    chunkSize: 64
     chunkHeight: 1024
     worldScale: 1
-  activeChunksRadius: 2
+  activeChunksRadius: 3
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1383,6 +1339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInGeneration: 1
+  treeDensityModifier: 0.2
   biomesManager: {fileID: 2086771715}
 --- !u!114 &2086771712
 MonoBehaviour:
@@ -1396,9 +1353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12baf4a539e831e4c937af82ebcde5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showLogMessages: 1
+  showCommonLogMessages: 1
+  showStagesLogMessages: 0
   maxNormalMsPerStage: 1000
-  dispatcher: {fileID: 1455195865}
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
   biomesMasksGeneration: {fileID: 2086771717}
@@ -1425,7 +1382,7 @@ MonoBehaviour:
     octaves: 10
     persistence: 0.5
     lacunarity: 2
-    scale: 0.02
+    scale: 0.015
     redistributionExtent: 4
     seedModifier: 0
 --- !u!114 &2086771714
@@ -1444,24 +1401,24 @@ MonoBehaviour:
   biomesManager: {fileID: 2086771715}
   moistureNoise:
     noiseType: 1
-    octaves: 2
-    persistence: 0.5
+    octaves: 4
+    persistence: 0.2
     lacunarity: 2
-    scale: 0.16
+    scale: 0.014
     redistributionExtent: 1
     seedModifier: 2331
   temperatureNoise:
     noiseType: 1
-    octaves: 3
-    persistence: 0.5
+    octaves: 6
+    persistence: 0.006
     lacunarity: 2
     scale: 0.04
     redistributionExtent: 1
     seedModifier: 91
   radiationNoise:
     noiseType: 1
-    octaves: 1
-    persistence: 0.5
+    octaves: 2
+    persistence: 0.08
     lacunarity: 2
     scale: 0.1
     redistributionExtent: 1.2
@@ -1469,7 +1426,7 @@ MonoBehaviour:
   varietyNoise:
     noiseType: 1
     octaves: 2
-    persistence: 0.5
+    persistence: 0.007
     lacunarity: 2
     scale: 0.2
     redistributionExtent: 1
@@ -1519,7 +1476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInGeneration: 1
-  detailDensityMultiplier: 1
+  detailDensityMultiplier: 2
   detailResolutionPerPatchDivider: 2
   biomesManager: {fileID: 2086771715}
   grassTexture: {fileID: 2800000, guid: 25168a0547328904e84a0afe5131a7cf, type: 3}
@@ -1584,12 +1541,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
+      propertyPath: movement.mass
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: overview.camera
       value: 
       objectReference: {fileID: 963194227}
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: movement.jumpForce
-      value: 25
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: movement.isDebugLog
@@ -1608,12 +1569,16 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
+      propertyPath: movement.referenceEndurance
+      value: 200000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: movement.runningAcceleration
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: movement.referenceAcceleration
-      value: 20
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 1807461413602009159, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: m_Name

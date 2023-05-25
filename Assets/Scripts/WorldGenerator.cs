@@ -11,15 +11,17 @@ using UnityEngine;
 public class WorldGenerator : MonoBehaviour
 {
     [SerializeField]
-    private bool showLogMessages;
+    [Tooltip("Выводить ли общие сообщения о генерации чанков")]
+    private bool showCommonLogMessages;
+
+    [SerializeField]
+    [Tooltip("Выводить ли сообщения о проведенных этапах генерации")]
+    private bool showStagesLogMessages;
 
     [SerializeField]
     [Tooltip("Максимальное количество миллисекунд, которое считается допустимым для генерации этапа. "
         + " При превышении во время генерации будет выводиться предупреждение")]
     private float maxNormalMsPerStage = 200;
-
-    [SerializeField]
-    private Dispatcher dispatcher;
 
     [SerializeField]
     private BaseTerrainGeneration baseTerrainGeneration;
@@ -75,14 +77,14 @@ public class WorldGenerator : MonoBehaviour
         generationStages.Add(texturing);
         generationStages.Add(debugSpritesBuilder);
 
-        if (showLogMessages)
+        if (showCommonLogMessages)
             Debug.Log("Initializing WorldGenerator...");
         float startTime = GetTime();
 
         foreach(var stage in generationStages) {
-            stage.Initialize(worldData, dispatcher);
+            stage.Initialize(worldData);
         }
-        if (showLogMessages)
+        if (showCommonLogMessages)
             Debug.Log($"Initialized. Elapsed: { GetTime() - startTime} ms");
     }
 
@@ -94,21 +96,20 @@ public class WorldGenerator : MonoBehaviour
             throw new System.InvalidOperationException(
                 "Generation stages must be set before chunk generation");
         
-        TerrainData terrainData = await dispatcher.Execute(
-            () => CreateInitialTerrainData());
+        TerrainData terrainData = CreateInitialTerrainData();
         ChunkData initialChunkData = new ChunkData() {
             ChunkPosition = chunkPos,
             TerrainData = terrainData
         };
 
-        if (showLogMessages)
+        if (showCommonLogMessages)
             Debug.Log($"Creating chunk {chunkPos}...");
         float totalStartTime = GetTime();
 
         ChunkData lastProcessed = initialChunkData;
         foreach (var stage in generationStages) {
             if (stage.IncludeInGeneration) {
-                if (showLogMessages)
+                if (showStagesLogMessages)
                     Debug.Log($"Stage {stage.StageName}");
                 
                 float startTime = GetTime();
@@ -117,7 +118,7 @@ public class WorldGenerator : MonoBehaviour
                 lastProcessed = await stage.ProcessChunkAsync(lastProcessed);
 
                 float elapsedMs = GetTime() - startTime;
-                if (showLogMessages)
+                if (showStagesLogMessages)
                     Debug.Log($"Stage {stage.StageName} completed. Elapsed: { elapsedMs } ms");
 
                 if (elapsedMs > maxNormalMsPerStage) {
@@ -127,15 +128,11 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        if (showLogMessages)
+        if (showCommonLogMessages)
             Debug.Log($"Chunk {chunkPos} created. Elapsed: { GetTime() - totalStartTime } ms");
             
         return lastProcessed;
     }
-
-    // public async Task<ChunkData> CreateChunkAsync(ChunkPosition chunkPos) {
-    //     return await Task.Run(() => CreateChunk(chunkPos));
-    // }
 
     private float GetTime() {
         return Time.realtimeSinceStartup * 1000;

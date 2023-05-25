@@ -16,10 +16,9 @@ public class DebugSpritesBuilder : GenerationStage
 
     private GameObject noiseMapsParent;
 
-    public override void Initialize(WorldGenerationData worldGenerationData,
-        IDispatcher dispatcher)
+    public override void Initialize(WorldGenerationData worldGenerationData)
     {
-        base.Initialize(worldGenerationData, dispatcher);
+        base.Initialize(worldGenerationData);
         noiseMapsParent = new GameObject("NoiseMaps");
     }
 

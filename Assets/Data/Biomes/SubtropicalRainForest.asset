@@ -18,5 +18,53 @@ MonoBehaviour:
   radiationMax: 1
   varietyMin: 0
   varietyMax: 1
-  trees: []
+  trees:
+  - tree: {fileID: 11400000, guid: 589509aee4d4bfd47907b01b684ec6ef, type: 2}
+    prevalence: 0.2
+  - tree: {fileID: 11400000, guid: 21b57f48204697a4b88829e73370d6d4, type: 2}
+    prevalence: 3
+  - tree: {fileID: 11400000, guid: 01b0efc3f1a995d46862b9d957a51824, type: 2}
+    prevalence: 0.3
   treesDensity: 0.88
+  layerSettings: []
+  biomeDetails:
+  - terrainDetail: {fileID: 11400000, guid: cc94b26d9c9017444bc410097052d6c2, type: 2}
+    dryColor: {r: 0.09708691, g: 1, b: 0, a: 0}
+    healthyColor: {r: 1, g: 0.8174672, b: 0, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.477
+    rarity: 1000
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 51a0705f33930f648994991f6efc5b15, type: 2}
+    dryColor: {r: 0.09708691, g: 1, b: 0, a: 0}
+    healthyColor: {r: 1, g: 0.8174672, b: 0, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.477
+    rarity: 1000
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: d25413abdb2c3d74c9aa789eccdce3af, type: 2}
+    dryColor: {r: 0.09708691, g: 1, b: 0, a: 0}
+    healthyColor: {r: 1, g: 0.8174672, b: 0, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.477
+    rarity: 1000
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 63e8c9fafc856b449a4e1cd7fef4181c, type: 2}
+    dryColor: {r: 0.09708691, g: 1, b: 0, a: 0}
+    healthyColor: {r: 1, g: 0.8174672, b: 0, a: 0}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.477
+    rarity: 1000
+    densityMultiplier: 1

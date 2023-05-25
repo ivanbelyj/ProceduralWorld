@@ -38,10 +38,9 @@ public class BiomesGeneration : GenerationStage
     [SerializeField]
     private NoiseData varietyNoise;
 
-    public override void Initialize(WorldGenerationData worldGenerationData,
-        IDispatcher dispatcher)
+    public override void Initialize(WorldGenerationData worldGenerationData)
     {
-        base.Initialize(worldGenerationData, dispatcher);
+        base.Initialize(worldGenerationData);
         biomesManager.Initialize();
     }
 

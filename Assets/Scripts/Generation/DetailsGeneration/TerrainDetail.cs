@@ -10,9 +10,9 @@ using UnityEngine;
     menuName = "Procedural World/Terrain Detail", order = 51)]
 public class TerrainDetail : ScriptableObject
 {
-    public GameObject prototype;
+    public GameObject[] prototypeVariants;
     public bool usePrototypeMesh;
-    public Texture2D prototypeTexture;
+    public Texture2D[] prototypeTextureVariants;
     
     public float minWidth = 1f;
     public float maxWidth = 2f;
