@@ -23,8 +23,7 @@ MonoBehaviour:
   layerSettings:
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: a026f67c6452bb7488422ec75c67c660, type: 2}
-    modifierStack:
-    - {fileID: 0}
+    modifierStack: []
   biomeDetails:
   - terrainDetail: {fileID: 11400000, guid: 981b2ed2c432fdd498036670c22b6cec, type: 2}
     dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 1}
@@ -43,7 +42,7 @@ MonoBehaviour:
     noiseSpread: 1
     holeEdgePadding: 0
     placingMode: 0
-    threshold: 0.486
+    threshold: 0.903
     rarity: 10
     densityMultiplier: 1
   - terrainDetail: {fileID: 11400000, guid: ed0e9ad53225487409a0b1f27d3769a2, type: 2}
@@ -53,7 +52,7 @@ MonoBehaviour:
     noiseSpread: 1
     holeEdgePadding: 0
     placingMode: 0
-    threshold: 0.374
+    threshold: 0.639
     rarity: 10
     densityMultiplier: 1
   - terrainDetail: {fileID: 11400000, guid: 925dd8d9984521f4bb3bd2f02fb06d8c, type: 2}
@@ -63,6 +62,6 @@ MonoBehaviour:
     noiseSpread: 1
     holeEdgePadding: 0
     placingMode: 0
-    threshold: 0.226
-    rarity: 100
+    threshold: 0.356
+    rarity: 10
     densityMultiplier: 1

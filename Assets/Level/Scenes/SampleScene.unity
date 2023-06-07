@@ -1309,7 +1309,7 @@ MonoBehaviour:
   worldGenerator: {fileID: 2086771712}
   worldGenerationData:
     seed: 999999
-    chunkSize: 64
+    chunkSize: 128
     chunkHeight: 1024
     worldScale: 1
   activeChunksRadius: 3
@@ -1354,7 +1354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showCommonLogMessages: 1
-  showStagesLogMessages: 0
+  showStagesLogMessages: 1
   maxNormalMsPerStage: 1000
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
@@ -1401,7 +1401,7 @@ MonoBehaviour:
   biomesManager: {fileID: 2086771715}
   moistureNoise:
     noiseType: 1
-    octaves: 4
+    octaves: 6
     persistence: 0.2
     lacunarity: 2
     scale: 0.014
@@ -1409,10 +1409,10 @@ MonoBehaviour:
     seedModifier: 2331
   temperatureNoise:
     noiseType: 1
-    octaves: 6
-    persistence: 0.006
+    octaves: 4
+    persistence: 0.2
     lacunarity: 2
-    scale: 0.04
+    scale: 0.03
     redistributionExtent: 1
     seedModifier: 91
   radiationNoise:
