@@ -32,6 +32,7 @@ public class TreesGeneration : GenerationStage
     private Dictionary<Biome, float> sumOfTreePrevalenceByBiome = new Dictionary<Biome, float>();
 
     private Tree SelectTree(Biome biome, float moisture, float radiation) {
+        // Todo: выбор на основе prevalence. Это - временное решение
         // int len = biome.Trees.Length;
         // return len == 0 ? null : biome.Trees[Mathf.FloorToInt(
         //     len * (float)randomForCurrentChunk.NextDouble())].Tree;
@@ -92,8 +93,8 @@ public class TreesGeneration : GenerationStage
         // а по сетке со скорректированным масштабом
 
         // treeDensityModifier обычно принимает значения меньше 1 для укрупнения сетки
-        // и уменьшения количества проходов (оптимизация), а WorldScale больше 1 уменьшает сетку,
-        // чтобы деревья были рассажены корректно даже с учетом масштабирования
+        // и уменьшения количества проходов, а WorldScale также корректирует сетку,
+        // чтобы деревья были рассажены правильно даже с учетом масштабирования
         float gridModifier = treeDensityModifier * worldData.WorldScale;
 
         // Половина ячейки сетки
@@ -123,16 +124,15 @@ public class TreesGeneration : GenerationStage
                 if (fixingValue < treeProbability)
                 {
                     // === Вычисление позиции дерева ===
-                    // Деревья размещаются в середине ячеек
+                    // Изначальная позиция размещения дерева - середина ячейки
                     Vector3 gridTreePos = new Vector3(x + treeCellHalfSize, 0,
                         z + treeCellHalfSize);
 
                     // Сетка обхода при сильной модификации выглядит слишком квадратно,
-                    // поэтому каждое дерево смещается (максимум на длину одной ячейки)
+                    // поэтому каждое дерево смещается (максимум на размер одной ячейки)
                     Vector3 offset = new Vector3((float)randomForCurrentChunk.NextDouble(),
                         0, (float)randomForCurrentChunk.NextDouble()).normalized
                         / gridModifier;
-                    Vector3 treePos = (gridTreePos + offset) / chunkSize;
 
                     // === Выбор дерева === 
                     Tree tree = SelectTree(biome, moisture, radiation);
@@ -160,7 +160,10 @@ public class TreesGeneration : GenerationStage
                     if (tree != null) {
                         int[] variantsProtIndexes = treePrefabsInChunkAndProtIndexes[tree];
                         int rndIndex = randomForCurrentChunk.Next(variantsProtIndexes.Length);
-                        var treeInstance = CreateTreeInstance(rndIndex, treePos, worldData.WorldScale);
+
+                        // В terrain используются позиции в диапазоне [0, 1]
+                        Vector3 treePosInTerrain = (gridTreePos + offset) / chunkSize;
+                        var treeInstance = CreateTreeInstance(rndIndex, treePosInTerrain, worldData.WorldScale);
                         instances.Add(treeInstance);
                     }
                 }

@@ -20,7 +20,7 @@ MonoBehaviour:
   varietyMax: 1
   trees:
   - tree: {fileID: 11400000, guid: 01b0efc3f1a995d46862b9d957a51824, type: 2}
-    prevalence: 0.6
+    prevalence: 0
   - tree: {fileID: 11400000, guid: a9e4ef3e70937294ab22dec22f233a72, type: 2}
     prevalence: 3
   - tree: {fileID: 11400000, guid: 21b57f48204697a4b88829e73370d6d4, type: 2}

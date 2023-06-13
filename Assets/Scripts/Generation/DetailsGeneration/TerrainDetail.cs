@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-/// <summary>
-/// 
-/// </summary>
 [CreateAssetMenu(fileName = "New Terrain Detail",
     menuName = "Procedural World/Terrain Detail", order = 51)]
 public class TerrainDetail : ScriptableObject

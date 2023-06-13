@@ -25,15 +25,11 @@ public class DetailsGeneration : GenerationStage
     private BiomesManager biomesManager;
 
     [SerializeField]
-    private Texture2D grassTexture;
-
-    [SerializeField]
     private NoiseData detailNoiseData;
 
     protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
     {
         // Todo: почему-то тормозит главный поток
-        // Todo: detail variants (все варианты в одном ScriptableObject)
         int detailRes = worldData.ChunkSize * detailDensityMultiplier;
         chunkData.TerrainData.SetDetailResolution(detailRes,
             MAX_DETAIL_RESOLUTION_PER_PATCH / detailResolutionPerPatchDivider);
@@ -46,7 +42,7 @@ public class DetailsGeneration : GenerationStage
         TerrainData terrainData = chunkData.TerrainData;
 
         // Сбор всех деталей, которые встречаются в чанке
-        var chunkDetails = await Task.Run(() => {
+        List<BiomeDetail> chunkDetails = await Task.Run(() => {
             var chunkDetails = new List<BiomeDetail>();
             foreach (uint biomeId in chunkData.ChunkBiomes) {
                 Biome biome = biomesManager.GetBiomeById(biomeId);
@@ -57,8 +53,8 @@ public class DetailsGeneration : GenerationStage
 
         // Создание слоев
         int detailRes = chunkData.TerrainData.detailResolution;
-        var layersForPrototypes = await Task.Run(() => GenerateDetailLayers(chunkData,
-            chunkDetails, detailRes));
+        List<(DetailPrototype, int[,])> layersForPrototypes =
+            await Task.Run(() => GenerateDetailLayers(chunkData, chunkDetails, detailRes));
         terrainData.detailPrototypes = layersForPrototypes.Select(x => x.Item1).ToArray();
 
         // Назначение слоев
@@ -68,7 +64,8 @@ public class DetailsGeneration : GenerationStage
     }
 
     /// <summary>
-    /// Создает DetailPrototype и генерирует слой для каждого переданного BiomeDetail
+    /// Для каждого переданного BiomeDetail (учитывая все его варианты)
+    /// создает DetailPrototype и генерирует слой
     /// </summary>
     private List<(DetailPrototype, int[,])> GenerateDetailLayers(ChunkData chunkData,
         List<BiomeDetail> chunkDetails, int detailRes) {
@@ -76,14 +73,11 @@ public class DetailsGeneration : GenerationStage
 
         // Инициализация результата (изначально все слои пусты)
         var res = new List<(DetailPrototype, int[,])>(chunkDetails.Count);
-        for (int i = 0; i < chunkDetails.Count; i++) {
-            TerrainDetail terrainDetail = chunkDetails[i].TerrainDetail;
-            int rndVariant = randomForCurrentChunk.Next(terrainDetail.usePrototypeMesh ?
-                terrainDetail.prototypeVariants.Length
-                : terrainDetail.prototypeTextureVariants.Length);
-            res.Add((chunkDetails[i].ToDetailPrototype(randomForCurrentChunk.Next(), rndVariant),
+        ForEachDetailVariant(chunkDetails, (biomeDetail, resIndex, biomeDetailIndex, variantIndex) => {
+            res.Add(
+                (chunkDetails[biomeDetailIndex].ToDetailPrototype(randomForCurrentChunk.Next(), variantIndex),
                 new int[detailRes, detailRes]));
-        }
+        });
 
         // Некоторые детали размещаются на основе шума, поэтому для них генерируются шумы
         var noiseMapByDetail = new Dictionary<BiomeDetail, float[,]>();
@@ -111,14 +105,14 @@ public class DetailsGeneration : GenerationStage
 
         const float EPS = 1e-8f;
 
-        for (int i = 0; i < chunkDetails.Count; i++) {
-        // Parallel.For(0, chunkDetails.Count, (int i, ParallelLoopState loopState) => {
-            BiomeDetail detail = chunkDetails[i];
+        // ===== Заполнение результата =====
+        Debug.Log("Second: " + chunkDetails.Count);
+        ForEachDetailVariant(chunkDetails, (detail, resIndex, biomeDetailIndex, variantIndex) => {
             int step = 1;
             int maxIter = detailRes;
             for (int y = 0; y < maxIter; y += step) {
                 for (int x = 0; x < maxIter; x += step) {
-                    // Карта биомов размера cRes, приведение к размеру
+                    // Карта биомов размера chunkResolution, приведение к размеру
                     int xBiome = (int)((float)x / detailRes * cRes);
                     int yBiome = (int)((float)y / detailRes * cRes);
                     uint biomeId = chunkData.BiomeIds[yBiome, xBiome];
@@ -155,12 +149,27 @@ public class DetailsGeneration : GenerationStage
 
                     int densityInPos = Mathf.Abs(density) < EPS ? 0
                         : Mathf.CeilToInt(density * detail.densityMultiplier);
-                    res[i].Item2[y, x] = densityInPos;
+                    
+                    res[resIndex].Item2[y, x] = densityInPos;
                 }
             }
-        // });
-        }
+        });
 
         return res;
+    }
+
+    private void ForEachDetailVariant(List<BiomeDetail> biomeDetails,
+        System.Action<BiomeDetail, int, int, int> action) {
+        int index = 0;
+        for (int i = 0; i < biomeDetails.Count; i++) {
+            TerrainDetail terrainDetail = biomeDetails[i].TerrainDetail;
+
+            int variantsCount = terrainDetail.usePrototypeMesh ?
+                terrainDetail.prototypeVariants.Length : terrainDetail.prototypeTextureVariants.Length;
+            for (int j = 0; j < variantsCount; j++) {
+                action(biomeDetails[i], index, i, j);
+                index++;
+            }
+        }
     }
 }
