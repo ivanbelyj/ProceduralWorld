@@ -4,9 +4,9 @@ using System;
 
 public static class RandomExtensions
 {
-    public static float Range(this Random random, float minInclusive, float maxInclusive)
+    public static float Range(this Random random, float minInclusive, float maxExclusive)
     {
-        double range = (double)maxInclusive - (double)minInclusive;
+        double range = (double)maxExclusive - (double)minInclusive;
         double sample = random.NextDouble() * range + (double)minInclusive;
         return (float)sample;
     }

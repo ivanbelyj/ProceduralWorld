@@ -1353,8 +1353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12baf4a539e831e4c937af82ebcde5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showCommonLogMessages: 1
-  showStagesLogMessages: 1
+  showCommonLogMessages: 0
+  showStagesLogMessages: 0
   maxNormalMsPerStage: 1000
   baseTerrainGeneration: {fileID: 2086771713}
   biomesGeneration: {fileID: 2086771714}
@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8430d64b5d9d343869a84b5c547fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  biomeSchemeImage: {fileID: 2800000, guid: 6a57b879ef37e984e9ebae2865ebd10a, type: 3}
+  biomeSchemeImage: {fileID: 2800000, guid: 998c0ce351b437c459e034cfc6c74c03, type: 3}
   biomes:
   - {fileID: 11400000, guid: a73c4b80cb6370e4692bd993bbb78e40, type: 2}
   - {fileID: 11400000, guid: c2b1cda494a1e704e9f2b5478e6fb902, type: 2}
@@ -1479,7 +1479,6 @@ MonoBehaviour:
   detailDensityMultiplier: 2
   detailResolutionPerPatchDivider: 2
   biomesManager: {fileID: 2086771715}
-  grassTexture: {fileID: 2800000, guid: 25168a0547328904e84a0afe5131a7cf, type: 3}
   detailNoiseData:
     noiseType: 1
     octaves: 1

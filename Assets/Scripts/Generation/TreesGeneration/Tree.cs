@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 /// Вид дерева, не зависящий от биома
 /// </summary>
 [CreateAssetMenu(fileName = "New Tree", menuName = "Procedural World/Tree", order = 51)]
-public class Tree : ScriptableObject
+public class Tree : ScriptableObject, IEquatable<Tree>
 {
     [SerializeField]
     private GameObject[] treePrefabs;
@@ -14,4 +15,39 @@ public class Tree : ScriptableObject
     /// Дерево представлено различными вариантами моделей
     /// </summary>
     public GameObject[] TreePrefabs { get => treePrefabs; set => treePrefabs = value; }
+
+    private Guid treeId = default;
+    private Guid TreeId {
+        get {
+            if (treeId == default) {
+                treeId = Guid.NewGuid();
+            }
+            return treeId;
+        }
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        return Equals(obj as Tree);
+    }
+
+    public bool Equals(Tree other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+
+        return TreeId == other.TreeId;
+    }
+
+    public override int GetHashCode()
+    {
+        return TreeId.GetHashCode();
+    }
 }

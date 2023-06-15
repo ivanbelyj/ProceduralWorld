@@ -106,7 +106,6 @@ public class DetailsGeneration : GenerationStage
         const float EPS = 1e-8f;
 
         // ===== Заполнение результата =====
-        Debug.Log("Second: " + chunkDetails.Count);
         ForEachDetailVariant(chunkDetails, (detail, resIndex, biomeDetailIndex, variantIndex) => {
             int step = 1;
             int maxIter = detailRes;
