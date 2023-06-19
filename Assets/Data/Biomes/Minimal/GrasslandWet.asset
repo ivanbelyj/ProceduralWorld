@@ -20,7 +20,7 @@ MonoBehaviour:
   varietyMax: 1
   trees:
   - tree: {fileID: 11400000, guid: 5008f6dea99ff7b4c83b823f32e001b8, type: 2}
-    prevalence: 3
+    prevalence: 1
   - tree: {fileID: 11400000, guid: 78bd12e43ef88d340baa9f01527adbc9, type: 2}
     prevalence: 0.001
   - tree: {fileID: 11400000, guid: 78bacd07ece51a644bc4ae729b7cb402, type: 2}
@@ -35,7 +35,7 @@ MonoBehaviour:
     layer: {fileID: 8574412962073106934, guid: 685e12f84592f5f47bcff19133fc6e12, type: 2}
     modifierStack: []
   biomeDetails:
-  - terrainDetail: {fileID: 11400000, guid: 3154e2b867260d543852ab0b32f88964, type: 2}
+  - terrainDetail: {fileID: 11400000, guid: 981b2ed2c432fdd498036670c22b6cec, type: 2}
     dryColor: {r: 0.8980392, g: 0.8235294, b: 0.4117647, a: 1}
     healthyColor: {r: 0.51500946, g: 0.9245283, b: 0.31108338, a: 1}
     sizeMultiplier: 1
