@@ -44,7 +44,7 @@ public class BiomesGeneration : GenerationStage
         biomesManager.Initialize();
     }
 
-    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData)
     {
         // chunkData = await base.ProcessChunk(chunkData);
         int chunkRes = worldData.ChunkResolution;

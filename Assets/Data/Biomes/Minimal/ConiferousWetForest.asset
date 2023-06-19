@@ -19,17 +19,51 @@ MonoBehaviour:
   varietyMin: 0
   varietyMax: 1
   trees:
-  - tree: {fileID: 11400000, guid: 8736773b1e023db4bb505a34e7778963, type: 2}
-    prevalence: 1
-  - tree: {fileID: 11400000, guid: e94d2ef6e5de3e84eb3e77e481d4bb51, type: 2}
-    prevalence: 1
-  - tree: {fileID: 11400000, guid: 9a2177a6d1f5b8d4db83a9e0e01a9de3, type: 2}
-    prevalence: 1
-  - tree: {fileID: 11400000, guid: 5bc414c313f939742b3a4a3872a66755, type: 2}
+  - tree: {fileID: 11400000, guid: 4f6ace81d98bbde4ca29baccc17e0005, type: 2}
     prevalence: 1
   treesDensity: 0.85
   layerSettings:
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: d11b96403c9dc844387c20c79299e7ca, type: 2}
     modifierStack: []
-  biomeDetails: []
+  biomeDetails:
+  - terrainDetail: {fileID: 11400000, guid: 3154e2b867260d543852ab0b32f88964, type: 2}
+    dryColor: {r: 0.8784314, g: 0.75686276, b: 0.37647063, a: 1}
+    healthyColor: {r: 0.44526482, g: 0.8962264, b: 0.39456505, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.544
+    rarity: 1
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 315fed44e73a4984c8940cf23a5f4fff, type: 2}
+    dryColor: {r: 0.8784314, g: 0.75686276, b: 0.3764706, a: 1}
+    healthyColor: {r: 0.44705883, g: 0.8980392, b: 0.39607847, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.143
+    rarity: 1
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: ed0e9ad53225487409a0b1f27d3769a2, type: 2}
+    dryColor: {r: 0.8784314, g: 0.75686276, b: 0.37647063, a: 1}
+    healthyColor: {r: 0.44705883, g: 0.8980392, b: 0.39607844, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.371
+    rarity: 100
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 925dd8d9984521f4bb3bd2f02fb06d8c, type: 2}
+    dryColor: {r: 0.8773585, g: 0.7584304, b: 0.37798142, a: 1}
+    healthyColor: {r: 0.44705883, g: 0.8980392, b: 0.39607844, a: 1}
+    sizeMultiplier: 1.8
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.3
+    rarity: 1000
+    densityMultiplier: 1

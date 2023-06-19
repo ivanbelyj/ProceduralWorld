@@ -14,7 +14,7 @@ public class TreesGeneration : GenerationStage
     [SerializeField]
     private BiomesManager biomesManager;
 
-    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData)
     {
         await CreateTrees(chunkData);
         
@@ -58,15 +58,20 @@ public class TreesGeneration : GenerationStage
     
     /// <param name="position">Локальная позиция дерева на Terrain, в диапазоне [0, 1]</param>
     private TreeInstance CreateTreeInstance(int prototypeIndex, Vector3 position,
-        float worldScale) {
+        float scale, float minSize, float maxSize) {
         Debug.Log("PrototypeIndex arg: " + prototypeIndex);
         TreeInstance treeInstance = new TreeInstance();
 
-        treeInstance.position = position;
-
         treeInstance.prototypeIndex = prototypeIndex;
-        treeInstance.widthScale = 1f / worldScale;
-        treeInstance.heightScale = 1f / worldScale;
+
+        treeInstance.position = position;
+        treeInstance.rotation = randomForCurrentChunk.Range(0, 2 * Mathf.PI);
+
+        float rndScale = scale * randomForCurrentChunk.Range(minSize, maxSize);
+
+        treeInstance.widthScale = rndScale;
+        treeInstance.heightScale = rndScale;
+
         treeInstance.color = Color.white;
         treeInstance.lightmapColor = Color.white;
 
@@ -168,7 +173,9 @@ public class TreesGeneration : GenerationStage
 
                         // В terrain используются позиции в диапазоне [0, 1]
                         Vector3 treePosInTerrain = (gridTreePos + offset) / chunkSize;
-                        var treeInstance = CreateTreeInstance(rndProtIndex, treePosInTerrain, worldData.WorldScale);
+                        var treeInstance = CreateTreeInstance(rndProtIndex, treePosInTerrain,
+                            tree.ScaleMultiplier / worldData.WorldScale,
+                            minSize: tree.MinSize, maxSize: tree.MaxSize);
                         instances.Add(treeInstance);
                     }
                 }

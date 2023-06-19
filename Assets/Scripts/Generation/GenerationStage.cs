@@ -35,9 +35,7 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
     {
         worldData = worldGenerationData;
     }
-
-    // Todo: rename
-
+    
     public async Task<ChunkData> ProcessChunkAsync(ChunkData chunkData) {
         ChunkPosition cPos = chunkData.ChunkPosition;
         int seedForChunk = unchecked(((cPos.X << 16) | cPos.Z) * worldData.Seed);
@@ -45,8 +43,8 @@ public abstract class GenerationStage : MonoBehaviour, IGenerationStage
 
         Random.InitState(seedForChunk * 61);
         
-        return await ProcessChunk(chunkData);
+        return await ProcessChunkImplAsync(chunkData);
     }
 
-    protected abstract Task<ChunkData> ProcessChunk(ChunkData chunkData);
+    protected abstract Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData);
 }

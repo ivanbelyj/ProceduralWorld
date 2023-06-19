@@ -27,9 +27,8 @@ public class DetailsGeneration : GenerationStage
     [SerializeField]
     private NoiseData detailNoiseData;
 
-    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData)
     {
-        // Todo: почему-то тормозит главный поток
         int detailRes = worldData.ChunkSize * detailDensityMultiplier;
         chunkData.TerrainData.SetDetailResolution(detailRes,
             MAX_DETAIL_RESOLUTION_PER_PATCH / detailResolutionPerPatchDivider);

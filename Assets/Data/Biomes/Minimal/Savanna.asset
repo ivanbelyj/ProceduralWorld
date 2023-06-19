@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbc45cb41cf4c640a366c27c6f9693a, type: 3}
+  m_Name: Savanna
+  m_EditorClassIdentifier: 
+  biomeId: 1
+  groupColor: {r: 0.92156863, g: 0.9529412, b: 0.49803922, a: 1}
+  radiationMin: 0
+  radiationMax: 1
+  varietyMin: 0
+  varietyMax: 1
+  trees:
+  - tree: {fileID: 11400000, guid: a9e4ef3e70937294ab22dec22f233a72, type: 2}
+    prevalence: 1
+  treesDensity: 0.08
+  layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: cdea734f1edb3164e9017746ccdc955d, type: 2}
+    modifierStack: []
+  biomeDetails:
+  - terrainDetail: {fileID: 11400000, guid: 3154e2b867260d543852ab0b32f88964, type: 2}
+    dryColor: {r: 1, g: 0.927287, b: 0, a: 1}
+    healthyColor: {r: 0, g: 0, b: 0, a: 0}
+    sizeMultiplier: 1.8
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.937
+    rarity: 1
+    densityMultiplier: 2

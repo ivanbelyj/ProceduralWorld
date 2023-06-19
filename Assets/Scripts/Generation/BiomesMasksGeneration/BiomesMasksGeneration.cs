@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BiomesMasksGeneration : GenerationStage
 {
-    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData)
     {
         // chunkData = await base.ProcessChunk(chunkData);
         chunkData.BiomeMaskById = await Task.Run(() => GetBiomeMasksForIds(chunkData.BiomeIds));

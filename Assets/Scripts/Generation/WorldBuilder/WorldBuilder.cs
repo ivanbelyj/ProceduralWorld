@@ -21,7 +21,7 @@ public class WorldBuilder : GenerationStage
         chunksParent = new GameObject("Chunks");
     }
 
-    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData)
     {
         // chunkData = await base.ProcessChunk(chunkData);
         CreateChunkGO(chunkData);

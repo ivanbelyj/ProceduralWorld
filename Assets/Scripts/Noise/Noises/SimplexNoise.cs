@@ -32,7 +32,8 @@ public class SimplexNoise
         138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
     };
 
-    // Todo: Seeding
+    // Нет seed для простоты. Если данный класс все же будет использоваться,
+    // нужно сделать поддержку seed
     private static byte[] _Perm = _PermOriginal;
 
     public static float GetNoise(float x, float y, float scale = 1f)

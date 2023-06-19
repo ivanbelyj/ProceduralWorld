@@ -50,7 +50,6 @@ public class PresentInChunk : MonoBehaviour
 
     private async void Update() {
         ChunkPosition currentPos = GetCurrentChunkPosition();
-        // Todo: исправить InvalidOperationException: Collection was modified; enumeration operation may not execute.
         if (currentPos != lastChunkPosition && !updatingPointsOfPresence) {
             // Debug.Log($"Old pos: {lastChunkPosition}; newPos: {currentPos}. Need to update presence point");
             updatingPointsOfPresence = true;

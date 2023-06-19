@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treePrefabs:
   - {fileID: 1139572726157748, guid: 3c98bb4bee2f2ba4b92a2fbca7b8831f, type: 3}
-  - {fileID: 1374237298056438, guid: dc41cdb983cf13b499619e70eaf48fcb, type: 3}
-  - {fileID: 1332680640941198, guid: 6307fd731e2247b479cddefb30b094fa, type: 3}
-  - {fileID: 1029388286230660, guid: c1af1c199f153a340921be4c20ccb38f, type: 3}
+  - {fileID: 1301814490440934, guid: 631dcab7c4e7c22418d6f6fa3dd74c7d, type: 3}
+  - {fileID: 1820073310235746, guid: 9b77d12e48b7f364a82333485eca4473, type: 3}
+  - {fileID: 1226896354247008, guid: f1ac1674b1044b940a5e6f1e32750350, type: 3}
+  scaleMultiplier: 5
+  minSize: 1
+  maxSize: 1

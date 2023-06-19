@@ -23,7 +23,7 @@ public static class NoiseMapUtils
                 fastNoiseLite = Simplex(noiseData);
                 break;
             case NoiseType.Perlin:
-                fastNoiseLite = Simplex(noiseData);  // Todo: Perlin noise
+                fastNoiseLite = Perlin(noiseData);
                 break;
             case NoiseType.Ridged:
                 fastNoiseLite = Ridged(noiseData);
@@ -85,6 +85,17 @@ public static class NoiseMapUtils
     private static FastNoiseLite Simplex(NoiseData noiseData) {
         FastNoiseLite noise = new FastNoiseLite();
         noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise.SetFractalOctaves(noiseData.Octaves);
+        noise.SetFractalLacunarity(noiseData.Lacunarity);
+        noise.SetFractalGain(noiseData.Persistence);
+        return noise;
+    }
+
+    // Не тестировано
+    private static FastNoiseLite Perlin(NoiseData noiseData) {
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
         noise.SetFractalType(FastNoiseLite.FractalType.FBm);
         noise.SetFractalOctaves(noiseData.Octaves);
         noise.SetFractalLacunarity(noiseData.Lacunarity);

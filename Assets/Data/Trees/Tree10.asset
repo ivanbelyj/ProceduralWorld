@@ -18,3 +18,6 @@ MonoBehaviour:
   - {fileID: 109824, guid: f80b9a82cf103fc46a271d8c08ba22c0, type: 3}
   - {fileID: 109824, guid: e403bfb859c346040858d48e9c0c7150, type: 3}
   - {fileID: 109824, guid: 107f12f79e197c44e94e1d306314702b, type: 3}
+  scaleMultiplier: 1
+  minSize: 0.6
+  maxSize: 1.1

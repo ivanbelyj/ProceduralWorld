@@ -345,6 +345,18 @@ MonoBehaviour:
   colorMapResolution: 128
   layerSettings:
   - enabled: 0
+    layer: {fileID: 8574412962073106934, guid: 685e12f84592f5f47bcff19133fc6e12, type: 2}
+    modifierStack: []
+  - enabled: 0
+    layer: {fileID: 8574412962073106934, guid: a4f7d536b443d7e4f846312e1cf1a87d, type: 2}
+    modifierStack: []
+  - enabled: 0
+    layer: {fileID: 8574412962073106934, guid: 40d516d199723cb4c96ecfb6a092b92b, type: 2}
+    modifierStack: []
+  - enabled: 0
+    layer: {fileID: 8574412962073106934, guid: 74b8a5df3f7fd6841b432c74f657b3ff, type: 2}
+    modifierStack: []
+  - enabled: 0
     layer: {fileID: 8574412962073106934, guid: 7115a06c3692dd0408eb0e4f2d56d1b3, type: 2}
     modifierStack:
     - {fileID: 2113076000}
@@ -398,10 +410,18 @@ MonoBehaviour:
     modifierStack:
     - {fileID: 2129107195}
     - {fileID: 871847432}
-  - enabled: 1
+  - enabled: 0
     layer: {fileID: 8574412962073106934, guid: 69debc15b685aef4aa7bb2783ddd8a2b, type: 2}
     modifierStack:
     - {fileID: 1246028503}
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: c52ad77efecd38146bfb167ad0f38daf, type: 2}
+    modifierStack:
+    - {fileID: 659478688}
+    - {fileID: 578648170}
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: f5d7bf9b37b4843488888fea168da837, type: 2}
+    modifierStack: []
   autoRepaint: 0
   terrainListeners: []
   bounds:
@@ -444,6 +464,47 @@ MonoBehaviour:
   noiseScale: 5
   noiseOffset: {x: 0, y: 0}
   levels: {x: 0.265625, y: 1}
+--- !u!114 &578648170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d046e3917e4d8580903c69758b6558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabled: 1
+  label: Height
+  blendMode: 0
+  opacity: 100
+  passIndex: 0
+  min: 960
+  minFalloff: 1
+  max: 2000
+  maxFalloff: 1
+--- !u!114 &659478688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabled: 1
+  label: Slope
+  blendMode: 0
+  opacity: 100
+  passIndex: 1
+  minMax: {x: 0, y: 12}
+  minFalloff: 1
+  maxFalloff: 10
 --- !u!114 &661592520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,7 +1334,7 @@ GameObject:
   - component: {fileID: 2086771712}
   - component: {fileID: 2086771709}
   m_Layer: 0
-  m_Name: ChunkWorld
+  m_Name: ChunkWorldGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1312,7 +1373,7 @@ MonoBehaviour:
     chunkSize: 128
     chunkHeight: 1024
     worldScale: 1
-  activeChunksRadius: 3
+  activeChunksRadius: 2
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1382,9 +1443,9 @@ MonoBehaviour:
     octaves: 10
     persistence: 0.5
     lacunarity: 2
-    scale: 0.015
+    scale: 0.03
     redistributionExtent: 4
-    seedModifier: 0
+    seedModifier: 4
 --- !u!114 &2086771714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1404,7 +1465,7 @@ MonoBehaviour:
     octaves: 6
     persistence: 0.2
     lacunarity: 2
-    scale: 0.014
+    scale: 0.032
     redistributionExtent: 1
     seedModifier: 2331
   temperatureNoise:
@@ -1443,7 +1504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8430d64b5d9d343869a84b5c547fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  biomeSchemeImage: {fileID: 2800000, guid: 998c0ce351b437c459e034cfc6c74c03, type: 3}
+  biomeSchemeImage: {fileID: 2800000, guid: d4dc6c2654912eb4e8b809f5d13c8817, type: 3}
   biomes:
   - {fileID: 11400000, guid: a73c4b80cb6370e4692bd993bbb78e40, type: 2}
   - {fileID: 11400000, guid: c2b1cda494a1e704e9f2b5478e6fb902, type: 2}
@@ -1476,7 +1537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInGeneration: 1
-  detailDensityMultiplier: 2
+  detailDensityMultiplier: 3
   detailResolutionPerPatchDivider: 2
   biomesManager: {fileID: 2086771715}
   detailNoiseData:
@@ -1577,7 +1638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1807461413602009156, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: movement.referenceAcceleration
-      value: 80
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1807461413602009159, guid: dec06b7a15916437297e6e8968a07e4f, type: 3}
       propertyPath: m_Name

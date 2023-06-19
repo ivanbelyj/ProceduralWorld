@@ -18,8 +18,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 91a1945982e98be4d9fe3e3d12fdebd8, type: 3}
   - {fileID: 2800000, guid: cf3069941001b5c46b1f13d4551d0fd9, type: 3}
   minWidth: 0.5
-  maxWidth: 1
+  maxWidth: 1.3
   minHeight: 0.5
-  maxHeight: 1
+  maxHeight: 1.3
   renderMode: 2
   useInstancing: 0

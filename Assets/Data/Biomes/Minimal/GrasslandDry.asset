@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbc45cb41cf4c640a366c27c6f9693a, type: 3}
+  m_Name: GrasslandDry
+  m_EditorClassIdentifier: 
+  biomeId: 5
+  groupColor: {r: 0.7176471, g: 0.85882354, b: 0.49411765, a: 1}
+  radiationMin: 0
+  radiationMax: 1
+  varietyMin: 0
+  varietyMax: 1
+  trees:
+  - tree: {fileID: 11400000, guid: 5008f6dea99ff7b4c83b823f32e001b8, type: 2}
+    prevalence: 1
+  - tree: {fileID: 11400000, guid: 78bd12e43ef88d340baa9f01527adbc9, type: 2}
+    prevalence: 0.0002
+  - tree: {fileID: 11400000, guid: 78bacd07ece51a644bc4ae729b7cb402, type: 2}
+    prevalence: 0.0009
+  - tree: {fileID: 11400000, guid: 113aa1c91d40db349b899d4b45086fae, type: 2}
+    prevalence: 0.01
+  - tree: {fileID: 11400000, guid: e7ed7ecb9dba6be478d833fc43df3459, type: 2}
+    prevalence: 0.01
+  treesDensity: 0.03
+  layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: 685e12f84592f5f47bcff19133fc6e12, type: 2}
+    modifierStack: []
+  biomeDetails:
+  - terrainDetail: {fileID: 11400000, guid: 3154e2b867260d543852ab0b32f88964, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 1}
+    healthyColor: {r: 0.63225764, g: 0.7607843, b: 0.41960785, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.717
+    rarity: 1
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 315fed44e73a4984c8940cf23a5f4fff, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 1}
+    healthyColor: {r: 0.61811715, g: 0.7607843, b: 0.41960785, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.778
+    rarity: 10
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: ed0e9ad53225487409a0b1f27d3769a2, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 1}
+    healthyColor: {r: 0.62513024, g: 0.7607843, b: 0.41960785, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.333
+    rarity: 100
+    densityMultiplier: 1
+  - terrainDetail: {fileID: 11400000, guid: 925dd8d9984521f4bb3bd2f02fb06d8c, type: 2}
+    dryColor: {r: 0.70980394, g: 0.61960787, b: 0.41960785, a: 1}
+    healthyColor: {r: 0.6052046, g: 0.7607843, b: 0.41960785, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.686
+    rarity: 10000
+    densityMultiplier: 1

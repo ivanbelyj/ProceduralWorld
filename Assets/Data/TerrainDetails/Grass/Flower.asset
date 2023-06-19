@@ -20,9 +20,9 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 5c744e80ad52c884c9ac4c9139b3aaae, type: 3}
   - {fileID: 2800000, guid: e3b33de953074bc4a88d9487f19c1202, type: 3}
   - {fileID: 2800000, guid: b3d0250e4b7a1ac4abe98a38d34d2048, type: 3}
-  minWidth: 1
-  maxWidth: 2
-  minHeight: 1
-  maxHeight: 2
+  minWidth: 0.7
+  maxWidth: 1.3
+  minHeight: 0.7
+  maxHeight: 1.3
   renderMode: 2
   useInstancing: 0

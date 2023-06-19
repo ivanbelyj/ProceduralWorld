@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbc45cb41cf4c640a366c27c6f9693a, type: 3}
+  m_Name: SubpolarDesert
+  m_EditorClassIdentifier: 
+  biomeId: 17
+  groupColor: {r: 0.7176471, g: 0.68235296, b: 0.56078434, a: 1}
+  radiationMin: 0
+  radiationMax: 1
+  varietyMin: 0
+  varietyMax: 1
+  trees:
+  - tree: {fileID: 11400000, guid: a2a7f0ee1d93a4a449479f14acff2383, type: 2}
+    prevalence: 1
+  treesDensity: 0.001
+  layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: c52ad77efecd38146bfb167ad0f38daf, type: 2}
+    modifierStack: []
+  biomeDetails: []

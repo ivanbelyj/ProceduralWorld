@@ -9,7 +9,7 @@ public class BaseTerrainGeneration : GenerationStage
     [SerializeField]
     private NoiseData noiseData;
 
-    protected async override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected async override Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData)
     {
         // chunkData = await base.ProcessChunk(chunkData);
 

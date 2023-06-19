@@ -7,7 +7,7 @@ using UnityEngine;
 /// Вид дерева, не зависящий от биома
 /// </summary>
 [CreateAssetMenu(fileName = "New Tree", menuName = "Procedural World/Tree", order = 51)]
-public class Tree : ScriptableObject, IEquatable<Tree>
+public class Tree : ScriptableObject  //, IEquatable<Tree>
 {
     [SerializeField]
     private GameObject[] treePrefabs;
@@ -16,38 +16,50 @@ public class Tree : ScriptableObject, IEquatable<Tree>
     /// </summary>
     public GameObject[] TreePrefabs { get => treePrefabs; set => treePrefabs = value; }
 
-    private Guid treeId = default;
-    private Guid TreeId {
-        get {
-            if (treeId == default) {
-                treeId = Guid.NewGuid();
-            }
-            return treeId;
-        }
-    }
+    [SerializeField]
+    private float scaleMultiplier = 1f;
+    public float ScaleMultiplier => scaleMultiplier;
 
-    public override bool Equals(object obj)
-    {
-        if (obj == null || GetType() != obj.GetType())
-        {
-            return false;
-        }
+    [SerializeField]
+    private float minSize = 1f;
+    public float MinSize => minSize;
 
-        return Equals(obj as Tree);
-    }
+    [SerializeField]
+    private float maxSize = 1f;
+    public float MaxSize => maxSize;
 
-    public bool Equals(Tree other)
-    {
-        if (other == null)
-        {
-            return false;
-        }
+    // private Guid treeId = default;
+    // private Guid TreeId {
+    //     get {
+    //         if (treeId == default) {
+    //             treeId = Guid.NewGuid();
+    //         }
+    //         return treeId;
+    //     }
+    // }
 
-        return TreeId == other.TreeId;
-    }
+    // public override bool Equals(object obj)
+    // {
+    //     if (obj == null || GetType() != obj.GetType())
+    //     {
+    //         return false;
+    //     }
 
-    public override int GetHashCode()
-    {
-        return TreeId.GetHashCode();
-    }
+    //     return Equals(obj as Tree);
+    // }
+
+    // public bool Equals(Tree other)
+    // {
+    //     if (other == null)
+    //     {
+    //         return false;
+    //     }
+
+    //     return TreeId == other.TreeId;
+    // }
+
+    // public override int GetHashCode()
+    // {
+    //     return TreeId.GetHashCode();
+    // }
 }

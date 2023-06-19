@@ -22,3 +22,6 @@ MonoBehaviour:
   - {fileID: 100000, guid: de5d536ef580c6f4ab44fdc6d8d688dc, type: 3}
   - {fileID: 100000, guid: ff6bb6f672ea04347afccc823dbae5a9, type: 3}
   - {fileID: 100000, guid: fdc960dba145a814b8134492c6dc734c, type: 3}
+  scaleMultiplier: 0.5
+  minSize: 0.5
+  maxSize: 1.2

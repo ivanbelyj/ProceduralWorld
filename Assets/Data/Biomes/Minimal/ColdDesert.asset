@@ -20,3 +20,18 @@ MonoBehaviour:
   varietyMax: 1
   trees: []
   treesDensity: 0
+  layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: a4f7d536b443d7e4f846312e1cf1a87d, type: 2}
+    modifierStack: []
+  biomeDetails:
+  - terrainDetail: {fileID: 11400000, guid: 3154e2b867260d543852ab0b32f88964, type: 2}
+    dryColor: {r: 0.7924528, g: 0.4679961, b: 0.25169092, a: 1}
+    healthyColor: {r: 1, g: 0.90760803, b: 0.15723264, a: 1}
+    sizeMultiplier: 1
+    noiseSpread: 1
+    holeEdgePadding: 0
+    placingMode: 0
+    threshold: 0.694
+    rarity: 10
+    densityMultiplier: 1

@@ -22,7 +22,7 @@ public class DebugSpritesBuilder : GenerationStage
         noiseMapsParent = new GameObject("NoiseMaps");
     }
 
-    protected override Task<ChunkData> ProcessChunk(ChunkData chunkData)
+    protected override Task<ChunkData> ProcessChunkImplAsync(ChunkData chunkData)
     {
         CreateSpriteMaps(chunkData);
         return Task.FromResult(chunkData);
@@ -61,12 +61,12 @@ public class DebugSpritesBuilder : GenerationStage
         }
 
         // Интерполированная маска биома
-        float[,] interpolatedMask = chunkData.InterpolatedBiomeMask;
+        // float[,] interpolatedMask = chunkData.InterpolatedBiomeMask;
         
-        if (interpolatedMask != null) {
-            Color[] interpolatedColors = NoiseMapToTextureUtils.NoiseMapToColorMap(interpolatedMask);
-            CreateSpriteMap(chunkData, interpolatedColors, NextOffset(), Color.white);
-        }
+        // if (interpolatedMask != null) {
+        //     Color[] interpolatedColors = NoiseMapToTextureUtils.NoiseMapToColorMap(interpolatedMask);
+        //     CreateSpriteMap(chunkData, interpolatedColors, NextOffset(), Color.white);
+        // }
         
 
         float NextOffset() {

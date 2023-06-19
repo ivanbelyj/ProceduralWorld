@@ -15,11 +15,10 @@ MonoBehaviour:
   prototypeVariants: []
   usePrototypeMesh: 0
   prototypeTextureVariants:
-  - {fileID: 2800000, guid: f727d7cc4e9ef6849b2453332ba5c2f5, type: 3}
-  - {fileID: 2800000, guid: 8482c0da14b609f41b827e7ed026eee1, type: 3}
-  minWidth: 1
-  maxWidth: 2
-  minHeight: 1
-  maxHeight: 2
+  - {fileID: 2800000, guid: 23e3d9c65f974d54884c245309474842, type: 3}
+  minWidth: 1.5
+  maxWidth: 2.3
+  minHeight: 1.8
+  maxHeight: 2.3
   renderMode: 2
   useInstancing: 0
