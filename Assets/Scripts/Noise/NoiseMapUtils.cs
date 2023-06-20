@@ -43,7 +43,7 @@ public static class NoiseMapUtils
                 float noiseX = (x - halfWidth + offset.x) * noiseData.Scale * scaleMultiplier;
                 float noiseY = (y - halfHeight + offset.y) * noiseData.Scale * scaleMultiplier;
 
-                float generatedVal= fastNoiseLite.GetNoise(noiseX, noiseY);
+                float generatedVal = fastNoiseLite.GetNoise(noiseX, noiseY);
 
                 float noiseVal = To01(generatedVal);
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Условная редкость детали, регулирующая вероятность ее появления
+/// Условная редкость детали, регулирующая
+/// вероятность ее появления
 /// </summary>
 public enum DetailRarity
 {

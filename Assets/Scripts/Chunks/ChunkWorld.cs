@@ -102,6 +102,8 @@ public class ChunkWorld : MonoBehaviour
     //     ChunkCreated?.Invoke(chunkData);
     // }
 
+    // В данный момент система точек присутствия (скрытие дальних чанков,
+    // уничтожение слишком далеких, и т.д.) работает ограниченно и в дальнейшем будет переписана
     #region Old Points Of Presence
     public async Task AddPresencePointAsync(uint pointId, ChunkPosition chunkPos) {
         presencePointById.Add(pointId, chunkPos);

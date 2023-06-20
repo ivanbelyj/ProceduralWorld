@@ -20,8 +20,8 @@ public class BaseTerrainGeneration : GenerationStage
             chunkData.ChunkPosition.Z * worldData.ChunkSize);
 
         // Создание матрицы шума, чтобы в дальнейшем назначить Terrain через TerrainData
-        float[,] heights = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(noiseData, worldData.Seed,
-            chunkRes, chunkRes, noiseOffset, worldData.WorldScale));
+        float[,] heights = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(noiseData,
+            worldData.Seed, chunkRes, chunkRes, noiseOffset, worldData.WorldScale));
 
         // Применение карты высот и настроек к TerrainData
         Vector3 terrainSize = new Vector3(worldData.ChunkSize,

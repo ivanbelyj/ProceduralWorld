@@ -1483,7 +1483,7 @@ MonoBehaviour:
     chunkSize: 128
     chunkHeight: 1024
     worldScale: 1
-  activeChunksRadius: 2
+  activeChunksRadius: 3
 --- !u!114 &2086771710
 MonoBehaviour:
   m_ObjectHideFlags: 0

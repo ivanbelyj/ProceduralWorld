@@ -59,18 +59,17 @@ public class BiomesGeneration : GenerationStage
                 worldData.WorldScale));
 
         // Temperature
-        float[,] temperatureRandom = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(temperatureNoise,
-            worldData.Seed * temperatureSeedC,
+        float[,] temperatureRandom = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(
+            temperatureNoise, worldData.Seed * temperatureSeedC,
             chunkRes, chunkRes, noiseOffset,
             worldData.WorldScale));
-        float[,] temperatureOnHeights = chunkData.Temperature = TemperatureOnHeights(temperatureRandom,
-            chunkData.TerrainData.GetHeights(0, 0, chunkRes, chunkRes));
+        float[,] temperatureOnHeights = chunkData.Temperature = TemperatureOnHeights(
+            temperatureRandom, chunkData.TerrainData.GetHeights(0, 0, chunkRes, chunkRes));
 
         // Radiation
-        float[,] radiationNotDissipated = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(radiationNoise,
-            worldData.Seed * radiationSeedC,
-            chunkRes, chunkRes, noiseOffset,
-            worldData.WorldScale));
+        float[,] radiationNotDissipated = await Task.Run(() => NoiseMapUtils.GenerateNoiseMap(
+            radiationNoise, worldData.Seed * radiationSeedC,
+            chunkRes, chunkRes, noiseOffset, worldData.WorldScale));
         float[,] radiation = chunkData.Radiation
             = await Task.Run(() => RadiationDissipatedByDryness(moisture, radiationNotDissipated));
 
